@@ -1,5 +1,9 @@
 {
-    "stm32-for-vscode.openOCDPath": false,
-    "stm32-for-vscode.armToolchainPath": false,
-    "platformio-ide.customPATH": ""
+    "files.associations": {
+        "stm32f411xe.h": "c",
+        "core_cm4.h": "c",
+        "stm32f4xx.h": "c",
+        "stm32f410tx.h": "c",
+        "systick.h": "c"
+    }
 }
