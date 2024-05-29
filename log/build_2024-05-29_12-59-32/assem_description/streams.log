@@ -1,0 +1,140 @@
+[0.010s] Invoking command in '/home/armaan/Desktop/robot-dog/build/assem_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/armaan/Desktop/robot-dog/Robot_Description -DCMAKE_INSTALL_PREFIX=/home/armaan/Desktop/robot-dog/install/assem_description
+[0.022s] -- Found ament_cmake: 1.3.8 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.118s] -- Found urdf: 2.6.0 (/opt/ros/humble/share/urdf/cmake)
+[0.148s] -- Found robot_state_publisher: 3.0.3 (/opt/ros/humble/share/robot_state_publisher/cmake)
+[0.159s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.161s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.165s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.172s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.181s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.262s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[0.263s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[0.298s] -- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.299s] -- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.320s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[0.329s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[0.348s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[0.354s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[0.362s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.753s] -- Found xacro: 2.0.8 (/opt/ros/humble/share/xacro/cmake)
+[0.754s] -- Found gazebo_ros: 3.7.0 (/opt/ros/humble/share/gazebo_ros/cmake)
+[0.766s] -- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2") 
+[0.767s] -- Checking for module 'bullet>=2.82'
+[0.781s] --   Found bullet, version 3.05
+[0.892s] -- Found fcl: /usr/include (found suitable version "0.7.0", minimum required is "0.5.0") 
+[0.945s] -- Found assimp: /usr/include (found version "5.2.0") 
+[0.971s] -- Found DART: /usr/include (Required is at least version "6.6") found components: dart 
+[0.993s] -- Found Boost: /home/armaan/miniconda3/lib/cmake/Boost-1.82.0/BoostConfig.cmake (found suitable version "1.82.0", minimum required is "1.40.0") found components: thread system filesystem program_options regex iostreams date_time 
+[1.010s] -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found version "3.12.4") 
+[1.017s] -- Looking for ignition-math6 -- found version 6.15.1
+[1.025s] -- Searching for dependencies of ignition-math6
+[1.027s] -- Looking for OGRE...
+[1.027s] -- OGRE_PREFIX_WATCH changed.
+[1.032s] -- Checking for module 'OGRE'
+[1.045s] --   Found OGRE, version 1.9.0
+[1.084s] -- Found Ogre Ghadamon (1.9.0)
+[1.090s] -- Found OGRE: optimized;/usr/lib/x86_64-linux-gnu/libOgreMain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreMain.so
+[1.097s] -- Looking for OGRE_Paging...
+[1.101s] -- Found OGRE_Paging: optimized;/usr/lib/x86_64-linux-gnu/libOgrePaging.so;debug;/usr/lib/x86_64-linux-gnu/libOgrePaging.so
+[1.101s] -- Looking for OGRE_Terrain...
+[1.104s] -- Found OGRE_Terrain: optimized;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so
+[1.104s] -- Looking for OGRE_Property...
+[1.108s] -- Found OGRE_Property: optimized;/usr/lib/x86_64-linux-gnu/libOgreProperty.so;debug;/usr/lib/x86_64-linux-gnu/libOgreProperty.so
+[1.108s] -- Looking for OGRE_RTShaderSystem...
+[1.112s] -- Found OGRE_RTShaderSystem: optimized;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so;debug;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so
+[1.112s] -- Looking for OGRE_Volume...
+[1.115s] -- Found OGRE_Volume: optimized;/usr/lib/x86_64-linux-gnu/libOgreVolume.so;debug;/usr/lib/x86_64-linux-gnu/libOgreVolume.so
+[1.116s] -- Looking for OGRE_Overlay...
+[1.119s] -- Found OGRE_Overlay: optimized;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so;debug;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so
+[1.202s] -- Looking for ignition-math6 -- found version 6.15.1
+[1.205s] -- Looking for ignition-transport8 -- found version 8.2.1
+[1.205s] -- Searching for dependencies of ignition-transport8
+[1.225s] -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found suitable version "3.12.4", minimum required is "3") 
+[1.233s] -- Checking for module 'uuid'
+[1.246s] --   Found uuid, version 2.37.2
+[1.280s] -- Found UUID: TRUE  
+[1.283s] -- Looking for ignition-msgs5 -- found version 5.8.1
+[1.283s] -- Searching for dependencies of ignition-msgs5
+[1.302s] -- Looking for ignition-math6 -- found version 6.15.1
+[1.307s] -- Checking for module 'tinyxml2'
+[1.319s] --   Found tinyxml2, version 9.0.0
+[1.358s] -- Looking for ignition-msgs5 -- found version 5.8.1
+[1.361s] -- Looking for ignition-common3 -- found version 3.14.0
+[1.361s] -- Searching for dependencies of ignition-common3
+[1.362s] -- Looking for dlfcn.h - found
+[1.363s] -- Looking for libdl - found
+[1.364s] -- Found DL: TRUE  
+[1.376s] -- Found tinyobjloader: /usr/lib/x86_64-linux-gnu/cmake/tinyobjloader/tinyobjloader-config.cmake (found version "2.0.0") 
+[1.376s] -- Searching for <ignition-common3> component [graphics]
+[1.380s] -- Looking for ignition-common3-graphics -- found version 3.14.0
+[1.380s] -- Searching for dependencies of ignition-common3-graphics
+[1.380s] -- Looking for ignition-math6 -- found version 6.15.1
+[1.384s] -- Looking for ignition-fuel_tools4 -- found version 4.4.0
+[1.384s] -- Searching for dependencies of ignition-fuel_tools4
+[1.464s] -- Found CURL: /usr/lib/x86_64-linux-gnu/libcurl.so (found version "7.81.0")  
+[1.474s] -- Checking for module 'jsoncpp'
+[1.486s] --   Found jsoncpp, version 1.9.5
+[1.523s] -- Found JSONCPP: TRUE  
+[1.528s] -- Checking for module 'libzip'
+[1.541s] --   Found libzip, version 1.7.3
+[1.575s] -- Found ZIP: TRUE  
+[1.575s] -- Looking for ignition-common3 -- found version 3.14.0
+[1.576s] -- Looking for ignition-math6 -- found version 6.15.1
+[1.576s] -- Looking for ignition-msgs5 -- found version 5.8.1
+[1.581s] -- Gazebo version: 11.10
+[1.581s] -- Checking for module 'tbb'
+[1.595s] --   Found tbb, version 2021.5.0
+[1.693s] -- Configuring done
+[1.698s] -- Generating done
+[1.700s] -- Build files have been written to: /home/armaan/Desktop/robot-dog/build/assem_description
+[1.709s] Invoked command in '/home/armaan/Desktop/robot-dog/build/assem_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake /home/armaan/Desktop/robot-dog/Robot_Description -DCMAKE_INSTALL_PREFIX=/home/armaan/Desktop/robot-dog/install/assem_description
+[1.710s] Invoking command in '/home/armaan/Desktop/robot-dog/build/assem_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/armaan/Desktop/robot-dog/build/assem_description -- -j16 -l16
+[1.747s] Invoked command in '/home/armaan/Desktop/robot-dog/build/assem_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --build /home/armaan/Desktop/robot-dog/build/assem_description -- -j16 -l16
+[1.779s] Invoking command in '/home/armaan/Desktop/robot-dog/build/assem_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/armaan/Desktop/robot-dog/build/assem_description
+[1.785s] -- Install configuration: ""
+[1.785s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes
+[1.785s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Component1_Mirror___4__2.stl
+[1.785s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Right_Back_Leg_Mount_v1_1.stl
+[1.801s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Foot_v3_2.stl
+[1.803s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Servo_Horn_v3_8.stl
+[1.804s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Left_Back_Leg_Mount_v1_1.stl
+[1.823s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/base_link.stl
+[1.857s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Left_Front_Leg_Mount_v1_1.stl
+[1.873s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Servo_Horn_v3_2.stl
+[1.874s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Foot_v3_1.stl
+[1.875s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Servo_Horn_v3_1.stl
+[1.877s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Component1_Mirror___5__1.stl
+[1.878s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Servo_Horn_v3_4.stl
+[1.880s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Component1_Mirror___4__1.stl
+[1.880s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Servo_Horn_v3_6.stl
+[1.882s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Left_Link_v4_1.stl
+[1.882s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Servo_Horn_v3_7.stl
+[1.883s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Component1_Mirror___5__2.stl
+[1.885s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Right_Front_Leg_Mount_v1_1.stl
+[1.900s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Servo_Horn_v3_5.stl
+[1.902s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Servo_Horn_v3_3.stl
+[1.903s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/meshes/Left_Link_v4_2.stl
+[1.904s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/urdf
+[1.904s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/urdf/assem.xacro
+[1.904s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/urdf/assem.trans
+[1.904s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/urdf/materials.xacro
+[1.904s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/launch
+[1.904s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/launch/__pycache__
+[1.904s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/launch/__pycache__/robot_description.launch.cpython-310.pyc
+[1.904s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/launch/robot_description.launch.py
+[1.904s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/ament_index/resource_index/package_run_dependencies/assem_description
+[1.905s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/ament_index/resource_index/parent_prefix_path/assem_description
+[1.905s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/environment/ament_prefix_path.sh
+[1.905s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/environment/ament_prefix_path.dsv
+[1.905s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/environment/path.sh
+[1.905s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/environment/path.dsv
+[1.905s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/local_setup.bash
+[1.906s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/local_setup.sh
+[1.906s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/local_setup.zsh
+[1.906s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/local_setup.dsv
+[1.906s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/package.dsv
+[1.906s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/ament_index/resource_index/packages/assem_description
+[1.906s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/cmake/assem_descriptionConfig.cmake
+[1.906s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/cmake/assem_descriptionConfig-version.cmake
+[1.907s] -- Installing: /home/armaan/Desktop/robot-dog/install/assem_description/share/assem_description/package.xml
+[1.909s] Invoked command in '/home/armaan/Desktop/robot-dog/build/assem_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble CONDA_PROMPT_MODIFIER=(base) /usr/bin/cmake --install /home/armaan/Desktop/robot-dog/build/assem_description
