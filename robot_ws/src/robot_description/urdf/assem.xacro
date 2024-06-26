@@ -1,13 +1,12 @@
 <?xml version="1.0" ?>
 <robot name="assem" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:include filename="$(find robot_description)/urdf/materials.xacro" />
-<xacro:include filename="$(find robot_description)/urdf/assem.trans" />
-
+<xacro:include filename="$(find assem_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find assem_description)/urdf/assem.trans" />
 <link name="base_link">
   <inertial>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <mass value="10.12372804511619"/>
+    <origin xyz="-0.008382264142625067 -1.4798434925308436e-05 0.030113658418836745" rpy="0 0 0"/>
+    <mass value="10.123728045116188"/>
     <inertia ixx="0.03254" iyy="0.280159" izz="0.3037" ixy="-3.1e-05" iyz="-1e-06" ixz="0.001839"/>
   </inertial>
   <visual>
@@ -24,10 +23,6 @@
     </geometry>
   </collision>
 </link>
-
-<gazebo reference="chassis">
-    <material>Gazebo/White</material>
-</gazebo>
 
 <link name="Right_Front_Leg_Mount_v1_1">
   <inertial>
@@ -115,8 +110,8 @@
 
 <link name="Servo_Horn_v3_1">
   <inertial>
-    <origin xyz="0.007826471783847211 -2.9033953706111837e-05 -0.0033064094396004565" rpy="0 0 0"/>
-    <mass value="0.010282705544763453"/>
+    <origin xyz="0.00849626146165297 -2.908683761748687e-05 -1.6025929275784168e-06" rpy="0 0 0"/>
+    <mass value="0.010282942996218928"/>
     <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="0.0"/>
   </inertial>
   <visual>
@@ -136,9 +131,9 @@
 
 <link name="Servo_Horn_v3_2">
   <inertial>
-    <origin xyz="-0.005979679849760139 -2.9033953706014692e-05 -0.006035294009369297" rpy="0 0 0"/>
-    <mass value="0.010282705544763453"/>
-    <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+    <origin xyz="-0.008496002222424276 -2.9086837616723593e-05 1.9981492505212473e-06" rpy="0 0 0"/>
+    <mass value="0.010282942996218928"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="0.0"/>
   </inertial>
   <visual>
     <origin xyz="-0.143947 -0.103749 -0.017258" rpy="0 0 0"/>
@@ -157,9 +152,9 @@
 
 <link name="Servo_Horn_v3_4">
   <inertial>
-    <origin xyz="0.005459723606075717 -2.918602704583828e-05 -0.00650959753188559" rpy="0 0 0"/>
-    <mass value="0.010282705544763453"/>
-    <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+    <origin xyz="0.008495912831059382 -2.9238910956921882e-05 -1.8426360164636169e-06" rpy="0 0 0"/>
+    <mass value="0.010282942996218928"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="0.0"/>
   </inertial>
   <visual>
     <origin xyz="0.144387 -0.103775 -0.038162" rpy="0 0 0"/>
@@ -178,9 +173,9 @@
 
 <link name="Servo_Horn_v3_3">
   <inertial>
-    <origin xyz="-0.00798472903109354 -2.918602704539419e-05 -0.002903982233532939" rpy="0 0 0"/>
-    <mass value="0.010282705544763453"/>
-    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+    <origin xyz="-0.008496349973848794 -2.923891095629738e-05 1.7582700742799218e-06" rpy="0 0 0"/>
+    <mass value="0.010282942996218928"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="0.0"/>
   </inertial>
   <visual>
     <origin xyz="0.164387 -0.103775 -0.017162" rpy="0 0 0"/>
@@ -199,9 +194,9 @@
 
 <link name="Servo_Horn_v3_5">
   <inertial>
-    <origin xyz="0.006316761794814829 2.903395370697226e-05 -0.005681830122950114" rpy="0 0 0"/>
-    <mass value="0.010282705544763453"/>
-    <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+    <origin xyz="0.008496261461652804 2.9086837618014227e-05 1.998089645890988e-06" rpy="0 0 0"/>
+    <mass value="0.010282942996218928"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
   </inertial>
   <visual>
     <origin xyz="-0.164597 0.103749 -0.038258" rpy="0 0 0"/>
@@ -220,8 +215,8 @@
 
 <link name="Servo_Horn_v3_8">
   <inertial>
-    <origin xyz="-0.007510625851771535 2.9033953706555926e-05 -0.003971430953157643" rpy="0 0 0"/>
-    <mass value="0.010282705544763453"/>
+    <origin xyz="-0.008496002222424415 2.9086837617570138e-05 -1.602533322913463e-06" rpy="0 0 0"/>
+    <mass value="0.010282942996218928"/>
     <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
   </inertial>
   <visual>
@@ -241,9 +236,9 @@
 
 <link name="Servo_Horn_v3_7">
   <inertial>
-    <origin xyz="0.005983207371633492 2.9186027046379515e-05 -0.006031948418913573" rpy="0 0 0"/>
-    <mass value="0.010282705544763453"/>
-    <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+    <origin xyz="0.008495912831059105 2.923891095736597e-05 1.7580465570474213e-06" rpy="0 0 0"/>
+    <mass value="0.010282942996218928"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
   </inertial>
   <visual>
     <origin xyz="0.144387 0.103775 -0.038162" rpy="0 0 0"/>
@@ -262,8 +257,8 @@
 
 <link name="Servo_Horn_v3_6">
   <inertial>
-    <origin xyz="-0.00702647010510718 2.9186027045574603e-05 -0.004776763329027168" rpy="0 0 0"/>
-    <mass value="0.010282705544763453"/>
+    <origin xyz="-0.008496349973849043 2.923891095668596e-05 -1.8424124992970359e-06" rpy="0 0 0"/>
+    <mass value="0.010282942996218928"/>
     <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
   </inertial>
   <visual>
@@ -283,9 +278,9 @@
 
 <link name="Left_Link_v4_1">
   <inertial>
-    <origin xyz="0.03772303457254916 -0.002814997111106138 -0.041874963809631585" rpy="0 0 0"/>
+    <origin xyz="0.005235109006971023 -0.0028149971111056937 -0.05611727896629981" rpy="0 0 0"/>
     <mass value="0.12677989413662727"/>
-    <inertia ixx="8e-05" iyy="0.000137" izz="6.2e-05" ixy="0.0" iyz="-1e-06" ixz="6.5e-05"/>
+    <inertia ixx="0.000135" iyy="0.000137" izz="6e-06" ixy="-0.0" iyz="-1e-06" ixz="1e-05"/>
   </inertial>
   <visual>
     <origin xyz="0.165037 -0.115355 -0.017162" rpy="0 0 0"/>
@@ -304,19 +299,19 @@
 
 <link name="Foot_v3_1">
   <inertial>
-    <origin xyz="-0.05045365023475676 -0.005052218921323945 -0.034830586439931505" rpy="0 0 0"/>
+    <origin xyz="0.0031275273896734235 -0.005052218921323931 -0.06122868364490067" rpy="0 0 0"/>
     <mass value="0.31314451205821014"/>
-    <inertia ixx="0.000141" iyy="0.000438" izz="0.000327" ixy="0.0" iyz="0.0" ixz="-0.000188"/>
+    <inertia ixx="0.000443" iyy="0.000438" izz="2.5e-05" ixy="-0.0" iyz="0.0" ixz="1e-06"/>
   </inertial>
   <visual>
-    <origin xyz="0.099908 -0.115355 0.06636" rpy="0 0 0"/>
+    <origin xyz="0.162704 -0.115355 0.088726" rpy="0 0 0"/>
     <geometry>
       <mesh filename="file://$(find robot_description)/meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="steel_satin"/>
   </visual>
   <collision>
-    <origin xyz="0.099908 -0.115355 0.06636" rpy="0 0 0"/>
+    <origin xyz="0.162704 -0.115355 0.088726" rpy="0 0 0"/>
     <geometry>
       <mesh filename="file://$(find robot_description)/meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -325,9 +320,9 @@
 
 <link name="Left_Link_v4_2">
   <inertial>
-    <origin xyz="0.05277298463577401 -0.0028148450377661616 -0.019788149552077028" rpy="0 0 0"/>
+    <origin xyz="0.005235457637564361 -0.0028148450377657175 -0.056117038923210835" rpy="0 0 0"/>
     <mass value="0.12677989413662727"/>
-    <inertia ixx="2.3e-05" iyy="0.000137" izz="0.000118" ixy="1e-06" iyz="-1e-06" ixz="4.5e-05"/>
+    <inertia ixx="0.000135" iyy="0.000137" izz="6e-06" ixy="-0.0" iyz="-1e-06" ixz="1e-05"/>
   </inertial>
   <visual>
     <origin xyz="-0.143797 -0.115329 -0.017258" rpy="0 0 0"/>
@@ -340,6 +335,279 @@
     <origin xyz="-0.143797 -0.115329 -0.017258" rpy="0 0 0"/>
     <geometry>
       <mesh filename="file://$(find robot_description)/meshes/Left_Link_v4_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Component1_Mirror___4__1">
+  <inertial>
+    <origin xyz="0.005597894046904056 0.002814845037766786 -0.05642367984565573" rpy="0 0 0"/>
+    <mass value="0.1267798941366273"/>
+    <inertia ixx="0.000135" iyy="0.000137" izz="6e-06" ixy="0.0" iyz="1e-06" ixz="1e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.143797 0.115329 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component1_Mirror___4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.143797 0.115329 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component1_Mirror___4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Component1_Mirror___4__2">
+  <inertial>
+    <origin xyz="0.005235109006970551 0.0028149971111054717 -0.05611727896629981" rpy="0 0 0"/>
+    <mass value="0.1267798941366273"/>
+    <inertia ixx="0.000135" iyy="0.000137" izz="6e-06" ixy="0.0" iyz="1e-06" ixz="1e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.165037 0.115355 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component1_Mirror___4__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.165037 0.115355 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component1_Mirror___4__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Foot_v3_2">
+  <inertial>
+    <origin xyz="0.0031278760202663736 0.004997933152016104 -0.061228443601811774" rpy="0 0 0"/>
+    <mass value="0.31314451205821014"/>
+    <inertia ixx="0.000443" iyy="0.000438" izz="2.5e-05" ixy="-0.0" iyz="0.0" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.14613 -0.106349 0.08863" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Foot_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.14613 -0.106349 0.08863" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Foot_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Mini_Link_v3_3">
+  <inertial>
+    <origin xyz="0.015778623836727845 0.001939671690657202 0.002782107313249153" rpy="0 0 0"/>
+    <mass value="0.01656743535976172"/>
+    <inertia ixx="0.0" iyy="2e-06" izz="2e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.145671 -0.110329 0.007194" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Mini_Link_v3_3.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.145671 -0.110329 0.007194" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Mini_Link_v3_3.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Right_Link_v3_2">
+  <inertial>
+    <origin xyz="-0.03420770176182353 -0.0023405410992162062 0.05086970162616873" rpy="0 0 0"/>
+    <mass value="0.16318870135962107"/>
+    <inertia ixx="0.000136" iyy="0.000178" izz="4.7e-05" ixy="1e-06" iyz="-2e-06" ixz="7.2e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.145877 -0.116399 0.136063" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Right_Link_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.145877 -0.116399 0.136063" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Right_Link_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Mini_Link_v3_2">
+  <inertial>
+    <origin xyz="0.01577927520613434 0.0019395196173172813 0.002781867270160134" rpy="0 0 0"/>
+    <mass value="0.01656743535976172"/>
+    <inertia ixx="0.0" iyy="2e-06" izz="2e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.163164 -0.110355 0.00729" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Mini_Link_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.163164 -0.110355 0.00729" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Mini_Link_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Right_Link_v3_1">
+  <inertial>
+    <origin xyz="-0.034208050392415895 -0.0023406931725567376 0.05087046158307949" rpy="0 0 0"/>
+    <mass value="0.16318870135962107"/>
+    <inertia ixx="0.000136" iyy="0.000178" izz="4.7e-05" ixy="1e-06" iyz="-2e-06" ixz="7.2e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.162957 -0.115355 0.13616" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Right_Link_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.162957 -0.115355 0.13616" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Right_Link_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Component1_Mirror___5__2">
+  <inertial>
+    <origin xyz="0.0031275273896726186 0.005052218921322613 -0.061228683644901" rpy="0 0 0"/>
+    <mass value="0.31314451205821014"/>
+    <inertia ixx="0.000443" iyy="0.000438" izz="2.5e-05" ixy="0.0" iyz="-0.0" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.162704 0.115355 0.088726" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component1_Mirror___5__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.162704 0.115355 0.088726" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component1_Mirror___5__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Mini_Link_v3_1">
+  <inertial>
+    <origin xyz="0.015779275206134036 0.00341048038268274 0.00278186727016009" rpy="0 0 0"/>
+    <mass value="0.01656743535976172"/>
+    <inertia ixx="0.0" iyy="2e-06" izz="2e-06" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.163164 0.116355 0.00729" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Mini_Link_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.163164 0.116355 0.00729" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Mini_Link_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Component2_Mirror__2">
+  <inertial>
+    <origin xyz="-0.03420805039241673 0.0023406931725558494 0.05087046158307951" rpy="0 0 0"/>
+    <mass value="0.16318870135962107"/>
+    <inertia ixx="0.000136" iyy="0.000178" izz="4.7e-05" ixy="-1e-06" iyz="2e-06" ixz="7.2e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.162957 0.115355 0.13616" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component2_Mirror__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.162957 0.115355 0.13616" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component2_Mirror__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Component1_Mirror___5__1">
+  <inertial>
+    <origin xyz="0.003128312429606095 0.005052066847983178 -0.06122808452425672" rpy="0 0 0"/>
+    <mass value="0.31314451205821014"/>
+    <inertia ixx="0.000443" iyy="0.000438" izz="2.5e-05" ixy="0.0" iyz="-0.0" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.146492 0.115329 0.088937" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component1_Mirror___5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.146492 0.115329 0.088937" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component1_Mirror___5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Component2_Mirror__1">
+  <inertial>
+    <origin xyz="-0.034208265352483225 0.0023405410992163866 0.05087006070372388" rpy="0 0 0"/>
+    <mass value="0.16318870135962107"/>
+    <inertia ixx="0.000136" iyy="0.000178" izz="4.7e-05" ixy="-1e-06" iyz="2e-06" ixz="7.2e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.14624 0.115329 0.13637" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component2_Mirror__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.14624 0.115329 0.13637" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Component2_Mirror__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Mini_Link_v3_4">
+  <inertial>
+    <origin xyz="0.015779060246067594 -0.0019396716906562445 0.002782466390804216" rpy="0 0 0"/>
+    <mass value="0.01656743535976172"/>
+    <inertia ixx="0.0" iyy="2e-06" izz="2e-06" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.146033 0.110329 0.007501" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Mini_Link_v3_4.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.146033 0.110329 0.007501" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find robot_description)/meshes/Mini_Link_v3_4.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -448,7 +716,7 @@
 </joint>
 
 <joint name="Revolute 23" type="continuous">
-  <origin xyz="0.065129 0.0 -0.083522" rpy="0 0 0"/>
+  <origin xyz="0.002333 0.0 -0.105888" rpy="0 0 0"/>
   <parent link="Left_Link_v4_1"/>
   <child link="Foot_v3_1"/>
   <axis xyz="0.0 1.0 0.0"/>
@@ -459,6 +727,97 @@
   <parent link="Right_Front_Leg_Mount_v1_1"/>
   <child link="Left_Link_v4_2"/>
   <axis xyz="-0.0 -1.0 -0.0"/>
+</joint>
+
+<joint name="Revolute 31" type="continuous">
+  <origin xyz="0.025397 -0.039329 -0.002342" rpy="0 0 0"/>
+  <parent link="Left_Front_Leg_Mount_v1_1"/>
+  <child link="Component1_Mirror___4__1"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+</joint>
+
+<joint name="Revolute 35" type="continuous">
+  <origin xyz="-0.046637 -0.039355 -0.002438" rpy="0 0 0"/>
+  <parent link="Left_Back_Leg_Mount_v1_1"/>
+  <child link="Component1_Mirror___4__2"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+</joint>
+
+<joint name="Revolute 40" type="continuous">
+  <origin xyz="0.002333 -0.00898 -0.105888" rpy="0 0 0"/>
+  <parent link="Left_Link_v4_2"/>
+  <child link="Foot_v3_2"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="Revolute 41" type="continuous">
+  <origin xyz="0.001874 -0.005 -0.024452" rpy="0 0 0"/>
+  <parent link="Left_Link_v4_2"/>
+  <child link="Mini_Link_v3_3"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="Revolute 42" type="continuous">
+  <origin xyz="-0.000253 0.01005 -0.047433" rpy="0 0 0"/>
+  <parent link="Foot_v3_2"/>
+  <child link="Right_Link_v3_2"/>
+  <axis xyz="-0.0 -1.0 -0.0"/>
+</joint>
+
+<joint name="Revolute 43" type="continuous">
+  <origin xyz="0.001873 -0.005 -0.024452" rpy="0 0 0"/>
+  <parent link="Left_Link_v4_1"/>
+  <child link="Mini_Link_v3_2"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="Revolute 44" type="continuous">
+  <origin xyz="-0.000253 0.0 -0.047434" rpy="0 0 0"/>
+  <parent link="Foot_v3_1"/>
+  <child link="Right_Link_v3_1"/>
+  <axis xyz="-0.0 -1.0 -0.0"/>
+</joint>
+
+<joint name="Revolute 45" type="continuous">
+  <origin xyz="0.002333 0.0 -0.105888" rpy="0 0 0"/>
+  <parent link="Component1_Mirror___4__2"/>
+  <child link="Component1_Mirror___5__2"/>
+  <axis xyz="0.0 -1.0 0.0"/>
+</joint>
+
+<joint name="Revolute 46" type="continuous">
+  <origin xyz="0.001873 -0.001 -0.024452" rpy="0 0 0"/>
+  <parent link="Component1_Mirror___4__2"/>
+  <child link="Mini_Link_v3_1"/>
+  <axis xyz="-0.0 1.0 -0.0"/>
+</joint>
+
+<joint name="Revolute 47" type="continuous">
+  <origin xyz="-0.000253 0.0 -0.047434" rpy="0 0 0"/>
+  <parent link="Component1_Mirror___5__2"/>
+  <child link="Component2_Mirror__2"/>
+  <axis xyz="-0.0 1.0 -0.0"/>
+</joint>
+
+<joint name="Revolute 48" type="continuous">
+  <origin xyz="0.002695 0.0 -0.106195" rpy="0 0 0"/>
+  <parent link="Component1_Mirror___4__1"/>
+  <child link="Component1_Mirror___5__1"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+</joint>
+
+<joint name="Revolute 49" type="continuous">
+  <origin xyz="-0.000252 0.0 -0.047433" rpy="0 0 0"/>
+  <parent link="Component1_Mirror___5__1"/>
+  <child link="Component2_Mirror__1"/>
+  <axis xyz="-0.0 1.0 -0.0"/>
+</joint>
+
+<joint name="Revolute 50" type="continuous">
+  <origin xyz="0.002236 0.005 -0.024759" rpy="0 0 0"/>
+  <parent link="Component1_Mirror___4__1"/>
+  <child link="Mini_Link_v3_4"/>
+  <axis xyz="0.0 -1.0 -0.0"/>
 </joint>
 
 </robot>
