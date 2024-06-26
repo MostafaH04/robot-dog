@@ -1,4 +1,0 @@
-Invoking command in '/home/armaanrasheed/robot-dog/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/armaanrasheed/robot-dog/build/robot_description -- -j16 -l16
-Invoked command in '/home/armaanrasheed/robot-dog/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/armaanrasheed/robot-dog/build/robot_description -- -j16 -l16
-Invoking command in '/home/armaanrasheed/robot-dog/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/armaanrasheed/robot-dog/build/robot_description
-Invoked command in '/home/armaanrasheed/robot-dog/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/armaanrasheed/robot-dog/build/robot_description
