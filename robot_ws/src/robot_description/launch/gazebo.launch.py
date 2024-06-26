@@ -28,7 +28,7 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([PathJoinSubstitution(
                 [FindPackageShare('gazebo_ros'), 'launch', 'gazebo.launch.py']
-            )])
+                )]), launch_arguments={'pause': 'true'}.items()
         ),
      
         Node(
@@ -42,7 +42,7 @@ def generate_launch_description():
         Node(
             package='gazebo_ros',
             executable='spawn_entity.py',
-            arguments=['-topic', 'robot_description', '-entity', 'my_robot'],
+            arguments=['-topic', 'robot_description', '-entity', 'my_robot','-x','0','-y','0','-z','1'],
             output='screen'
         ),
     ]) 
