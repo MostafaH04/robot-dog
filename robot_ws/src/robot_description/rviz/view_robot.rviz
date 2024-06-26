@@ -1,0 +1,13 @@
+# view_robot.rviz
+Panels:
+  - Class: rviz/Displays
+    Name: Displays
+    Properties:
+      Displays:
+        - Class: rviz/RobotModel
+          Name: RobotModel
+          Enabled: true
+          Robot Description: robot_description
+        - Class: rviz/Grid
+          Name: Grid
+          Enabled: true

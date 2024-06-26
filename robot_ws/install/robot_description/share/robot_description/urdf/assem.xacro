@@ -1,0 +1,474 @@
+<?xml version="1.0" ?>
+<robot name="assem" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find robot_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find robot_description)/urdf/assem.trans" />
+
+<link name="dummy_link">
+  <inertial>
+    <mass value="0.00001"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <inertia ixx="1e-9" ixy="0.0" ixz="0.0" iyy="1e-9" iyz="0.0" izz="1e-9"/>
+  </inertial>
+</link>
+
+<joint name="fixed_joint" type="fixed">
+  <parent link="dummy_link"/>
+  <child link="base_link"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+</joint>
+
+<link name="base_link">
+  <inertial>
+    <origin xyz="-0.008382264142625117 -1.479843492530306e-05 0.030113658418836734" rpy="0 0 0"/>
+    <mass value="10.12372804511619"/>
+    <inertia ixx="0.03254" iyy="0.280159" izz="0.3037" ixy="-3.1e-05" iyz="-1e-06" ixz="0.001839"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Right_Front_Leg_Mount_v1_1">
+  <inertial>
+    <origin xyz="0.03322621293445238 0.004607470996659868 0.011279980581351271" rpy="0 0 0"/>
+    <mass value="0.791396210786452"/>
+    <inertia ixx="0.000288" iyy="0.000453" izz="0.000409" ixy="1.4e-05" iyz="-6e-06" ixz="-6e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.1184 -0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Right_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.1184 -0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Right_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Right_Back_Leg_Mount_v1_1">
+  <inertial>
+    <origin xyz="-0.03453360704195005 0.004633032360894143 0.011213744397462203" rpy="0 0 0"/>
+    <mass value="0.7913962107864516"/>
+    <inertia ixx="0.000288" iyy="0.000458" izz="0.000413" ixy="1.2e-05" iyz="-6e-06" ixz="8e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.1184 -0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Right_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.1184 -0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Right_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Left_Back_Leg_Mount_v1_1">
+  <inertial>
+    <origin xyz="-0.03453360706419445 -0.004633032653077587 0.011213744349241432" rpy="0 0 0"/>
+    <mass value="0.7913962228945977"/>
+    <inertia ixx="0.000288" iyy="0.000458" izz="0.000413" ixy="-1.2e-05" iyz="6e-06" ixz="8e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.1184 0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Left_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.1184 0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Left_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Left_Front_Leg_Mount_v1_1">
+  <inertial>
+    <origin xyz="0.033226212974938135 -0.004607471288838219 0.011279980533589536" rpy="0 0 0"/>
+    <mass value="0.791396222894598"/>
+    <inertia ixx="0.000288" iyy="0.000453" izz="0.000409" ixy="-1.4e-05" iyz="6e-06" ixz="-6e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.1184 0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Left_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.1184 0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Left_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Servo_Horn_v3_1">
+  <inertial>
+    <origin xyz="0.007826471783847211 -2.9033953706111837e-05 -0.0033064094396004565" rpy="0 0 0"/>
+    <mass value="0.010282705544763453"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.164597 -0.103749 -0.038258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.164597 -0.103749 -0.038258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Servo_Horn_v3_2">
+  <inertial>
+    <origin xyz="-0.005979679849760139 -2.9033953706014692e-05 -0.006035294009369297" rpy="0 0 0"/>
+    <mass value="0.010282705544763453"/>
+    <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.143947 -0.103749 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.143947 -0.103749 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Servo_Horn_v3_4">
+  <inertial>
+    <origin xyz="0.005459723606075717 -2.918602704583828e-05 -0.00650959753188559" rpy="0 0 0"/>
+    <mass value="0.010282705544763453"/>
+    <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.144387 -0.103775 -0.038162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_4.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.144387 -0.103775 -0.038162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_4.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Servo_Horn_v3_3">
+  <inertial>
+    <origin xyz="-0.00798472903109354 -2.918602704539419e-05 -0.002903982233532939" rpy="0 0 0"/>
+    <mass value="0.010282705544763453"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.164387 -0.103775 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_3.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.164387 -0.103775 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_3.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Servo_Horn_v3_5">
+  <inertial>
+    <origin xyz="0.006316761794814829 2.903395370697226e-05 -0.005681830122950114" rpy="0 0 0"/>
+    <mass value="0.010282705544763453"/>
+    <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.164597 0.103749 -0.038258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_5.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.164597 0.103749 -0.038258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_5.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Servo_Horn_v3_8">
+  <inertial>
+    <origin xyz="-0.007510625851771535 2.9033953706555926e-05 -0.003971430953157643" rpy="0 0 0"/>
+    <mass value="0.010282705544763453"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.143947 0.103749 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_8.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.143947 0.103749 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_8.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Servo_Horn_v3_7">
+  <inertial>
+    <origin xyz="0.005983207371633492 2.9186027046379515e-05 -0.006031948418913573" rpy="0 0 0"/>
+    <mass value="0.010282705544763453"/>
+    <inertia ixx="1e-06" iyy="1e-06" izz="1e-06" ixy="0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.144387 0.103775 -0.038162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_7.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.144387 0.103775 -0.038162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_7.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Servo_Horn_v3_6">
+  <inertial>
+    <origin xyz="-0.00702647010510718 2.9186027045574603e-05 -0.004776763329027168" rpy="0 0 0"/>
+    <mass value="0.010282705544763453"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="1e-06" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.164387 0.103775 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_6.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.164387 0.103775 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Servo_Horn_v3_6.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Left_Link_v4_1">
+  <inertial>
+    <origin xyz="0.03772303457254916 -0.002814997111106138 -0.041874963809631585" rpy="0 0 0"/>
+    <mass value="0.12677989413662727"/>
+    <inertia ixx="8e-05" iyy="0.000137" izz="6.2e-05" ixy="0.0" iyz="-1e-06" ixz="6.5e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.165037 -0.115355 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Left_Link_v4_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.165037 -0.115355 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Left_Link_v4_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Foot_v3_1">
+  <inertial>
+    <origin xyz="-0.05045365023475676 -0.005052218921323945 -0.034830586439931505" rpy="0 0 0"/>
+    <mass value="0.31314451205821014"/>
+    <inertia ixx="0.000141" iyy="0.000438" izz="0.000327" ixy="0.0" iyz="0.0" ixz="-0.000188"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.099908 -0.115355 0.06636" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="0.099908 -0.115355 0.06636" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Left_Link_v4_2">
+  <inertial>
+    <origin xyz="0.05277298463577401 -0.0028148450377661616 -0.019788149552077028" rpy="0 0 0"/>
+    <mass value="0.12677989413662727"/>
+    <inertia ixx="2.3e-05" iyy="0.000137" izz="0.000118" ixy="1e-06" iyz="-1e-06" ixz="4.5e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.143797 -0.115329 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Left_Link_v4_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="steel_satin"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.143797 -0.115329 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://robot_description/meshes/Left_Link_v4_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="Revolute 1" type="revolute">
+  <origin xyz="0.1184 0.076 0.0196" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Right_Front_Leg_Mount_v1_1"/>
+  <axis xyz="1.0 0.0 -0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 3" type="revolute">
+  <origin xyz="-0.1184 0.076 0.0196" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Right_Back_Leg_Mount_v1_1"/>
+  <axis xyz="-1.0 -0.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 4" type="revolute">
+  <origin xyz="-0.1184 -0.076 0.0196" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Left_Back_Leg_Mount_v1_1"/>
+  <axis xyz="-1.0 -0.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 5" type="revolute">
+  <origin xyz="0.1184 -0.076 0.0196" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Left_Front_Leg_Mount_v1_1"/>
+  <axis xyz="1.0 0.0 -0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 6" type="revolute">
+  <origin xyz="0.046197 0.027749 0.018658" rpy="0 0 0"/>
+  <parent link="Right_Front_Leg_Mount_v1_1"/>
+  <child link="Servo_Horn_v3_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 7" type="revolute">
+  <origin xyz="0.025547 0.027749 -0.002342" rpy="0 0 0"/>
+  <parent link="Right_Front_Leg_Mount_v1_1"/>
+  <child link="Servo_Horn_v3_2"/>
+  <axis xyz="0.0 1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 8" type="revolute">
+  <origin xyz="-0.025987 0.027775 0.018562" rpy="0 0 0"/>
+  <parent link="Right_Back_Leg_Mount_v1_1"/>
+  <child link="Servo_Horn_v3_4"/>
+  <axis xyz="0.0 1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 9" type="revolute">
+  <origin xyz="-0.045987 0.027775 -0.002438" rpy="0 0 0"/>
+  <parent link="Right_Back_Leg_Mount_v1_1"/>
+  <child link="Servo_Horn_v3_3"/>
+  <axis xyz="0.0 1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 10" type="revolute">
+  <origin xyz="0.046197 -0.027749 0.018658" rpy="0 0 0"/>
+  <parent link="Left_Front_Leg_Mount_v1_1"/>
+  <child link="Servo_Horn_v3_5"/>
+  <axis xyz="0.0 -1.0 -0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 11" type="revolute">
+  <origin xyz="0.025547 -0.027749 -0.002342" rpy="0 0 0"/>
+  <parent link="Left_Front_Leg_Mount_v1_1"/>
+  <child link="Servo_Horn_v3_8"/>
+  <axis xyz="0.0 -1.0 -0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 12" type="revolute">
+  <origin xyz="-0.025987 -0.027775 0.018562" rpy="0 0 0"/>
+  <parent link="Left_Back_Leg_Mount_v1_1"/>
+  <child link="Servo_Horn_v3_7"/>
+  <axis xyz="0.0 -1.0 -0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 13" type="revolute">
+  <origin xyz="-0.045987 -0.027775 -0.002438" rpy="0 0 0"/>
+  <parent link="Left_Back_Leg_Mount_v1_1"/>
+  <child link="Servo_Horn_v3_6"/>
+  <axis xyz="0.0 -1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="100" velocity="100"/>
+</joint>
+
+<joint name="Revolute 20" type="continuous">
+  <origin xyz="-0.046637 0.039355 -0.002438" rpy="0 0 0"/>
+  <parent link="Right_Back_Leg_Mount_v1_1"/>
+  <child link="Left_Link_v4_1"/>
+  <axis xyz="-0.0 -1.0 -0.0"/>
+</joint>
+
+<joint name="Revolute 23" type="continuous">
+  <origin xyz="0.065129 0.0 -0.083522" rpy="0 0 0"/>
+  <parent link="Left_Link_v4_1"/>
+  <child link="Foot_v3_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="Revolute 25" type="continuous">
+  <origin xyz="0.025397 0.039329 -0.002342" rpy="0 0 0"/>
+  <parent link="Right_Front_Leg_Mount_v1_1"/>
+  <child link="Left_Link_v4_2"/>
+  <axis xyz="-0.0 -1.0 -0.0"/>
+</joint>
+
+</robot>

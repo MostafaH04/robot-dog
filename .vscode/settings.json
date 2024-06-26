@@ -5,5 +5,6 @@
         "stm32f4xx.h": "c",
         "stm32f410tx.h": "c",
         "systick.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/home/armaanrasheed/robot-dog/robot_ws/src/robot_description"
 }

@@ -1,0 +1,471 @@
+[0.000000] (-) TimerEvent: {}
+[0.000256] (robot_description) JobQueued: {'identifier': 'robot_description', 'dependencies': OrderedDict()}
+[0.000323] (robot_description) JobStarted: {'identifier': 'robot_description'}
+[0.006281] (robot_description) JobProgress: {'identifier': 'robot_description', 'progress': 'cmake'}
+[0.006790] (robot_description) Command: {'cmd': ['/usr/bin/cmake', '/home/armaanrasheed/robot-dog/robot_ws/src/robot_description', '-DCMAKE_INSTALL_PREFIX=/home/armaanrasheed/robot-dog/install/robot_description'], 'cwd': '/home/armaanrasheed/robot-dog/build/robot_description', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'armaanrasheed'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('MOTD_SHOWN', 'update-motd'), ('HOME', '/home/armaanrasheed'), ('OLDPWD', '/home/armaanrasheed/robot-dog/robot_ws'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/armaanrasheed/robot-dog/robot_ws/install:/home/armaanrasheed/robot-dog/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'armaanrasheed'), ('NAME', 'armaan'), ('WSL_INTEROP', '/run/WSL/348_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_2.2.4.0_x64__8wekyb3d8bbwe:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/libnvvp:/mnt/c/Program Files (x86)/VMware/VMware Player/bin/:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2024.1.1/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files/MATLAB/R2024a/bin:/mnt/c/Users/mearm/.rustup/toolchains/esp/xtensa-esp32-elf-clang/esp-clang/bin:/mnt/c/Users/mearm/.rustup/toolchains/esp/xtensa-esp-elf/bin:/mnt/c/Espressif/tools/idf-python/3.11.2/:/mnt/c/Espressif/tools/idf-git/2.43.0/cmd/:/mnt/c/Program Files/Google/Chrome/Application:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/libnvvp:/mnt/c/Program Files (x86)/VMware/VMware Player/bin/:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2024.1.1/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Users/mearm/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/mearm/AppData/Local/Programs/Python/Python312/:/mnt/c/Users/mearm/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/mearm/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program :/mnt/c/Users/mearm/AppData/Local/Programs/jaguar:/snap/bin'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/armaanrasheed/robot-dog/robot_ws/install/robot_description:/home/armaanrasheed/robot-dog/install/Robot_Description:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/home/armaanrasheed/robot-dog/build/robot_description'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('CMAKE_PREFIX_PATH', '/home/armaanrasheed/robot-dog/robot_ws/install/robot_description:/home/armaanrasheed/robot-dog/install/Robot_Description:/opt/ros/humble'), ('WSLENV', '')]), 'shell': False}
+[0.099237] (-) TimerEvent: {}
+[0.199553] (-) TimerEvent: {}
+[0.209529] (robot_description) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.299668] (-) TimerEvent: {}
+[0.400001] (-) TimerEvent: {}
+[0.500514] (-) TimerEvent: {}
+[0.600888] (-) TimerEvent: {}
+[0.692650] (robot_description) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.700991] (-) TimerEvent: {}
+[0.801351] (-) TimerEvent: {}
+[0.901651] (-) TimerEvent: {}
+[0.990791] (robot_description) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[1.001768] (-) TimerEvent: {}
+[1.102002] (-) TimerEvent: {}
+[1.144367] (robot_description) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[1.149978] (robot_description) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[1.150381] (robot_description) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[1.150814] (robot_description) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[1.153389] (robot_description) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[1.202206] (-) TimerEvent: {}
+[1.302540] (-) TimerEvent: {}
+[1.305779] (robot_description) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[1.311516] (robot_description) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[1.311738] (robot_description) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[1.312084] (robot_description) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[1.315387] (robot_description) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.9 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[1.402670] (-) TimerEvent: {}
+[1.416084] (robot_description) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[1.478241] (robot_description) StdoutLine: {'line': b'-- Found urdf: 2.6.0 (/opt/ros/humble/share/urdf/cmake)\n'}
+[1.502829] (-) TimerEvent: {}
+[1.603138] (-) TimerEvent: {}
+[1.703615] (-) TimerEvent: {}
+[1.804088] (-) TimerEvent: {}
+[1.904488] (-) TimerEvent: {}
+[2.004861] (-) TimerEvent: {}
+[2.105181] (-) TimerEvent: {}
+[2.205566] (-) TimerEvent: {}
+[2.305909] (-) TimerEvent: {}
+[2.406268] (-) TimerEvent: {}
+[2.506642] (-) TimerEvent: {}
+[2.607061] (-) TimerEvent: {}
+[2.707393] (-) TimerEvent: {}
+[2.807713] (-) TimerEvent: {}
+[2.823673] (robot_description) StdoutLine: {'line': b'-- Found xacro: 2.0.8 (/opt/ros/humble/share/xacro/cmake)\n'}
+[2.824715] (robot_description) StdoutLine: {'line': b'-- Found gazebo_ros: 3.7.0 (/opt/ros/humble/share/gazebo_ros/cmake)\n'}
+[2.850450] (robot_description) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[2.853885] (robot_description) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[2.860328] (robot_description) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[2.871424] (robot_description) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[2.884057] (robot_description) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[2.907828] (-) TimerEvent: {}
+[2.936884] (robot_description) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[2.938849] (robot_description) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[2.967780] (robot_description) StdoutLine: {'line': b'-- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND\n'}
+[2.996015] (robot_description) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[2.998193] (robot_description) StdoutLine: {'line': b'-- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND\n'}
+[3.007920] (-) TimerEvent: {}
+[3.108202] (-) TimerEvent: {}
+[3.136397] (robot_description) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[3.144524] (robot_description) StdoutLine: {'line': b'-- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND\n'}
+[3.150110] (robot_description) StdoutLine: {'line': b'-- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND\n'}
+[3.208308] (-) TimerEvent: {}
+[3.222921] (robot_description) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[3.229997] (robot_description) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[3.308448] (-) TimerEvent: {}
+[3.383131] (robot_description) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[3.383385] (robot_description) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[3.408604] (-) TimerEvent: {}
+[3.508954] (-) TimerEvent: {}
+[3.531651] (robot_description) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[3.532446] (robot_description) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[3.609130] (-) TimerEvent: {}
+[3.670376] (robot_description) StdoutLine: {'line': b'-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2") \n'}
+[3.671088] (robot_description) StdoutLine: {'line': b"-- Checking for module 'bullet>=2.82'\n"}
+[3.677859] (robot_description) StdoutLine: {'line': b'--   Found bullet, version 3.05\n'}
+[3.709278] (-) TimerEvent: {}
+[3.770331] (robot_description) StdoutLine: {'line': b'-- Found fcl: /usr/include (found suitable version "0.7.0", minimum required is "0.5.0") \n'}
+[3.795913] (robot_description) StdoutLine: {'line': b'-- Found assimp: /usr/include (found version "5.2.0") \n'}
+[3.809358] (-) TimerEvent: {}
+[3.810585] (robot_description) StdoutLine: {'line': b'-- Found DART: /usr/include (Required is at least version "6.6") found components: dart \n'}
+[3.829482] (robot_description) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.40.0") found components: thread system filesystem program_options regex iostreams date_time \n'}
+[3.909516] (-) TimerEvent: {}
+[4.009894] (-) TimerEvent: {}
+[4.110177] (-) TimerEvent: {}
+[4.181215] (robot_description) StdoutLine: {'line': b'-- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found version "3.12.4") \n'}
+[4.184030] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[4.189439] (robot_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-math6\n'}
+[4.190997] (robot_description) StdoutLine: {'line': b'-- Looking for OGRE...\n'}
+[4.191333] (robot_description) StdoutLine: {'line': b'-- OGRE_PREFIX_WATCH changed.\n'}
+[4.194383] (robot_description) StdoutLine: {'line': b"-- Checking for module 'OGRE'\n"}
+[4.200571] (robot_description) StdoutLine: {'line': b'--   Found OGRE, version 1.9.0\n'}
+[4.210305] (-) TimerEvent: {}
+[4.217680] (robot_description) StdoutLine: {'line': b'-- Found Ogre Ghadamon (1.9.0)\n'}
+[4.310404] (-) TimerEvent: {}
+[4.410706] (-) TimerEvent: {}
+[4.511026] (-) TimerEvent: {}
+[4.586708] (robot_description) StdoutLine: {'line': b'-- Found OGRE: optimized;/usr/lib/x86_64-linux-gnu/libOgreMain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreMain.so\n'}
+[4.593935] (robot_description) StdoutLine: {'line': b'-- Looking for OGRE_Paging...\n'}
+[4.611194] (-) TimerEvent: {}
+[4.711492] (-) TimerEvent: {}
+[4.811778] (-) TimerEvent: {}
+[4.912074] (-) TimerEvent: {}
+[4.925252] (robot_description) StdoutLine: {'line': b'-- Found OGRE_Paging: optimized;/usr/lib/x86_64-linux-gnu/libOgrePaging.so;debug;/usr/lib/x86_64-linux-gnu/libOgrePaging.so\n'}
+[4.925409] (robot_description) StdoutLine: {'line': b'-- Looking for OGRE_Terrain...\n'}
+[5.012196] (-) TimerEvent: {}
+[5.112500] (-) TimerEvent: {}
+[5.212810] (-) TimerEvent: {}
+[5.262974] (robot_description) StdoutLine: {'line': b'-- Found OGRE_Terrain: optimized;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so\n'}
+[5.263149] (robot_description) StdoutLine: {'line': b'-- Looking for OGRE_Property...\n'}
+[5.312900] (-) TimerEvent: {}
+[5.413170] (-) TimerEvent: {}
+[5.513522] (-) TimerEvent: {}
+[5.592775] (robot_description) StdoutLine: {'line': b'-- Found OGRE_Property: optimized;/usr/lib/x86_64-linux-gnu/libOgreProperty.so;debug;/usr/lib/x86_64-linux-gnu/libOgreProperty.so\n'}
+[5.593036] (robot_description) StdoutLine: {'line': b'-- Looking for OGRE_RTShaderSystem...\n'}
+[5.613621] (-) TimerEvent: {}
+[5.713941] (-) TimerEvent: {}
+[5.814274] (-) TimerEvent: {}
+[5.914586] (-) TimerEvent: {}
+[5.929721] (robot_description) StdoutLine: {'line': b'-- Found OGRE_RTShaderSystem: optimized;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so;debug;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so\n'}
+[5.929896] (robot_description) StdoutLine: {'line': b'-- Looking for OGRE_Volume...\n'}
+[6.014705] (-) TimerEvent: {}
+[6.115013] (-) TimerEvent: {}
+[6.215319] (-) TimerEvent: {}
+[6.268611] (robot_description) StdoutLine: {'line': b'-- Found OGRE_Volume: optimized;/usr/lib/x86_64-linux-gnu/libOgreVolume.so;debug;/usr/lib/x86_64-linux-gnu/libOgreVolume.so\n'}
+[6.268784] (robot_description) StdoutLine: {'line': b'-- Looking for OGRE_Overlay...\n'}
+[6.315443] (-) TimerEvent: {}
+[6.415777] (-) TimerEvent: {}
+[6.516212] (-) TimerEvent: {}
+[6.608913] (robot_description) StdoutLine: {'line': b'-- Found OGRE_Overlay: optimized;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so;debug;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so\n'}
+[6.616305] (-) TimerEvent: {}
+[6.716574] (-) TimerEvent: {}
+[6.816902] (-) TimerEvent: {}
+[6.917296] (-) TimerEvent: {}
+[7.017610] (-) TimerEvent: {}
+[7.117924] (-) TimerEvent: {}
+[7.218246] (-) TimerEvent: {}
+[7.318557] (-) TimerEvent: {}
+[7.418870] (-) TimerEvent: {}
+[7.519200] (-) TimerEvent: {}
+[7.619524] (-) TimerEvent: {}
+[7.719891] (-) TimerEvent: {}
+[7.820308] (-) TimerEvent: {}
+[7.920669] (-) TimerEvent: {}
+[8.021066] (-) TimerEvent: {}
+[8.121467] (-) TimerEvent: {}
+[8.221903] (-) TimerEvent: {}
+[8.322252] (-) TimerEvent: {}
+[8.422901] (-) TimerEvent: {}
+[8.523266] (-) TimerEvent: {}
+[8.623573] (-) TimerEvent: {}
+[8.723937] (-) TimerEvent: {}
+[8.824349] (-) TimerEvent: {}
+[8.924702] (-) TimerEvent: {}
+[9.025027] (-) TimerEvent: {}
+[9.125390] (-) TimerEvent: {}
+[9.225742] (-) TimerEvent: {}
+[9.326093] (-) TimerEvent: {}
+[9.426403] (-) TimerEvent: {}
+[9.526808] (-) TimerEvent: {}
+[9.627167] (-) TimerEvent: {}
+[9.727468] (-) TimerEvent: {}
+[9.827790] (-) TimerEvent: {}
+[9.928103] (-) TimerEvent: {}
+[10.028421] (-) TimerEvent: {}
+[10.128724] (-) TimerEvent: {}
+[10.229031] (-) TimerEvent: {}
+[10.329362] (-) TimerEvent: {}
+[10.429666] (-) TimerEvent: {}
+[10.529970] (-) TimerEvent: {}
+[10.630283] (-) TimerEvent: {}
+[10.730655] (-) TimerEvent: {}
+[10.830980] (-) TimerEvent: {}
+[10.931334] (-) TimerEvent: {}
+[11.031668] (-) TimerEvent: {}
+[11.131968] (-) TimerEvent: {}
+[11.232274] (-) TimerEvent: {}
+[11.332612] (-) TimerEvent: {}
+[11.432922] (-) TimerEvent: {}
+[11.533251] (-) TimerEvent: {}
+[11.633615] (-) TimerEvent: {}
+[11.733969] (-) TimerEvent: {}
+[11.834291] (-) TimerEvent: {}
+[11.934600] (-) TimerEvent: {}
+[12.034925] (-) TimerEvent: {}
+[12.135254] (-) TimerEvent: {}
+[12.235561] (-) TimerEvent: {}
+[12.335898] (-) TimerEvent: {}
+[12.436214] (-) TimerEvent: {}
+[12.536548] (-) TimerEvent: {}
+[12.636840] (-) TimerEvent: {}
+[12.737157] (-) TimerEvent: {}
+[12.837465] (-) TimerEvent: {}
+[12.937786] (-) TimerEvent: {}
+[13.038247] (-) TimerEvent: {}
+[13.138681] (-) TimerEvent: {}
+[13.239045] (-) TimerEvent: {}
+[13.339431] (-) TimerEvent: {}
+[13.439738] (-) TimerEvent: {}
+[13.540164] (-) TimerEvent: {}
+[13.640538] (-) TimerEvent: {}
+[13.740899] (-) TimerEvent: {}
+[13.841219] (-) TimerEvent: {}
+[13.941575] (-) TimerEvent: {}
+[14.041881] (-) TimerEvent: {}
+[14.142218] (-) TimerEvent: {}
+[14.242660] (-) TimerEvent: {}
+[14.343028] (-) TimerEvent: {}
+[14.443333] (-) TimerEvent: {}
+[14.543672] (-) TimerEvent: {}
+[14.643989] (-) TimerEvent: {}
+[14.744294] (-) TimerEvent: {}
+[14.844736] (-) TimerEvent: {}
+[14.945072] (-) TimerEvent: {}
+[15.045438] (-) TimerEvent: {}
+[15.145754] (-) TimerEvent: {}
+[15.246166] (-) TimerEvent: {}
+[15.346546] (-) TimerEvent: {}
+[15.446881] (-) TimerEvent: {}
+[15.547229] (-) TimerEvent: {}
+[15.647564] (-) TimerEvent: {}
+[15.747899] (-) TimerEvent: {}
+[15.848237] (-) TimerEvent: {}
+[15.948553] (-) TimerEvent: {}
+[16.048907] (-) TimerEvent: {}
+[16.149240] (-) TimerEvent: {}
+[16.249566] (-) TimerEvent: {}
+[16.349876] (-) TimerEvent: {}
+[16.450193] (-) TimerEvent: {}
+[16.550513] (-) TimerEvent: {}
+[16.650823] (-) TimerEvent: {}
+[16.751185] (-) TimerEvent: {}
+[16.851515] (-) TimerEvent: {}
+[16.951863] (-) TimerEvent: {}
+[17.052181] (-) TimerEvent: {}
+[17.152516] (-) TimerEvent: {}
+[17.252817] (-) TimerEvent: {}
+[17.353201] (-) TimerEvent: {}
+[17.453509] (-) TimerEvent: {}
+[17.553896] (-) TimerEvent: {}
+[17.654233] (-) TimerEvent: {}
+[17.754538] (-) TimerEvent: {}
+[17.854865] (-) TimerEvent: {}
+[17.955384] (-) TimerEvent: {}
+[18.055713] (-) TimerEvent: {}
+[18.156094] (-) TimerEvent: {}
+[18.256476] (-) TimerEvent: {}
+[18.356816] (-) TimerEvent: {}
+[18.457119] (-) TimerEvent: {}
+[18.557483] (-) TimerEvent: {}
+[18.657786] (-) TimerEvent: {}
+[18.758128] (-) TimerEvent: {}
+[18.858487] (-) TimerEvent: {}
+[18.958807] (-) TimerEvent: {}
+[19.059144] (-) TimerEvent: {}
+[19.159478] (-) TimerEvent: {}
+[19.259814] (-) TimerEvent: {}
+[19.360203] (-) TimerEvent: {}
+[19.460545] (-) TimerEvent: {}
+[19.560932] (-) TimerEvent: {}
+[19.661258] (-) TimerEvent: {}
+[19.761652] (-) TimerEvent: {}
+[19.862099] (-) TimerEvent: {}
+[19.962422] (-) TimerEvent: {}
+[20.062764] (-) TimerEvent: {}
+[20.163072] (-) TimerEvent: {}
+[20.263395] (-) TimerEvent: {}
+[20.363708] (-) TimerEvent: {}
+[20.464028] (-) TimerEvent: {}
+[20.564335] (-) TimerEvent: {}
+[20.664711] (-) TimerEvent: {}
+[20.765286] (-) TimerEvent: {}
+[20.865648] (-) TimerEvent: {}
+[20.966084] (-) TimerEvent: {}
+[21.066433] (-) TimerEvent: {}
+[21.166768] (-) TimerEvent: {}
+[21.267101] (-) TimerEvent: {}
+[21.367421] (-) TimerEvent: {}
+[21.467761] (-) TimerEvent: {}
+[21.568095] (-) TimerEvent: {}
+[21.668426] (-) TimerEvent: {}
+[21.768817] (-) TimerEvent: {}
+[21.869138] (-) TimerEvent: {}
+[21.969472] (-) TimerEvent: {}
+[22.069784] (-) TimerEvent: {}
+[22.170119] (-) TimerEvent: {}
+[22.270437] (-) TimerEvent: {}
+[22.370889] (-) TimerEvent: {}
+[22.471194] (-) TimerEvent: {}
+[22.571493] (-) TimerEvent: {}
+[22.671804] (-) TimerEvent: {}
+[22.772114] (-) TimerEvent: {}
+[22.872713] (-) TimerEvent: {}
+[22.973068] (-) TimerEvent: {}
+[23.073523] (-) TimerEvent: {}
+[23.173834] (-) TimerEvent: {}
+[23.274134] (-) TimerEvent: {}
+[23.374444] (-) TimerEvent: {}
+[23.474815] (-) TimerEvent: {}
+[23.575158] (-) TimerEvent: {}
+[23.675474] (-) TimerEvent: {}
+[23.699190] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[23.700379] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-transport8 -- found version 8.2.1\n'}
+[23.700791] (robot_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-transport8\n'}
+[23.775582] (-) TimerEvent: {}
+[23.875900] (-) TimerEvent: {}
+[23.976269] (-) TimerEvent: {}
+[24.076591] (-) TimerEvent: {}
+[24.176898] (-) TimerEvent: {}
+[24.277197] (-) TimerEvent: {}
+[24.377503] (-) TimerEvent: {}
+[24.477806] (-) TimerEvent: {}
+[24.578121] (-) TimerEvent: {}
+[24.678427] (-) TimerEvent: {}
+[24.778744] (-) TimerEvent: {}
+[24.842352] (robot_description) StdoutLine: {'line': b'-- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found suitable version "3.12.4", minimum required is "3") \n'}
+[24.878873] (-) TimerEvent: {}
+[24.979240] (-) TimerEvent: {}
+[25.079531] (-) TimerEvent: {}
+[25.179828] (-) TimerEvent: {}
+[25.280133] (-) TimerEvent: {}
+[25.380423] (-) TimerEvent: {}
+[25.480781] (-) TimerEvent: {}
+[25.581146] (-) TimerEvent: {}
+[25.681450] (-) TimerEvent: {}
+[25.781779] (-) TimerEvent: {}
+[25.882135] (-) TimerEvent: {}
+[25.958396] (robot_description) StdoutLine: {'line': b'-- Config-file not installed for ZeroMQ -- checking for pkg-config\n'}
+[25.961563] (robot_description) StdoutLine: {'line': b"-- Checking for module 'libzmq >= 4'\n"}
+[25.968976] (robot_description) StdoutLine: {'line': b'--   Found libzmq , version 4.3.4\n'}
+[25.982218] (-) TimerEvent: {}
+[25.987098] (robot_description) StdoutLine: {'line': b'-- Found ZeroMQ: TRUE (Required is at least version "4") \n'}
+[26.026259] (robot_description) StdoutLine: {'line': b"-- Checking for module 'uuid'\n"}
+[26.033129] (robot_description) StdoutLine: {'line': b'--   Found uuid, version 2.37.2\n'}
+[26.049855] (robot_description) StdoutLine: {'line': b'-- Found UUID: TRUE  \n'}
+[26.051098] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-msgs5 -- found version 5.8.1\n'}
+[26.051450] (robot_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-msgs5\n'}
+[26.082346] (-) TimerEvent: {}
+[26.182668] (-) TimerEvent: {}
+[26.282983] (-) TimerEvent: {}
+[26.383353] (-) TimerEvent: {}
+[26.483717] (-) TimerEvent: {}
+[26.584010] (-) TimerEvent: {}
+[26.684325] (-) TimerEvent: {}
+[26.784630] (-) TimerEvent: {}
+[26.885015] (-) TimerEvent: {}
+[26.985319] (-) TimerEvent: {}
+[27.085639] (-) TimerEvent: {}
+[27.185489] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[27.185657] (-) TimerEvent: {}
+[27.188867] (robot_description) StdoutLine: {'line': b"-- Checking for module 'tinyxml2'\n"}
+[27.195614] (robot_description) StdoutLine: {'line': b'--   Found tinyxml2, version 9.0.0\n'}
+[27.212822] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-msgs5 -- found version 5.8.1\n'}
+[27.214160] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-common3 -- found version 3.14.0\n'}
+[27.214685] (robot_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-common3\n'}
+[27.249369] (robot_description) StdoutLine: {'line': b'-- Looking for dlfcn.h - found\n'}
+[27.282215] (robot_description) StdoutLine: {'line': b'-- Looking for libdl - found\n'}
+[27.283252] (robot_description) StdoutLine: {'line': b'-- Found DL: TRUE  \n'}
+[27.285741] (-) TimerEvent: {}
+[27.354584] (robot_description) StdoutLine: {'line': b'-- Found tinyobjloader: /usr/lib/x86_64-linux-gnu/cmake/tinyobjloader/tinyobjloader-config.cmake (found version "2.0.0") \n'}
+[27.355026] (robot_description) StdoutLine: {'line': b'-- Searching for <ignition-common3> component [graphics]\n'}
+[27.356373] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-common3-graphics -- found version 3.14.0\n'}
+[27.356771] (robot_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-common3-graphics\n'}
+[27.357049] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[27.358802] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-fuel_tools4 -- found version 4.4.0\n'}
+[27.359179] (robot_description) StdoutLine: {'line': b'-- Searching for dependencies of ignition-fuel_tools4\n'}
+[27.385858] (-) TimerEvent: {}
+[27.486251] (-) TimerEvent: {}
+[27.586640] (-) TimerEvent: {}
+[27.686948] (-) TimerEvent: {}
+[27.787276] (-) TimerEvent: {}
+[27.887685] (-) TimerEvent: {}
+[27.988073] (-) TimerEvent: {}
+[28.088399] (-) TimerEvent: {}
+[28.188782] (-) TimerEvent: {}
+[28.289106] (-) TimerEvent: {}
+[28.389534] (-) TimerEvent: {}
+[28.489929] (-) TimerEvent: {}
+[28.590291] (-) TimerEvent: {}
+[28.690626] (-) TimerEvent: {}
+[28.703848] (robot_description) StdoutLine: {'line': b'-- Found CURL: /usr/lib/x86_64-linux-gnu/libcurl.so (found version "7.81.0")  \n'}
+[28.709493] (robot_description) StdoutLine: {'line': b"-- Checking for module 'jsoncpp'\n"}
+[28.715731] (robot_description) StdoutLine: {'line': b'--   Found jsoncpp, version 1.9.5\n'}
+[28.733098] (robot_description) StdoutLine: {'line': b'-- Found JSONCPP: TRUE  \n'}
+[28.736428] (robot_description) StdoutLine: {'line': b"-- Checking for module 'libzip'\n"}
+[28.742878] (robot_description) StdoutLine: {'line': b'--   Found libzip, version 1.7.3\n'}
+[28.758979] (robot_description) StdoutLine: {'line': b'-- Found ZIP: TRUE  \n'}
+[28.759307] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-common3 -- found version 3.14.0\n'}
+[28.759624] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[28.759933] (robot_description) StdoutLine: {'line': b'-- Looking for ignition-msgs5 -- found version 5.8.1\n'}
+[28.762178] (robot_description) StdoutLine: {'line': b'-- Gazebo version: 11.10\n'}
+[28.762435] (robot_description) StdoutLine: {'line': b"-- Checking for module 'tbb'\n"}
+[28.769455] (robot_description) StdoutLine: {'line': b'--   Found tbb, version 2021.5.0\n'}
+[28.790793] (-) TimerEvent: {}
+[28.792419] (robot_description) StdoutLine: {'line': b'-- Found robot_state_publisher: 3.0.3 (/opt/ros/humble/share/robot_state_publisher/cmake)\n'}
+[28.876770] (robot_description) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)\n'}
+[28.877775] (robot_description) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[28.877965] (robot_description) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[28.890866] (-) TimerEvent: {}
+[28.991138] (-) TimerEvent: {}
+[29.091461] (-) TimerEvent: {}
+[29.191756] (-) TimerEvent: {}
+[29.283068] (robot_description) StdoutLine: {'line': b'-- Configuring done\n'}
+[29.289329] (robot_description) StdoutLine: {'line': b'-- Generating done\n'}
+[29.291194] (robot_description) StdoutLine: {'line': b'-- Build files have been written to: /home/armaanrasheed/robot-dog/build/robot_description\n'}
+[29.291874] (-) TimerEvent: {}
+[29.300741] (robot_description) CommandEnded: {'returncode': 0}
+[29.302983] (robot_description) JobProgress: {'identifier': 'robot_description', 'progress': 'build'}
+[29.303052] (robot_description) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/armaanrasheed/robot-dog/build/robot_description', '--', '-j16', '-l16'], 'cwd': '/home/armaanrasheed/robot-dog/build/robot_description', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'armaanrasheed'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('MOTD_SHOWN', 'update-motd'), ('HOME', '/home/armaanrasheed'), ('OLDPWD', '/home/armaanrasheed/robot-dog/robot_ws'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/armaanrasheed/robot-dog/robot_ws/install:/home/armaanrasheed/robot-dog/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'armaanrasheed'), ('NAME', 'armaan'), ('WSL_INTEROP', '/run/WSL/348_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_2.2.4.0_x64__8wekyb3d8bbwe:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/libnvvp:/mnt/c/Program Files (x86)/VMware/VMware Player/bin/:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2024.1.1/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files/MATLAB/R2024a/bin:/mnt/c/Users/mearm/.rustup/toolchains/esp/xtensa-esp32-elf-clang/esp-clang/bin:/mnt/c/Users/mearm/.rustup/toolchains/esp/xtensa-esp-elf/bin:/mnt/c/Espressif/tools/idf-python/3.11.2/:/mnt/c/Espressif/tools/idf-git/2.43.0/cmd/:/mnt/c/Program Files/Google/Chrome/Application:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/libnvvp:/mnt/c/Program Files (x86)/VMware/VMware Player/bin/:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2024.1.1/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Users/mearm/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/mearm/AppData/Local/Programs/Python/Python312/:/mnt/c/Users/mearm/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/mearm/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program :/mnt/c/Users/mearm/AppData/Local/Programs/jaguar:/snap/bin'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/armaanrasheed/robot-dog/robot_ws/install/robot_description:/home/armaanrasheed/robot-dog/install/Robot_Description:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/home/armaanrasheed/robot-dog/build/robot_description'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('CMAKE_PREFIX_PATH', '/home/armaanrasheed/robot-dog/robot_ws/install/robot_description:/home/armaanrasheed/robot-dog/install/Robot_Description:/opt/ros/humble'), ('WSLENV', '')]), 'shell': False}
+[29.327098] (robot_description) CommandEnded: {'returncode': 0}
+[29.340687] (robot_description) JobProgress: {'identifier': 'robot_description', 'progress': 'install'}
+[29.345801] (robot_description) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/armaanrasheed/robot-dog/build/robot_description'], 'cwd': '/home/armaanrasheed/robot-dog/build/robot_description', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'armaanrasheed'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('MOTD_SHOWN', 'update-motd'), ('HOME', '/home/armaanrasheed'), ('OLDPWD', '/home/armaanrasheed/robot-dog/robot_ws'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/armaanrasheed/robot-dog/robot_ws/install:/home/armaanrasheed/robot-dog/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'armaanrasheed'), ('NAME', 'armaan'), ('WSL_INTEROP', '/run/WSL/348_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_2.2.4.0_x64__8wekyb3d8bbwe:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/libnvvp:/mnt/c/Program Files (x86)/VMware/VMware Player/bin/:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2024.1.1/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files/MATLAB/R2024a/bin:/mnt/c/Users/mearm/.rustup/toolchains/esp/xtensa-esp32-elf-clang/esp-clang/bin:/mnt/c/Users/mearm/.rustup/toolchains/esp/xtensa-esp-elf/bin:/mnt/c/Espressif/tools/idf-python/3.11.2/:/mnt/c/Espressif/tools/idf-git/2.43.0/cmd/:/mnt/c/Program Files/Google/Chrome/Application:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.4/libnvvp:/mnt/c/Program Files (x86)/VMware/VMware Player/bin/:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2024.1.1/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Users/mearm/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/mearm/AppData/Local/Programs/Python/Python312/:/mnt/c/Users/mearm/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/mearm/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program :/mnt/c/Users/mearm/AppData/Local/Programs/jaguar:/snap/bin'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/armaanrasheed/robot-dog/robot_ws/install/robot_description:/home/armaanrasheed/robot-dog/install/Robot_Description:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/home/armaanrasheed/robot-dog/build/robot_description'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('CMAKE_PREFIX_PATH', '/home/armaanrasheed/robot-dog/robot_ws/install/robot_description:/home/armaanrasheed/robot-dog/install/Robot_Description:/opt/ros/humble'), ('WSLENV', '')]), 'shell': False}
+[29.349811] (robot_description) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[29.349912] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes\n'}
+[29.350403] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Left_Link_v4_2.stl\n'}
+[29.351787] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_8.stl\n'}
+[29.358216] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Component1_Mirror___5__2.stl\n'}
+[29.363650] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_1.stl\n'}
+[29.368989] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Left_Link_v4_1.stl\n'}
+[29.370305] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_3.stl\n'}
+[29.374433] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Component1_Mirror___4__2.stl\n'}
+[29.375943] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_5.stl\n'}
+[29.379200] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Foot_v3_1.stl\n'}
+[29.383792] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Right_Back_Leg_Mount_v1_1.stl\n'}
+[29.392046] (-) TimerEvent: {}
+[29.434936] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Foot_v3_2.stl\n'}
+[29.437004] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Right_Front_Leg_Mount_v1_1.stl\n'}
+[29.487903] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/base_link.stl\n'}
+[29.492165] (-) TimerEvent: {}
+[29.592450] (-) TimerEvent: {}
+[29.607776] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Left_Front_Leg_Mount_v1_1.stl\n'}
+[29.660780] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Left_Back_Leg_Mount_v1_1.stl\n'}
+[29.692595] (-) TimerEvent: {}
+[29.711896] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Component1_Mirror___4__1.stl\n'}
+[29.713024] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_4.stl\n'}
+[29.715956] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_7.stl\n'}
+[29.721285] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Component1_Mirror___5__1.stl\n'}
+[29.724890] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_6.stl\n'}
+[29.730762] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_2.stl\n'}
+[29.736645] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/urdf\n'}
+[29.736956] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/urdf/assem.xacro\n'}
+[29.737382] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/urdf/materials.xacro\n'}
+[29.737558] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/urdf/assem.trans\n'}
+[29.737811] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch\n'}
+[29.738029] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch/gazebo.launch.py\n'}
+[29.738185] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch/master.launch.py\n'}
+[29.738364] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch/view_robot.launch.py\n'}
+[29.738442] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch/__pycache__\n'}
+[29.738494] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch/__pycache__/robot_description.launch.cpython-310.pyc\n'}
+[29.738725] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/ament_index/resource_index/package_run_dependencies/robot_description\n'}
+[29.739018] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/ament_index/resource_index/parent_prefix_path/robot_description\n'}
+[29.739303] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/environment/ament_prefix_path.sh\n'}
+[29.739777] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/environment/ament_prefix_path.dsv\n'}
+[29.739922] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/environment/path.sh\n'}
+[29.740461] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/environment/path.dsv\n'}
+[29.740729] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/local_setup.bash\n'}
+[29.741021] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/local_setup.sh\n'}
+[29.741163] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/local_setup.zsh\n'}
+[29.741308] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/local_setup.dsv\n'}
+[29.741358] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/package.dsv\n'}
+[29.741427] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/ament_index/resource_index/packages/robot_description\n'}
+[29.741635] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/cmake/robot_descriptionConfig.cmake\n'}
+[29.741701] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/cmake/robot_descriptionConfig-version.cmake\n'}
+[29.741748] (robot_description) StdoutLine: {'line': b'-- Installing: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/package.xml\n'}
+[29.743592] (robot_description) CommandEnded: {'returncode': 0}
+[29.773943] (robot_description) JobEnded: {'identifier': 'robot_description', 'rc': 0}
+[29.774305] (-) EventReactorShutdown: {}

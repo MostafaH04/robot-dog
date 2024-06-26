@@ -1,0 +1,124 @@
+[0.015s] Invoking command in '/home/armaanrasheed/robot-dog/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/armaanrasheed/robot-dog/robot_ws/src/robot_description -DCMAKE_INSTALL_PREFIX=/home/armaanrasheed/robot-dog/install/robot_description
+[0.051s] -- Found ament_cmake: 1.3.9 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.164s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.186s] -- Found urdf: 2.6.0 (/opt/ros/humble/share/urdf/cmake)
+[1.380s] -- Found xacro: 2.0.8 (/opt/ros/humble/share/xacro/cmake)
+[1.381s] -- Found gazebo_ros: 3.7.0 (/opt/ros/humble/share/gazebo_ros/cmake)
+[1.411s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[1.414s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.421s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.436s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.450s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.512s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.515s] -- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[1.551s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[1.560s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[1.645s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[1.650s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[1.725s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.919s] -- Found DART: /usr/include (Required is at least version "6.6") found components: dart 
+[1.953s] -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found version "3.12.4") 
+[1.955s] -- Looking for ignition-math6 -- found version 6.15.1
+[1.963s] -- Searching for dependencies of ignition-math6
+[1.966s] -- Looking for OGRE...
+[1.970s] -- Found Ogre Ghadamon (1.9.0)
+[1.971s] -- Found OGRE: optimized;/usr/lib/x86_64-linux-gnu/libOgreMain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreMain.so
+[1.979s] -- Looking for OGRE_Paging...
+[1.980s] -- Found OGRE_Paging: optimized;/usr/lib/x86_64-linux-gnu/libOgrePaging.so;debug;/usr/lib/x86_64-linux-gnu/libOgrePaging.so
+[1.980s] -- Looking for OGRE_Terrain...
+[1.980s] -- Found OGRE_Terrain: optimized;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so
+[1.980s] -- Looking for OGRE_Property...
+[1.980s] -- Found OGRE_Property: optimized;/usr/lib/x86_64-linux-gnu/libOgreProperty.so;debug;/usr/lib/x86_64-linux-gnu/libOgreProperty.so
+[1.980s] -- Looking for OGRE_RTShaderSystem...
+[1.980s] -- Found OGRE_RTShaderSystem: optimized;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so;debug;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so
+[1.980s] -- Looking for OGRE_Volume...
+[1.980s] -- Found OGRE_Volume: optimized;/usr/lib/x86_64-linux-gnu/libOgreVolume.so;debug;/usr/lib/x86_64-linux-gnu/libOgreVolume.so
+[1.980s] -- Looking for OGRE_Overlay...
+[1.980s] -- Found OGRE_Overlay: optimized;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so;debug;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so
+[19.487s] -- Looking for ignition-math6 -- found version 6.15.1
+[19.488s] -- Looking for ignition-transport8 -- found version 8.2.1
+[19.489s] -- Searching for dependencies of ignition-transport8
+[20.649s] -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found suitable version "3.12.4", minimum required is "3") 
+[21.809s] -- Config-file not installed for ZeroMQ -- checking for pkg-config
+[21.812s] -- Checking for module 'libzmq >= 4'
+[21.821s] --   Found libzmq , version 4.3.4
+[21.842s] -- Checking for module 'uuid'
+[21.848s] --   Found uuid, version 2.37.2
+[21.865s] -- Looking for ignition-msgs5 -- found version 5.8.1
+[21.866s] -- Searching for dependencies of ignition-msgs5
+[23.013s] -- Looking for ignition-math6 -- found version 6.15.1
+[23.020s] -- Looking for ignition-msgs5 -- found version 5.8.1
+[23.021s] -- Looking for ignition-common3 -- found version 3.14.0
+[23.021s] -- Searching for dependencies of ignition-common3
+[23.021s] -- Looking for dlfcn.h - found
+[23.021s] -- Looking for libdl - found
+[23.096s] -- Searching for <ignition-common3> component [graphics]
+[23.097s] -- Looking for ignition-common3-graphics -- found version 3.14.0
+[23.097s] -- Searching for dependencies of ignition-common3-graphics
+[23.098s] -- Looking for ignition-math6 -- found version 6.15.1
+[23.100s] -- Looking for ignition-fuel_tools4 -- found version 4.4.0
+[23.100s] -- Searching for dependencies of ignition-fuel_tools4
+[24.416s] -- Checking for module 'jsoncpp'
+[24.423s] --   Found jsoncpp, version 1.9.5
+[24.442s] -- Checking for module 'libzip'
+[24.449s] --   Found libzip, version 1.7.3
+[24.465s] -- Looking for ignition-common3 -- found version 3.14.0
+[24.465s] -- Looking for ignition-math6 -- found version 6.15.1
+[24.466s] -- Looking for ignition-msgs5 -- found version 5.8.1
+[24.469s] -- Gazebo version: 11.10
+[24.476s] -- Found robot_state_publisher: 3.0.3 (/opt/ros/humble/share/robot_state_publisher/cmake)
+[24.527s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[24.528s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[24.979s] -- Configuring done
+[24.987s] -- Generating done
+[24.990s] -- Build files have been written to: /home/armaanrasheed/robot-dog/build/robot_description
+[25.000s] Invoked command in '/home/armaanrasheed/robot-dog/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/armaanrasheed/robot-dog/robot_ws/src/robot_description -DCMAKE_INSTALL_PREFIX=/home/armaanrasheed/robot-dog/install/robot_description
+[25.002s] Invoking command in '/home/armaanrasheed/robot-dog/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/armaanrasheed/robot-dog/build/robot_description -- -j16 -l16
+[25.029s] Invoked command in '/home/armaanrasheed/robot-dog/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/armaanrasheed/robot-dog/build/robot_description -- -j16 -l16
+[25.050s] Invoking command in '/home/armaanrasheed/robot-dog/build/robot_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/armaanrasheed/robot-dog/build/robot_description
+[25.054s] -- Install configuration: ""
+[25.055s] -- Execute custom install script
+[25.055s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Component1_Mirror___4__1.stl
+[25.056s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Component1_Mirror___4__2.stl
+[25.056s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Component1_Mirror___5__1.stl
+[25.056s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Component1_Mirror___5__2.stl
+[25.056s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Foot_v3_1.stl
+[25.056s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Foot_v3_2.stl
+[25.056s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Left_Back_Leg_Mount_v1_1.stl
+[25.056s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Left_Front_Leg_Mount_v1_1.stl
+[25.057s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Left_Link_v4_1.stl
+[25.057s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Left_Link_v4_2.stl
+[25.057s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Right_Back_Leg_Mount_v1_1.stl
+[25.057s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Right_Front_Leg_Mount_v1_1.stl
+[25.057s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_1.stl
+[25.057s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_2.stl
+[25.057s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_3.stl
+[25.057s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_4.stl
+[25.058s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_5.stl
+[25.058s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_6.stl
+[25.058s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_7.stl
+[25.058s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/Servo_Horn_v3_8.stl
+[25.058s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/meshes/base_link.stl
+[25.058s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/urdf/assem.trans
+[25.058s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/urdf/assem.xacro
+[25.059s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/urdf/materials.xacro
+[25.059s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch/__pycache__/robot_description.launch.cpython-310.pyc
+[25.059s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch/gazebo.launch.py
+[25.059s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch/master.launch.py
+[25.059s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/launch/view_robot.launch.py
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/ament_index/resource_index/package_run_dependencies/robot_description
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/ament_index/resource_index/parent_prefix_path/robot_description
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/environment/ament_prefix_path.sh
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/environment/ament_prefix_path.dsv
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/environment/path.sh
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/environment/path.dsv
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/local_setup.bash
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/local_setup.sh
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/local_setup.zsh
+[25.060s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/local_setup.dsv
+[25.060s] -- Symlinking: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/package.dsv
+[25.065s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/ament_index/resource_index/packages/robot_description
+[25.066s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/cmake/robot_descriptionConfig.cmake
+[25.066s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/cmake/robot_descriptionConfig-version.cmake
+[25.066s] -- Up-to-date symlink: /home/armaanrasheed/robot-dog/install/robot_description/share/robot_description/package.xml
+[25.067s] Invoked command in '/home/armaanrasheed/robot-dog/build/robot_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/armaanrasheed/robot-dog/build/robot_description

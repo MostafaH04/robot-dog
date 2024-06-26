@@ -1,0 +1,8 @@
+source;share/Robot_Description/hook/cmake_prefix_path.ps1
+source;share/Robot_Description/hook/cmake_prefix_path.dsv
+source;share/Robot_Description/hook/cmake_prefix_path.sh
+source;share/Robot_Description/local_setup.bash
+source;share/Robot_Description/local_setup.dsv
+source;share/Robot_Description/local_setup.ps1
+source;share/Robot_Description/local_setup.sh
+source;share/Robot_Description/local_setup.zsh
