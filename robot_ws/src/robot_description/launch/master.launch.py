@@ -7,18 +7,31 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    gazebo_launch = PathJoinSubstitution(
+    gazebo_launch_file = PathJoinSubstitution(
         [FindPackageShare('robot_description'), 'launch', 'gazebo.launch.py']
     )
-    rviz_launch = PathJoinSubstitution(
+    gazebo_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(gazebo_launch_file)
+    )
+
+    rviz_launch_file = PathJoinSubstitution(
         [FindPackageShare('robot_description'), 'launch', 'view_robot.launch.py']
     )
 
+    rviz_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(rviz_launch_file)
+    )
+
+    controller_launch_file = PathJoinSubstitution(
+        [FindPackageShare('robot_description'), 'launch', 'controller.launch.py']
+    )
+
+    controller_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(controller_launch_file)
+    )
+
     return LaunchDescription([
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(gazebo_launch)
-        ),
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(rviz_launch)
-        ),
+        rviz_launch,
+        gazebo_launch,
+        controller_launch
     ])

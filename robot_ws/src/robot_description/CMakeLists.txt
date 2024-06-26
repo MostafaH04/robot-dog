@@ -15,7 +15,7 @@ find_package(xacro REQUIRED)
 find_package(gazebo_ros REQUIRED)
 find_package(robot_state_publisher REQUIRED)
 
-install(DIRECTORY meshes urdf launch
+install(DIRECTORY urdf launch rviz config
   DESTINATION share/${PROJECT_NAME}
 )
 

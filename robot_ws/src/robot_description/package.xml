@@ -10,6 +10,9 @@
   <depend>urdf</depend>
   <depend>xacro</depend>
   <depend>gazebo_ros</depend>
+  <depend>ros2_control</depend>
+  <depend>ros2_controllers</depend>
+  <depend>controller_manager</depend>
   <depend>robot_state_publisher</depend>
   <export>
     <build_type>ament_cmake</build_type>

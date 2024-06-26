@@ -8,43 +8,34 @@ from launch.substitutions import PathJoinSubstitution, Command, FindExecutable
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    robot_description_content = Command(
+    gazebo_params_file = str(PathJoinSubstitution(
         [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            PathJoinSubstitution(
-                [
-                    FindPackageShare("robot_description"),
-                    "urdf",
-                    "assem.xacro",
-                ]
-            ),
+            FindPackageShare("robot_description"),
+            "config",
+            "gazebo_params.yaml",
         ]
+    ))
+
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [PathJoinSubstitution(
+                [FindPackageShare('gazebo_ros'), 'launch', 'gazebo.launch.py']
+            )]
+        ),
+
+        launch_arguments={
+            'extra_gazebo_args':'--ros-args --params-file ' + gazebo_params_file
+        }.items()
     )
-    robot_description = {"robot_description": robot_description_content}
+
+    spawn_entity = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=['-topic', 'robot_description', '-entity', 'Quadruped','-x','0','-y','0','-z','1'],
+        output='screen'
+    )
 
     return LaunchDescription([
-      
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([PathJoinSubstitution(
-                [FindPackageShare('gazebo_ros'), 'launch', 'gazebo.launch.py']
-                )]), launch_arguments={'pause': 'true'}.items()
-        ),
-     
-        Node(
-            package='robot_state_publisher',
-            executable='robot_state_publisher',
-            name='robot_state_publisher',
-            output='screen',
-            parameters=[robot_description]
-        ),
-
-        Node(
-            package='gazebo_ros',
-            executable='spawn_entity.py',
-            arguments=['-topic', 'robot_description', '-entity', 'my_robot','-x','0','-y','0','-z','1'],
-            output='screen'
-        ),
+        gazebo,
+        spawn_entity
     ]) 
-
-    #question, so gazebo_ros needs to have robot_state published to it as well as rviz
