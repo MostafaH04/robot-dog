@@ -4,7 +4,7 @@ controller_manager:
     use_sim_time: true
 
     joint_trajectory_controller:
-      type: position_controllers/JointGroupPositionController
+      type: effort_controllers/JointGroupEffortController
     
     joint_broad:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -24,5 +24,18 @@ joint_trajectory_controller:
       - Revolute_48
       - Revolute_35
       - Revolute_45
+     gains:
+        Revolute_1: {p: 100, i: 0.1, d: 10}
+        Revolute_3: {p: 100, i: 0.1, d: 10}
+        Revolute_4: {p: 100, i: 0.1, d: 10}
+        Revolute_5: {p: 100, i: 0.1, d: 10}
+        Revolute_20: {p: 100, i: 0.1, d: 10}
+        Revolute_23: {p: 100, i: 0.1, d: 10}
+        Revolute_25: {p: 100, i: 0.1, d: 10}
+        Revolute_40: {p: 100, i: 0.1, d: 10}
+        Revolute_31: {p: 100, i: 0.1, d: 10}
+        Revolute_48: {p: 100, i: 0.1, d: 10}
+        Revolute_35: {p: 100, i: 0.1, d: 10}
+        Revolute_45: {p: 100, i: 0.1, d: 10}
 
 
