@@ -19,7 +19,7 @@ class Joint_Controller(Node):
     
     for i in range(12):
       msg.name.append(str(i))
-      msg.position.append(20)
+      msg.position.append(0)
     
     self.pub.publish(msg)
 

@@ -55,8 +55,8 @@ class Quad_Sim(Node):
       
 
   def sim_init(self):
-    # Start sim GUI
-    self.client = p.connect(p.GUI)
+    # Start sim (headless)
+    self.client = p.connect(p.DIRECT)
 
     # Set Gravity
     p.setGravity(0,0,-9.81, physicsClientId=self.client)
