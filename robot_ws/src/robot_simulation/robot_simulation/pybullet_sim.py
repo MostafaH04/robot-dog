@@ -1,6 +1,9 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState 
+from geometry_msgs.msg import TransformStamped
+
+from tf2_ros import TransformBroadcaster
 
 import pybullet as p
 import pybullet_data
@@ -9,23 +12,27 @@ import numpy as np
 from math import pi
 from scipy.spatial.transform import Rotation
 
-def quad_2_mat(q):
-    rot = Rotation.from_quat(q)
-    rot_mat = rot.as_matrix()
-    
-    return rot_mat
+def quat_2_mat(q):
+  rot = Rotation.from_quat(q)
+  rot_mat = rot.as_matrix()
+  
+  return rot_mat
 
 def eular_2_quat(eular):
-    rot = Rotation.from_euler("xyz", eular)
-    quat = rot.as_quat()
+  rot = Rotation.from_euler("xyz", eular)
+  quat = rot.as_quat()
 
-    return quat
+  return quat
 
 def eular_2_mat(eular):
-    rot = Rotation.from_euler("xyz", eular)
-    rot_mat = rot.as_matrix()
+  rot = Rotation.from_euler("xyz", eular)
+  rot_mat = rot.as_matrix()
 
-    return rot_mat
+  return rot_mat
+
+def quat_rot(q, vec):
+  rot = Rotation.from_quat(q)
+  return rot.apply(np.array(vec))
  
 class Quad_Sim(Node):
   def __init__(self):
@@ -36,6 +43,15 @@ class Quad_Sim(Node):
     self.time_step = 0.01
     self.sim_init()
     self.timer = self.create_timer(self.time_step, self.run_sim)
+    self.tf_broadcaster = TransformBroadcaster(self)
+
+    self.cmd_sub = self.create_subscription(
+       JointState,
+       "/cmd_jnts",
+       self.joint_callback,
+       10
+    )
+    self.cmd_sub # prevents unused variable warning
       
 
   def sim_init(self):
@@ -70,20 +86,37 @@ class Quad_Sim(Node):
     # TODO: create a topic for joint control commands
     # Sliders for temporary control
     self.num_joints = p.getNumJoints(self.quad)
-    self.angles = []
-    for i in range(self.num_joints):
-        self.angles.append(p.addUserDebugParameter(f"Angle {i}", -1.57,1.57, self.client))
+    self.angles = [0,0,0,0,0,0,0,0,0,0,0,0]
 
   def run_sim(self):
     # Get updated position and orientation of the quad
-    position,orinetation = p.getBasePositionAndOrientation(self.quad)
+    position, orinetation = p.getBasePositionAndOrientation(self.quad)
+    
+    inertial_offset = [-0.008382264142625067,-1.4798434925308436e-05,0.030113658418836745]
+    pos_offset = quat_rot(np.array(orinetation), inertial_offset)
+    pos = np.array(position) - pos_offset
+
+    t = TransformStamped()
+
+    t.header.stamp = self.get_clock().now().to_msg()
+    t.header.frame_id = "world"
+    t.child_frame_id = "base_link"
+    t.transform.translation.x = pos[0]
+    t.transform.translation.y = pos[1]
+    t.transform.translation.z = pos[2]
+    t.transform.rotation.x = orinetation[0]
+    t.transform.rotation.y = orinetation[1]
+    t.transform.rotation.z = orinetation[2]
+    t.transform.rotation.w = orinetation[3]
+
+    self.tf_broadcaster.sendTransform(t)
 
     # Initialize joint state message to publish
     msg = JointState()
 
     for i in range(self.num_joints):
         # Update teh commanded joint angles from the sliders for temporary control
-        angle = p.readUserDebugParameter(self.angles[i])
+        angle = self.angles[i]
         p.setJointMotorControl2(self.quad, i, p.POSITION_CONTROL, targetPosition = angle)
 
         # Update current joint's state to be sent as part 
@@ -99,7 +132,7 @@ class Quad_Sim(Node):
     self.pub.publish(msg)
 
     # Get Quad Rotation Matrix
-    rotMat = quad_2_mat(orinetation) @ self.startRot_mat
+    rotMat = quat_2_mat(orinetation) @ self.startRot_mat
     position = list(position)
 
     # Set up axes for the camera to be the quad reference
@@ -129,8 +162,12 @@ class Quad_Sim(Node):
 
     # Step forward in the bullet physics simulation
     p.stepSimulation()
+
+  def joint_callback(self, msg):
+    for i in range(len(msg.name)):
+      jointNum = int(msg.name[i])
+      self.angles[jointNum] = msg.position[jointNum] * np.pi/180
     
-  
 def main(args=None):
   
     # Initialize the rclpy library
