@@ -1,0 +1,403 @@
+<?xml version="1.0" ?>
+<robot name="Quadruped" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+  
+<link name="base_link">
+  <inertial>
+    <origin xyz="-0.008382264142625067 -1.4798434925308436e-05 0.030113658418836745" rpy="0 0 0"/>
+    <mass value="10.123728045116188"/>
+    <inertia ixx="0.03254" iyy="0.280159" izz="0.3037" ixy="-3.1e-05" iyz="-1e-06" ixz="0.001839"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Right_Front_Leg_Mount_v1_1">
+  <inertial>
+    <origin xyz="0.03322621293445238 0.004607470996659868 0.011279980581351271" rpy="0 0 0"/>
+    <mass value="0.791396210786452"/>
+    <inertia ixx="0.000288" iyy="0.000453" izz="0.000409" ixy="1.4e-05" iyz="-6e-06" ixz="-6e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.1184 -0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Right_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="-0.1184 -0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Right_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Right_Back_Leg_Mount_v1_1">
+  <inertial>
+    <origin xyz="-0.03453360704195005 0.004633032360894143 0.011213744397462203" rpy="0 0 0"/>
+    <mass value="0.7913962107864516"/>
+    <inertia ixx="0.000288" iyy="0.000458" izz="0.000413" ixy="1.2e-05" iyz="-6e-06" ixz="8e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.1184 -0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Right_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="0.1184 -0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Right_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Left_Back_Leg_Mount_v1_1">
+  <inertial>
+    <origin xyz="-0.03453360706419445 -0.004633032653077587 0.011213744349241432" rpy="0 0 0"/>
+    <mass value="0.7913962228945977"/>
+    <inertia ixx="0.000288" iyy="0.000458" izz="0.000413" ixy="-1.2e-05" iyz="6e-06" ixz="8e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.1184 0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Left_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="0.1184 0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Left_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Left_Front_Leg_Mount_v1_1">
+  <inertial>
+    <origin xyz="0.033226212974938135 -0.004607471288838219 0.011279980533589536" rpy="0 0 0"/>
+    <mass value="0.791396222894598"/>
+    <inertia ixx="0.000288" iyy="0.000453" izz="0.000409" ixy="-1.4e-05" iyz="6e-06" ixz="-6e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.1184 0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Left_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="-0.1184 0.076 -0.0196" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Left_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Left_Link_v4_1">
+  <inertial>
+    <origin xyz="0.005235109006971023 -0.0028149971111056937 -0.05611727896629981" rpy="0 0 0"/>
+    <mass value="0.12677989413662727"/>
+    <inertia ixx="0.000135" iyy="0.000137" izz="6e-06" ixy="-0.0" iyz="-1e-06" ixz="1e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.165037 -0.115355 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Left_Link_v4_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="0.165037 -0.115355 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Left_Link_v4_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Foot_v3_1">
+  <inertial>
+    <origin xyz="0.0031275273896734235 -0.005052218921323931 -0.06122868364490067" rpy="0 0 0"/>
+    <mass value="0.31314451205821014"/>
+    <inertia ixx="0.000443" iyy="0.000438" izz="2.5e-05" ixy="-0.0" iyz="0.0" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.162704 -0.115355 0.088726" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="0.162704 -0.115355 0.088726" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<gazebo reference="Foot_v3_1">
+  <mu1 value="1"/>
+  <mu2 value="1"/>
+  <minDepth>0.0002</minDepth>
+  <kp  value="1000000.0"/>
+  <kd  value="100.0"/>
+</gazebo>
+
+<link name="Left_Link_v4_2">
+  <inertial>
+    <origin xyz="0.005235457637564361 -0.0028148450377657175 -0.056117038923210835" rpy="0 0 0"/>
+    <mass value="0.12677989413662727"/>
+    <inertia ixx="0.000135" iyy="0.000137" izz="6e-06" ixy="-0.0" iyz="-1e-06" ixz="1e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.143797 -0.115329 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Left_Link_v4_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="-0.143797 -0.115329 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Left_Link_v4_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Component1_Mirror___4__1">
+  <inertial>
+    <origin xyz="0.005597894046904056 0.002814845037766786 -0.05642367984565573" rpy="0 0 0"/>
+    <mass value="0.1267798941366273"/>
+    <inertia ixx="0.000135" iyy="0.000137" izz="6e-06" ixy="0.0" iyz="1e-06" ixz="1e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.143797 0.115329 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Component1_Mirror___4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="-0.143797 0.115329 -0.017258" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Component1_Mirror___4__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Component1_Mirror___4__2">
+  <inertial>
+    <origin xyz="0.005235109006970551 0.0028149971111054717 -0.05611727896629981" rpy="0 0 0"/>
+    <mass value="0.1267798941366273"/>
+    <inertia ixx="0.000135" iyy="0.000137" izz="6e-06" ixy="0.0" iyz="1e-06" ixz="1e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.165037 0.115355 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Component1_Mirror___4__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="0.165037 0.115355 -0.017162" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Component1_Mirror___4__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Foot_v3_2">
+  <inertial>
+    <origin xyz="0.0031278760202663736 0.004997933152016104 -0.061228443601811774" rpy="0 0 0"/>
+    <mass value="0.31314451205821014"/>
+    <inertia ixx="0.000443" iyy="0.000438" izz="2.5e-05" ixy="-0.0" iyz="0.0" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.14613 -0.106349 0.08863" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Foot_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="-0.14613 -0.106349 0.08863" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Foot_v3_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+<gazebo reference="Foot_v3_2">
+  <mu1 value="1"/>
+  <mu2 value="1"/>
+  <minDepth>0.0002</minDepth>
+  <kp  value="1000000.0"/>
+  <kd  value="100.0"/>
+</gazebo>
+
+
+<link name="Component1_Mirror___5__2">
+  <inertial>
+    <origin xyz="0.0031275273896726186 0.005052218921322613 -0.061228683644901" rpy="0 0 0"/>
+    <mass value="0.31314451205821014"/>
+    <inertia ixx="0.000443" iyy="0.000438" izz="2.5e-05" ixy="0.0" iyz="-0.0" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.162704 0.115355 0.088726" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Component1_Mirror___5__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="0.162704 0.115355 0.088726" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Component1_Mirror___5__2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+<gazebo reference="Component1_Mirror___5__2">
+  <mu1 value="1"/>
+  <mu2 value="1"/>
+  <minDepth>0.0002</minDepth>
+  <kp  value="1000000.0"/>
+  <kd  value="100.0"/>
+</gazebo>
+
+<link name="Component1_Mirror___5__1">
+  <inertial>
+    <origin xyz="0.003128312429606095 0.005052066847983178 -0.06122808452425672" rpy="0 0 0"/>
+    <mass value="0.31314451205821014"/>
+    <inertia ixx="0.000443" iyy="0.000438" izz="2.5e-05" ixy="0.0" iyz="-0.0" ixz="1e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.146492 0.115329 0.088937" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Component1_Mirror___5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    
+  </visual>
+  <collision>
+    <origin xyz="-0.146492 0.115329 0.088937" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="./meshes/Component1_Mirror___5__1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+<gazebo reference="Component1_Mirror___5__1">
+  <mu1 value="1"/>
+  <mu2 value="1"/>
+  <minDepth>0.0002</minDepth>
+  <kp  value="1000000.0"/>
+  <kd  value="100.0"/>
+</gazebo>
+
+<joint name="Revolute_1" type="revolute">
+  <origin xyz="0.1184 0.076 0.0196" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Right_Front_Leg_Mount_v1_1"/>
+  <axis xyz="1.0 0.0 -0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_3" type="revolute">
+  <origin xyz="-0.1184 0.076 0.0196" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Right_Back_Leg_Mount_v1_1"/>
+  <axis xyz="-1.0 -0.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_4" type="revolute">
+  <origin xyz="-0.1184 -0.076 0.0196" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Left_Back_Leg_Mount_v1_1"/>
+  <axis xyz="-1.0 -0.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_5" type="revolute">
+  <origin xyz="0.1184 -0.076 0.0196" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Left_Front_Leg_Mount_v1_1"/>
+  <axis xyz="1.0 0.0 -0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_20" type="revolute">
+  <origin xyz="-0.046637 0.039355 -0.002438" rpy="0 0 0"/>
+  <parent link="Right_Back_Leg_Mount_v1_1"/>
+  <child link="Left_Link_v4_1"/>
+  <axis xyz="-0.0 -1.0 -0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_23" type="revolute">
+  <origin xyz="0.002333 0.0 -0.105888" rpy="0 0 0"/>
+  <parent link="Left_Link_v4_1"/>
+  <child link="Foot_v3_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_25" type="revolute">
+  <origin xyz="0.025397 0.039329 -0.002342" rpy="0 0 0"/>
+  <parent link="Right_Front_Leg_Mount_v1_1"/>
+  <child link="Left_Link_v4_2"/>
+  <axis xyz="-0.0 -1.0 -0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_31" type="revolute">
+  <origin xyz="0.025397 -0.039329 -0.002342" rpy="0 0 0"/>
+  <parent link="Left_Front_Leg_Mount_v1_1"/>
+  <child link="Component1_Mirror___4__1"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_35" type="revolute">
+  <origin xyz="-0.046637 -0.039355 -0.002438" rpy="0 0 0"/>
+  <parent link="Left_Back_Leg_Mount_v1_1"/>
+  <child link="Component1_Mirror___4__2"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_40" type="revolute">
+  <origin xyz="0.002333 -0.00898 -0.105888" rpy="0 0 0"/>
+  <parent link="Left_Link_v4_2"/>
+  <child link="Foot_v3_2"/>
+  <axis xyz="0.0 1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_45" type="revolute">
+  <origin xyz="0.002333 0.0 -0.105888" rpy="0 0 0"/>
+  <parent link="Component1_Mirror___4__2"/>
+  <child link="Component1_Mirror___5__2"/>
+  <axis xyz="0.0 -1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+<joint name="Revolute_48" type="revolute">
+  <origin xyz="0.002695 0.0 -0.106195" rpy="0 0 0"/>
+  <parent link="Component1_Mirror___4__1"/>
+  <child link="Component1_Mirror___5__1"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+</joint>
+
+</robot>
