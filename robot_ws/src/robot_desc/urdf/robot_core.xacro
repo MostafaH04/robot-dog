@@ -10,14 +10,14 @@
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -31,14 +31,14 @@
   <visual>
     <origin xyz="-0.1184 -0.076 -0.0196" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Right_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Right_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="-0.1184 -0.076 -0.0196" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Right_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Right_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -52,14 +52,14 @@
   <visual>
     <origin xyz="0.1184 -0.076 -0.0196" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Right_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Right_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="0.1184 -0.076 -0.0196" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Right_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Right_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -73,14 +73,14 @@
   <visual>
     <origin xyz="0.1184 0.076 -0.0196" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Left_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Left_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="0.1184 0.076 -0.0196" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Left_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Left_Back_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -94,14 +94,14 @@
   <visual>
     <origin xyz="-0.1184 0.076 -0.0196" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Left_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Left_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="-0.1184 0.076 -0.0196" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Left_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Left_Front_Leg_Mount_v1_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -115,14 +115,14 @@
   <visual>
     <origin xyz="0.165037 -0.115355 -0.017162" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Left_Link_v4_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Left_Link_v4_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="0.165037 -0.115355 -0.017162" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Left_Link_v4_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Left_Link_v4_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -136,14 +136,14 @@
   <visual>
     <origin xyz="0.162704 -0.115355 0.088726" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="0.162704 -0.115355 0.088726" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Foot_v3_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -165,14 +165,14 @@
   <visual>
     <origin xyz="-0.143797 -0.115329 -0.017258" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Left_Link_v4_2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Left_Link_v4_2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="-0.143797 -0.115329 -0.017258" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Left_Link_v4_2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Left_Link_v4_2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -186,14 +186,14 @@
   <visual>
     <origin xyz="-0.143797 0.115329 -0.017258" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Component1_Mirror___4__1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Component1_Mirror___4__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="-0.143797 0.115329 -0.017258" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Component1_Mirror___4__1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Component1_Mirror___4__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -207,14 +207,14 @@
   <visual>
     <origin xyz="0.165037 0.115355 -0.017162" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Component1_Mirror___4__2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Component1_Mirror___4__2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="0.165037 0.115355 -0.017162" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Component1_Mirror___4__2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Component1_Mirror___4__2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -228,14 +228,14 @@
   <visual>
     <origin xyz="-0.14613 -0.106349 0.08863" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Foot_v3_2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Foot_v3_2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="-0.14613 -0.106349 0.08863" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Foot_v3_2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Foot_v3_2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -257,14 +257,14 @@
   <visual>
     <origin xyz="0.162704 0.115355 0.088726" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Component1_Mirror___5__2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Component1_Mirror___5__2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="0.162704 0.115355 0.088726" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Component1_Mirror___5__2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Component1_Mirror___5__2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -285,14 +285,14 @@
   <visual>
     <origin xyz="-0.146492 0.115329 0.088937" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Component1_Mirror___5__1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Component1_Mirror___5__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     
   </visual>
   <collision>
     <origin xyz="-0.146492 0.115329 0.088937" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="file://$(find robot_desc)/urdf/meshes/Component1_Mirror___5__1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://robot_desc/urdf/meshes/Component1_Mirror___5__1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>

@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription
+from launch.substitutions import PathJoinSubstitution
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch_xml.launch_description_sources import XMLLaunchDescriptionSource
 
 def generate_launch_description():
 
@@ -39,7 +41,15 @@ def generate_launch_description():
         arguments=['-d', PathJoinSubstitution([FindPackageShare("robot_desc"), "rviz", "view_robot.rviz"])]
     )
     
+    foxglove_launch_file = PathJoinSubstitution(
+        [FindPackageShare('foxglove_bridge'), 'launch', 'foxglove_bridge_launch.xml']
+    )
+
+    foxglove_launch = IncludeLaunchDescription(
+        XMLLaunchDescriptionSource(foxglove_launch_file)
+    )
+
     return LaunchDescription([
         robot_state_pub,
-        rviz_launch
+        foxglove_launch
     ])

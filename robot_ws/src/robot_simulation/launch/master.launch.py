@@ -7,7 +7,7 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    rviz_launch_file = PathJoinSubstitution(
+    visualization_launch_file = PathJoinSubstitution(
         [FindPackageShare('robot_desc'), 'launch', 'view_robot.launch.py']
     )
 
@@ -19,8 +19,8 @@ def generate_launch_description():
         [FindPackageShare('robot_controller'), 'launch', 'quad_controller.launch.py']
     )
 
-    rviz_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(rviz_launch_file)
+    visualization_launch_file = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(visualization_launch_file)
     )
 
     sim_launch = IncludeLaunchDescription(
@@ -32,7 +32,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        rviz_launch,
+        visualization_launch_file,
         sim_launch,
         controller_launch
     ])

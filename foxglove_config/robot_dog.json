@@ -1,0 +1,190 @@
+{
+  "configById": {
+    "3D!18i6zy7": {
+      "layers": {
+        "845139cb-26bc-40b3-8161-8ab60af4baf5": {
+          "visible": true,
+          "frameLocked": true,
+          "label": "Grid",
+          "instanceId": "845139cb-26bc-40b3-8161-8ab60af4baf5",
+          "layerId": "foxglove.Grid",
+          "size": 10,
+          "divisions": 10,
+          "lineWidth": 1,
+          "color": "#248eff",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "order": 1
+        }
+      },
+      "cameraState": {
+        "perspective": true,
+        "distance": 5.270401889309232,
+        "phi": 70.87803447264338,
+        "thetaOffset": 68.29853862212934,
+        "targetOffset": [
+          2.2470117545051718,
+          1.2419100620418175,
+          6.230957661964226e-17
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000
+      },
+      "followMode": "follow-pose",
+      "followTf": "world",
+      "scene": {
+        "transforms": {
+          "editable": false,
+          "axisScale": 0.5,
+          "showLabel": true
+        },
+        "meshUpAxis": "z_up"
+      },
+      "transforms": {
+        "frame:world": {
+          "visible": false
+        },
+        "frame:base_link": {
+          "visible": false
+        },
+        "frame:Left_Back_Leg_Mount_v1_1": {
+          "visible": false
+        },
+        "frame:Component1_Mirror___4__2": {
+          "visible": false
+        },
+        "frame:Component1_Mirror___5__2": {
+          "visible": false
+        },
+        "frame:Left_Front_Leg_Mount_v1_1": {
+          "visible": false
+        },
+        "frame:Component1_Mirror___4__1": {
+          "visible": false
+        },
+        "frame:Component1_Mirror___5__1": {
+          "visible": false
+        },
+        "frame:Right_Back_Leg_Mount_v1_1": {
+          "visible": false
+        },
+        "frame:Left_Link_v4_1": {
+          "visible": false
+        },
+        "frame:Foot_v3_1": {
+          "visible": false
+        },
+        "frame:Right_Front_Leg_Mount_v1_1": {
+          "visible": false
+        },
+        "frame:Left_Link_v4_2": {
+          "visible": false
+        },
+        "frame:Foot_v3_2": {
+          "visible": false
+        }
+      },
+      "topics": {
+        "/robot_description": {
+          "visible": true,
+          "displayMode": "auto"
+        }
+      },
+      "publish": {
+        "type": "point",
+        "poseTopic": "/move_base_simple/goal",
+        "pointTopic": "/clicked_point",
+        "poseEstimateTopic": "/initialpose",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      },
+      "imageMode": {}
+    },
+    "Image!3mnp456": {
+      "cameraState": {
+        "distance": 20,
+        "perspective": true,
+        "phi": 60,
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOffset": [
+          0,
+          0,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "thetaOffset": 45,
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000
+      },
+      "followMode": "follow-pose",
+      "scene": {},
+      "transforms": {},
+      "topics": {},
+      "layers": {},
+      "publish": {
+        "type": "point",
+        "poseTopic": "/move_base_simple/goal",
+        "pointTopic": "/clicked_point",
+        "poseEstimateTopic": "/initialpose",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      },
+      "imageMode": {}
+    },
+    "RawMessages!os6rgs": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": ""
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": {
+    "first": "3D!18i6zy7",
+    "second": {
+      "first": "Image!3mnp456",
+      "second": "RawMessages!os6rgs",
+      "direction": "column",
+      "splitPercentage": 30
+    },
+    "direction": "row",
+    "splitPercentage": 70
+  }
+}
