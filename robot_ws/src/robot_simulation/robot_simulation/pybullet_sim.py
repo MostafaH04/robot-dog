@@ -166,7 +166,10 @@ class Quad_Sim(Node):
   def joint_callback(self, msg):
     for i in range(len(msg.name)):
       jointNum = int(msg.name[i])
-      self.angles[jointNum] = msg.position[jointNum] * np.pi/180
+      if jointNum == 0 or jointNum == 1 or jointNum == 4 or jointNum == 6 or jointNum == 8:
+        self.angles[jointNum] = -msg.position[jointNum]
+      else:
+        self.angles[jointNum] = msg.position[jointNum]
     
 def main(args=None):
   
