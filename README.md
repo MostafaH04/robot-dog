@@ -1,20 +1,52 @@
 # Robot Dog
-This repo contains the code base for controlling a robot dog intended to eventually be a fully physical custom-built robot for autonomous indoor navigation. 
-Right now most development is under robot_ws which involves the development of the `ROS2` for the operation of the robot dog. 
 
-While the physical robot dog body exists, we are currently in the progress of working on a virtual copy of the dog to test control algorithms and methodologies
-before deploying on the real robot. This is also going alongside creating a custom controller board intended to house a power STM32 MCU, an IMU and more!
+Welcome to the Robot Dog project! This repository contains the codebase for controlling a custom-built robot dog designed for autonomous indoor navigation. Our primary development focus is under `robot_ws`, which involves creating ROS2 packages for operating the robot dog.
 
-## Running Robot Simulation locally
-Detailed instructions coming soon!
+While the physical robot dog exists, we are currently developing a virtual model to test control algorithms and methodologies before deploying them on the real robot. In parallel, we're designing a custom controller board featuring a powerful STM32 MCU, an IMU, and more.
+
+## Table of Contents
+
+- [Running the Robot Simulation Locally](#running-the-robot-simulation-locally)
+- [Development Progress](#development-progress)
+  - [Software](#software)
+  - [Hardware](#hardware)
+  - [Mechanical](#mechanical)
+- [Contributing](#contributing)
+- [Repo Maintainers](#repo-maintainers)
+
+## Running the Robot Simulation Locally
+
+*Detailed instructions coming soon!*
 
 ## Development Progress
-Detailed Progress overview coming soon!
+
 ### Software
+
+*Contributors: Please update this section with your latest software development updates.*
+
 ### Hardware
 
-____
-#### Repo Maintainers:
-Mostafa Hussein: [Linkedin](https://www.linkedin.com/in/mostafa-hussein-04/) </br>
-Vinesh Vivekanand: [Linkedin](https://www.linkedin.com/in/vinesh-vivekanand/) </br>
-Armaan Rasheed: [Linkedin](https://www.linkedin.com/in/armaan-rasheed-530229a0/)
+*Contributors: Please update this section with your latest hardware development updates.*
+
+### Mechanical
+
+*Contributors: Please update this section with your latest mechanical development updates.*
+
+## Contributing
+
+We welcome contributions from all team members. To add updates to the software, hardware, or mechanical sections, please follow these steps:
+
+1. **Fork the repository** and create a new branch for your updates.
+2. **Update the relevant section** in the README under [Development Progress](#development-progress).
+3. **Commit your changes** with a descriptive message.
+4. **Push your branch** to your forked repository.
+5. **Create a pull request** to merge your updates into the main repository.
+
+Please ensure your updates are clear and concise, and include any relevant details that would be helpful for the team.
+
+## Repo Maintainers
+
+- **Mostafa Hussein**: [LinkedIn](https://www.linkedin.com/in/mostafa-hussein-04/)
+- **Vinesh Vivekanand**: [LinkedIn](https://www.linkedin.com/in/vinesh-vivekanand/)
+- **Armaan Rasheed**: [LinkedIn](https://www.linkedin.com/in/armaan-rasheed-530229a0/)
+
