@@ -22,16 +22,33 @@ While the physical robot dog exists, we are currently developing a virtual model
 
 ### Software
 
-*Contributors: Please update this section with your latest software development updates.*
+#### Done
+
+- Completed task example
+
+#### To-Do
+
+- [ ] To-do task example
 
 ### Hardware
 
-*Contributors: Please update this section with your latest hardware development updates.*
+#### Done
+
+- Completed task example
+
+#### To-Do
+
+- [ ] To-do task example
 
 ### Mechanical
 
-*Contributors: Please update this section with your latest mechanical development updates.*
+#### Done
 
+- Completed task example
+
+#### To-Do
+
+- [ ] To-do task example
 ## Contributing
 
 We welcome contributions from all team members. To add updates to the software, hardware, or mechanical sections, please follow these steps:
