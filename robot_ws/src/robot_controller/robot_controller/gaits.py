@@ -1,12 +1,15 @@
 import numpy as np
 from abc import ABC, abstractmethod
-import time()
+import time
 
 class GAIT:
-  def __init__(self, controller):
+  def __init__(self):
     self.time_start = time.time()
-    self.controller = controller
+    self.started = False
 
   @abstractmethod
   def step(self, heading: float, speed: float):
     pass
+
+  def reset(self):
+    self.started = False
