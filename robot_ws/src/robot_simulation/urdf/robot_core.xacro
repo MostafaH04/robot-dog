@@ -309,7 +309,7 @@
   <parent link="base_link"/>
   <child link="Right_Front_Leg_Mount_v1_1"/>
   <axis xyz="1.0 0.0 -0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_3" type="revolute">
@@ -317,7 +317,7 @@
   <parent link="base_link"/>
   <child link="Right_Back_Leg_Mount_v1_1"/>
   <axis xyz="-1.0 -0.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_4" type="revolute">
@@ -325,7 +325,7 @@
   <parent link="base_link"/>
   <child link="Left_Back_Leg_Mount_v1_1"/>
   <axis xyz="-1.0 -0.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_5" type="revolute">
@@ -333,7 +333,7 @@
   <parent link="base_link"/>
   <child link="Left_Front_Leg_Mount_v1_1"/>
   <axis xyz="1.0 0.0 -0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_20" type="revolute">
@@ -341,7 +341,7 @@
   <parent link="Right_Back_Leg_Mount_v1_1"/>
   <child link="Left_Link_v4_1"/>
   <axis xyz="-0.0 -1.0 -0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_23" type="revolute">
@@ -349,7 +349,7 @@
   <parent link="Left_Link_v4_1"/>
   <child link="Foot_v3_1"/>
   <axis xyz="0.0 1.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_25" type="revolute">
@@ -357,7 +357,7 @@
   <parent link="Right_Front_Leg_Mount_v1_1"/>
   <child link="Left_Link_v4_2"/>
   <axis xyz="-0.0 -1.0 -0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_31" type="revolute">
@@ -365,7 +365,7 @@
   <parent link="Left_Front_Leg_Mount_v1_1"/>
   <child link="Component1_Mirror___4__1"/>
   <axis xyz="-0.0 1.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_35" type="revolute">
@@ -373,7 +373,7 @@
   <parent link="Left_Back_Leg_Mount_v1_1"/>
   <child link="Component1_Mirror___4__2"/>
   <axis xyz="-0.0 1.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_40" type="revolute">
@@ -381,7 +381,7 @@
   <parent link="Left_Link_v4_2"/>
   <child link="Foot_v3_2"/>
   <axis xyz="0.0 1.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_45" type="revolute">
@@ -389,7 +389,7 @@
   <parent link="Component1_Mirror___4__2"/>
   <child link="Component1_Mirror___5__2"/>
   <axis xyz="0.0 -1.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 <joint name="Revolute_48" type="revolute">
@@ -397,7 +397,7 @@
   <parent link="Component1_Mirror___4__1"/>
   <child link="Component1_Mirror___5__1"/>
   <axis xyz="-0.0 1.0 0.0"/>
-  <limit upper="1.570796" lower="-1.570796" effort="10000" velocity="100"/>
+  <limit upper="3.14159" lower="-3.14159" effort="10000" velocity="100"/>
 </joint>
 
 </robot>
