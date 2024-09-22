@@ -44,6 +44,8 @@ class Quad_Sim(Node):
     self.sim_init()
     self.timer = self.create_timer(self.time_step, self.run_sim)
     self.tf_broadcaster = TransformBroadcaster(self)
+    
+    self.angles = [0,0,0,0,0,0,0,0,0,0,0,0]
 
     self.cmd_sub = self.create_subscription(
        JointState,
@@ -86,7 +88,6 @@ class Quad_Sim(Node):
     # TODO: create a topic for joint control commands
     # Sliders for temporary control
     self.num_joints = p.getNumJoints(self.quad)
-    self.angles = [0,0,0,0,0,0,0,0,0,0,0,0]
 
   def run_sim(self):
     # Get updated position and orientation of the quad
@@ -166,7 +167,7 @@ class Quad_Sim(Node):
   def joint_callback(self, msg):
     for i in range(len(msg.name)):
       jointNum = int(msg.name[i])
-      if jointNum == 0 or jointNum == 1 or jointNum == 4 or jointNum == 6 or jointNum == 8:
+      if jointNum == 1 or jointNum == 3 or jointNum == 4 or jointNum == 8 or jointNum == 9:
         self.angles[jointNum] = -msg.position[jointNum]
       else:
         self.angles[jointNum] = msg.position[jointNum]
