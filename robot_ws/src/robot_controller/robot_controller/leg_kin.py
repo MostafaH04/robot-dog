@@ -56,12 +56,15 @@ class LEG_KIN:
     relative_dist_sqr = relative_x ** 2 + relative_z ** 2
 
     f = self.c_len + self.d_len
+
+    phi_prime_num = f ** 2 - self.a_len ** 2 - relative_dist_sqr
+    phi_prime_den = -2 * self.a_len * relative_dist_sqr**(1/2)
+    phi_prime = np.arccos(phi_prime_num/ phi_prime_den)
     
     beta_numerator = relative_dist_sqr - self.a_len ** 2 - f ** 2
     beta_denominator = - 2 * self.a_len * f
-
     beta = np.arccos(beta_numerator / beta_denominator)
-    phi_prime = f * np.sin(beta) / (relative_dist_sqr ** (1/2))
+    
     phi = np.arctan2(relative_z, relative_x)
 
     if phi < 0:
@@ -69,7 +72,7 @@ class LEG_KIN:
 
     theta_1 = phi - np.pi - phi_prime
     
-    internal_len_sqr = self.a_len ** 2 + self.c_len ** 2 - 2 * self.a_len * self.c_len * beta_numerator / beta_denominator
+    internal_len_sqr = self.a_len ** 2 + self.c_len ** 2 - 2 * self.a_len * self.c_len * np.cos(beta)
     phi_1_prime_num = self.e_len ** 2 - internal_len_sqr - self.b_len ** 2
     phi_1_prime_den = - 2 * internal_len_sqr ** (1/2) * self.b_len
     phi_1_prime = np.arccos(phi_1_prime_num / phi_1_prime_den)
