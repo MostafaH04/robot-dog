@@ -1,7 +1,7 @@
 import rclpy 
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
-from robot_controller.leg_kin import LEG_KIN
+from robot_controller.leg_kin import LegKin
 import numpy as np
 import time
 
@@ -21,7 +21,7 @@ class Joint_Controller(Node):
 
     time.sleep(10)
     
-    self.leg_kin = LEG_KIN()
+    self.leg_kin = LegKin()
 
     # Initial configuration for each leg:
     init_x, init_y, init_z = (0.0, 0.038, 0.14)

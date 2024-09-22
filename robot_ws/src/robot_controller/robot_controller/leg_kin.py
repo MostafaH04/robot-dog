@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class LEG_KIN:
+class LegKin:
   # TODO: did this at midnight, something is wrong just cant find it
   # using it for now :/
   def __init__(self) -> None:
