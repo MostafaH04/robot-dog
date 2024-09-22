@@ -19,14 +19,14 @@ class Joint_Controller(Node):
        10
     )
 
-    time.sleep(5)
+    time.sleep(10)
     
     self.leg_kin = LEG_KIN()
 
-    init_msg = JointState()
-    init_msg.name = ['0','1','2','3','4','5','6','7','8','9','10','11']
-    init_msg.position = [0.,np.pi/9,-np.pi/9,0.,np.pi/9,-np.pi/9,0.,np.pi/9,-np.pi/9,0.,np.pi/9,-np.pi/9]
-    self.cmd_callback(init_msg)
+    # Initial configuration for each leg:
+    init_x, init_y, init_z = (0.0, 0.038, 0.14)
+    init_config = [[init_x, -init_y, -init_z],[init_x, -init_y, -init_z],[init_x, init_y, -init_z],[init_x, init_y, -init_z]]
+    self.cmd_config(init_config)
 
   def cmd_config(self, config: list):
     bad = False
