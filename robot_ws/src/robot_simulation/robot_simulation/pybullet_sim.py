@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import JointState 
+from sensor_msgs.msg import JointState, Imu
 from geometry_msgs.msg import TransformStamped
 
 from tf2_ros import TransformBroadcaster
@@ -39,13 +39,25 @@ class Quad_Sim(Node):
     super().__init__('quadruped_sim')
       
     # Create a publisher
-    self.pub = self.create_publisher(JointState, "/joint_states", 10)
+    self.joint_pub = self.create_publisher(JointState, "/joint_states", 10)
+    self.imu_pub = self.create_publisher(Imu, "/imu", 10)
     self.time_step = 0.01
     self.sim_init()
     self.timer = self.create_timer(self.time_step, self.run_sim)
     self.tf_broadcaster = TransformBroadcaster(self)
     
     self.angles = [0,0,0,0,0,0,0,0,0,0,0,0]
+    
+    self.vel_buffer = []
+    self.accel = [0.,0.,0.]
+    self.imu_msg = Imu()
+    
+    # TODO determine covariance matricies
+    self.imu_msg.linear_acceleration_covariance = [0.0025, 0.0, 0.0, 0.0, 0.0025, 0.0, 0.0, 0.0, 0.0025]
+    self.imu_msg.angular_velocity_covariance = [0.001, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.001]
+
+    self.accel_covar = np.array([0.0025, 0.0, 0.0, 0.0, 0.0025, 0.0, 0.0, 0.0, 0.0025]).reshape(3,3,order='F')
+    self.angular_vel_covar = np.array([0.001, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.001]).reshape(3,3,order='F')
 
     self.cmd_sub = self.create_subscription(
        JointState,
@@ -92,6 +104,30 @@ class Quad_Sim(Node):
   def run_sim(self):
     # Get updated position and orientation of the quad
     position, orinetation = p.getBasePositionAndOrientation(self.quad)
+    meas_velocity, meas_angular_velocity = p.getBaseVelocity(self.quad)
+    self.vel_buffer.append(meas_velocity)
+
+    if len(self.vel_buffer) >= 3:
+      v1 = np.array(self.vel_buffer[0])
+      v3 = np.array(self.vel_buffer[2])
+
+      accel_central_diff = (v3 - v1)/(2*self.time_step)
+
+      self.accel = accel_central_diff.tolist()
+
+      self.vel_buffer = self.vel_buffer[1:]
+      
+    angular_x_error, angular_y_error, angular_z_error = np.random.multivariate_normal([0,0,0], self.angular_vel_covar).T
+    self.imu_msg.angular_velocity.x = meas_angular_velocity[0] + angular_x_error
+    self.imu_msg.angular_velocity.y = meas_angular_velocity[1] + angular_y_error
+    self.imu_msg.angular_velocity.z = meas_angular_velocity[2] + angular_z_error
+
+    accel_x_error, accel_y_error, accel_z_error = np.random.multivariate_normal([0,0,0], self.accel_covar).T
+    self.imu_msg.linear_acceleration.x = self.accel[0] + accel_x_error
+    self.imu_msg.linear_acceleration.y = self.accel[1] + accel_y_error
+    self.imu_msg.linear_acceleration.z = self.accel[2] + accel_z_error
+
+    self.imu_pub.publish(self.imu_msg)
     
     inertial_offset = [-0.008382264142625067,-1.4798434925308436e-05,0.030113658418836745]
     pos_offset = quat_rot(np.array(orinetation), inertial_offset)
@@ -130,7 +166,7 @@ class Quad_Sim(Node):
         msg.effort.append(effort)
 
     msg.header.stamp = self.get_clock().now().to_msg()
-    self.pub.publish(msg)
+    self.joint_pub.publish(msg)
 
     # Get Quad Rotation Matrix
     rotMat = quat_2_mat(orinetation) @ self.startRot_mat
