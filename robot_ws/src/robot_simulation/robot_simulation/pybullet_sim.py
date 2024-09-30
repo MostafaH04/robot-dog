@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import JointState 
+from sensor_msgs.msg import JointState, Imu
 from geometry_msgs.msg import TransformStamped
 
 from tf2_ros import TransformBroadcaster
@@ -18,13 +18,13 @@ def quat_2_mat(q):
   
   return rot_mat
 
-def eular_2_quat(eular):
+def euler_2_quat(eular):
   rot = Rotation.from_euler("xyz", eular)
   quat = rot.as_quat()
 
   return quat
 
-def eular_2_mat(eular):
+def euler_2_mat(eular):
   rot = Rotation.from_euler("xyz", eular)
   rot_mat = rot.as_matrix()
 
@@ -33,15 +33,106 @@ def eular_2_mat(eular):
 def quat_rot(q, vec):
   rot = Rotation.from_quat(q)
   return rot.apply(np.array(vec))
- 
+
+class IMU(Node):
+  
+  def __init__(self, quad_sim_instance):
+    super().__init__('quadruped_imu')
+    self.quad = quad_sim_instance.quad
+    self.time_step = quad_sim_instance.time_step
+    
+    self.b_acc = np.array([0, 0, 0])  # Accelerometer bias
+    self.b_gyro = np.array([0, 0, 0])  # Gyroscope bias
+    
+    self.acc_noise_std = 0.02  
+    self.gyro_noise_std = 0.01  
+    
+    self.gravity = np.array([0, 0, -9.81])
+    
+    
+    
+  def get_prev_base_velocity(self):
+    # Update velocities from pybullet
+    self.linear_velocity, self.angular_velocity = p.getBaseVelocity(self.quad)
+    
+    if not hasattr(self, 'prev_linear_velocity') or not hasattr(self, 'prev_angular_velocity'):
+        self.prev_linear_velocity = np.array([0, 0, 0])
+        self.prev_angular_velocity = np.array([0, 0, 0])
+    
+    prev_linear_velocity = self.prev_linear_velocity
+    prev_angular_velocity = self.prev_angular_velocity
+    
+    self.prev_linear_velocity = self.linear_velocity
+    self.prev_angular_velocity = self.angular_velocity
+    
+    return prev_linear_velocity, prev_angular_velocity
+
+  def get_base_linear_acceleration(self):
+    prev_linear_velocity, _ = self.get_prev_base_velocity()
+    
+    if np.array_equal(prev_linear_velocity, np.array([0, 0, 0])):
+        return np.array([0, 0, 0])
+    
+    base_linear_acceleration = (np.array(self.linear_velocity) - np.array(prev_linear_velocity)) / self.time_step
+    
+    return base_linear_acceleration
+
+  def get_base_angular_acceleration(self):
+    _, prev_angular_velocity = self.get_prev_base_velocity()
+    
+    if np.array_equal(prev_angular_velocity, np.array([0, 0, 0])):
+        return np.array([0, 0, 0])
+    
+    base_angular_acceleration = (np.array(self.angular_velocity) - np.array(prev_angular_velocity)) / self.time_step
+    
+    return base_angular_acceleration
+
+  def get_noisy_imu_acceleration(self):
+    base_acceleration = self.get_base_linear_acceleration()
+    
+    R_W_IMU = np.eye(3)
+    imu_acceleration = R_W_IMU @ (base_acceleration + self.gravity)
+    
+    w_acc = np.random.normal(0, self.acc_noise_std, 3)  # Accelerometer noise
+    noisy_imu_acceleration = imu_acceleration + self.b_acc + w_acc
+    
+    return noisy_imu_acceleration
+
+  def get_noisy_imu_angular_velocity(self):
+
+    base_angular_velocity = np.array(self.angular_velocity)
+    
+   
+    R_W_IMU = np.eye(3)  
+    imu_angular_velocity = R_W_IMU @ base_angular_velocity
+    
+    
+    w_gyro = np.random.normal(0, self.gyro_noise_std, 3)
+    noisy_imu_angular_velocity = imu_angular_velocity + self.b_gyro + w_gyro
+    
+    return noisy_imu_angular_velocity
+
+  #found in the depths of robotics forums, need to incorporate this
+  def update_bias(self):
+    
+    b_acc_noise = np.random.normal(0, 0.001, 3)
+    b_gyro_noise = np.random.normal(0, 0.001, 3)
+    
+    self.b_acc += b_acc_noise
+    self.b_gyro += b_gyro_noise
+  
+    
 class Quad_Sim(Node):
   def __init__(self):
     super().__init__('quadruped_sim')
-      
+
+  
     # Create a publisher
     self.pub = self.create_publisher(JointState, "/joint_states", 10)
+    self.imu_pub = self.create_publisher(Imu,"/imu_state",10) #DESIGN: do we want to implement ros-based imu utilization within quad_sim or should the imu class be a solution?
     self.time_step = 0.01
     self.sim_init()
+    self.imu = IMU(self)
     self.timer = self.create_timer(self.time_step, self.run_sim)
     self.tf_broadcaster = TransformBroadcaster(self)
     
@@ -58,7 +149,7 @@ class Quad_Sim(Node):
 
   def sim_init(self):
     # Start sim (headless)
-    self.client = p.connect(p.DIRECT)
+    self.client = p.connect(p.GUI)
 
     # Set Gravity
     p.setGravity(0,0,-9.81, physicsClientId=self.client)
@@ -75,9 +166,9 @@ class Quad_Sim(Node):
     # TODO: use full leg (implement closed chain kinematics)
     quad_urdf = "./install/robot_simulation/share/robot_simulation/urdf/robot_core.xacro"
     startPos = [0,0,1]
-    startRot_eular = [0,0,pi]
-    startRot_quat = eular_2_quat(startRot_eular)
-    self.startRot_mat = eular_2_mat(startRot_eular)
+    startRot_euler = [0,0,pi]
+    startRot_quat = euler_2_quat(startRot_euler)
+    self.startRot_mat = euler_2_mat(startRot_euler)
     quad_flags = p.URDF_USE_SELF_COLLISION | p.URDF_USE_INERTIA_FROM_FILE # enable self collisions and add calculated inertias from urdf
     self.quad = p.loadURDF(quad_urdf, basePosition = startPos, baseOrientation = startRot_quat, flags = quad_flags)
 
@@ -91,10 +182,10 @@ class Quad_Sim(Node):
 
   def run_sim(self):
     # Get updated position and orientation of the quad
-    position, orinetation = p.getBasePositionAndOrientation(self.quad)
+    position, orientation = p.getBasePositionAndOrientation(self.quad)
     
     inertial_offset = [-0.008382264142625067,-1.4798434925308436e-05,0.030113658418836745]
-    pos_offset = quat_rot(np.array(orinetation), inertial_offset)
+    pos_offset = quat_rot(np.array(orientation), inertial_offset)
     pos = np.array(position) - pos_offset
 
     t = TransformStamped()
@@ -105,10 +196,10 @@ class Quad_Sim(Node):
     t.transform.translation.x = pos[0]
     t.transform.translation.y = pos[1]
     t.transform.translation.z = pos[2]
-    t.transform.rotation.x = orinetation[0]
-    t.transform.rotation.y = orinetation[1]
-    t.transform.rotation.z = orinetation[2]
-    t.transform.rotation.w = orinetation[3]
+    t.transform.rotation.x = orientation[0]
+    t.transform.rotation.y = orientation[1]
+    t.transform.rotation.z = orientation[2]
+    t.transform.rotation.w = orientation[3]
 
     self.tf_broadcaster.sendTransform(t)
 
@@ -133,7 +224,7 @@ class Quad_Sim(Node):
     self.pub.publish(msg)
 
     # Get Quad Rotation Matrix
-    rotMat = quat_2_mat(orinetation) @ self.startRot_mat
+    rotMat = quat_2_mat(orientation) @ self.startRot_mat
     position = list(position)
 
     # Set up axes for the camera to be the quad reference
