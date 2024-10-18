@@ -92,7 +92,7 @@ controls is to make the software interface modular enough to allow for any sort 
 #### Un-stablized gaits
 ##### Walk
 Essentially one leg lifted at a time while all other legs move backwards (while in contact with the ground) moving the robot forward.
-![ezgif-4-aa80b01d10](https://github.com/user-attachments/assets/c1ba8b27-beb9-4015-b9ff-c5e5d7f72cbc)
+</br>![ezgif-4-aa80b01d10](https://github.com/user-attachments/assets/c1ba8b27-beb9-4015-b9ff-c5e5d7f72cbc)
 
 ### Hardware Progress
 
