@@ -19,9 +19,6 @@ While the physical robot dog exists, we are currently developing a virtual model
 *Detailed instructions coming soon!*
 
 ## Development Progress
-
-### Control
-
 ### Simulation
 To faciltate software development without risking damage to the robot dog we decided to attempt to simulate the physical robot to some degree to de-risk development and make it faster + easier.
 
@@ -36,9 +33,10 @@ in the IK model and iterate on it until it was fixed.
 ![image](https://github.com/user-attachments/assets/9e5253ad-311c-4a26-8528-d4dc2fbd1065)
 
 The model was expanded to involve the full robot body and was used to visualize simple gait sequences genearted using time sinusoidal functions mapped to the x and z positions of the ends of each leg. This
-led us to getting a video of the dog taking its first steps 🎉! Clumsy... but we all start somewhere 😅.
+led us to getting a video of the dog taking its first steps 🎉! 
 
 ![ezgif-7-b41cf989ee](https://github.com/user-attachments/assets/2a597be4-6f1a-4240-a477-af5c312f57ea)
+</br>Clumsy... but we all start somewhere 😅.
 
 #### Gazebo + ROS2
 To simplify development and ensure modularity between simulation + testing and physical robot we wanted to use the ROS framework for development, specifically ROS2 (Humble). We found that commonly the general
