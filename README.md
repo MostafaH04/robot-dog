@@ -7,10 +7,11 @@ While the physical robot dog exists, we are currently developing a virtual model
 ## Table of Contents
 
 - [Running the Robot Simulation Locally](#running-the-robot-simulation-locally)
-- [Development Progress](#development-progress)
+- [Software Progress](#software-progress)
   - [Simulation](#simulation)
   - [Control](#control)
-  - [Mechanical](#mechanical)
+- [Hardware Progress](#hardware-progress)
+- [Mechanical Progress](#mechanical-progress)
 - [Contributing](#contributing)
 - [Repo Maintainers](#repo-maintainers)
 
@@ -18,7 +19,7 @@ While the physical robot dog exists, we are currently developing a virtual model
 
 *Detailed instructions coming soon!*
 
-## Development Progress
+## Software Progress
 ### Simulation
 To faciltate software development without risking damage to the robot dog we decided to attempt to simulate the physical robot to some degree to de-risk development and make it faster + easier.
 
@@ -93,43 +94,9 @@ controls is to make the software interface modular enough to allow for any sort 
 Essentially one leg lifted at a time while all other legs move backwards (while in contact with the ground) moving the robot forward.
 ![ezgif-4-aa80b01d10](https://github.com/user-attachments/assets/c1ba8b27-beb9-4015-b9ff-c5e5d7f72cbc)
 
+### Hardware Progress
 
-- Completed task example
-
-#### To-Do
-
-- [ ] To-do task example
-
-### Hardware
-
-#### Done
-
-- Completed task example
-
-#### To-Do
-
-- [ ] To-do task example
-
-### Mechanical
-
-#### Done
-
-- Completed task example
-
-#### To-Do
-
-- [ ] To-do task example
-## Contributing
-
-We welcome contributions from all team members. To add updates to the software, hardware, or mechanical sections, please follow these steps:
-
-1. **Fork the repository** and create a new branch for your updates.
-2. **Update the relevant section** in the README under [Development Progress](#development-progress).
-3. **Commit your changes** with a descriptive message.
-4. **Push your branch** to your forked repository.
-5. **Create a pull request** to merge your updates into the main repository.
-
-Please ensure your updates are clear and concise, and include any relevant details that would be helpful for the team.
+### Mechanical Progress
 
 ## Repo Maintainers
 
