@@ -9,7 +9,7 @@ While the physical robot dog exists, we are currently developing a virtual model
 - [Running the Robot Simulation Locally](#running-the-robot-simulation-locally)
 - [Development Progress](#development-progress)
   - [Control](#control)
-  - [Hardware](#hardware)
+  - [Simulation](#simulation)
   - [Mechanical](#mechanical)
 - [Contributing](#contributing)
 - [Repo Maintainers](#repo-maintainers)
