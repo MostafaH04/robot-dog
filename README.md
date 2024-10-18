@@ -66,7 +66,7 @@ but we were very wrong 💀.
 After more hours trying to control the robot using different built-in controllers for ros2-control, turns out, ROS2 control doesn't seem to behave nicely for legged robots (skids and builds up acceleration)...
 Who would have thought...
 
-Left with either writing our own controller for the dog in gazebo, which probably would have been to bad looking back at this, but we had finals coming up in just a few weeks at this point and we just wanted to get this done (Calc 3 is not it btw...). Soooo, we decided to redo everything from scratch and write our own physics engine from scratch!!!
+Left with either writing our own controller for the dog in gazebo, which probably would have been to bad looking back at this, but we had finals coming up in just a few weeks at this point and we just wanted to get this done (Calc 3 is not it btw...). Soooo, we decided to redo everything and write our own physics engine from scratch!!!
 
 ![This-is-Fine-300x300](https://github.com/user-attachments/assets/330ddcf8-a036-4f90-bf46-c5fb8c103560)
 
