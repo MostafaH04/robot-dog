@@ -8,8 +8,8 @@ While the physical robot dog exists, we are currently developing a virtual model
 
 - [Running the Robot Simulation Locally](#running-the-robot-simulation-locally)
 - [Development Progress](#development-progress)
-  - [Control](#control)
   - [Simulation](#simulation)
+  - [Control](#control)
   - [Mechanical](#mechanical)
 - [Contributing](#contributing)
 - [Repo Maintainers](#repo-maintainers)
@@ -82,6 +82,16 @@ Then we just setup a quick control node that carries out IK and FK to determine 
 Now we can just test control related work atm and working on getting a few virtual sensors in place starting with IMUs to begin working on the localization and navigation stack.
 
 ![27d](https://github.com/user-attachments/assets/a28fa524-6821-42e2-90c6-51e77854569a)
+
+### Controls
+Really the goals for this project in terms of control is somewhat limitless (not considering that we are eng students and are too broke to use top of the line hardware). We can really go super simple with 
+pre-defined gait sequences or even close loop stabilized gait sequences, or really push our limits and try to implement some cool paper proposing some hybrid MPC + RL approach. Overall, the main goal for
+controls is to make the software interface modular enough to allow for any sort of control. Which should be ideally fullfilled by our use of ROS2 nodes to modularize different components of the software.
+
+#### Un-stablized gaits
+##### Walk
+Essentially one leg lifted at a time while all other legs move backwards (while in contact with the ground) moving the robot forward.
+![ezgif-4-aa80b01d10](https://github.com/user-attachments/assets/c1ba8b27-beb9-4015-b9ff-c5e5d7f72cbc)
 
 
 - Completed task example
