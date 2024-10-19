@@ -91,8 +91,12 @@ controls is to make the software interface modular enough to allow for any sort 
 
 #### Un-stablized gaits
 ##### Walk
-Essentially one leg lifted at a time while all other legs move backwards (while in contact with the ground) moving the robot forward.
+Essentially one leg is lifted at a time while all other legs move backwards (while in contact with the ground) moving the robot forward.
 </br>![ezgif-4-aa80b01d10](https://github.com/user-attachments/assets/c1ba8b27-beb9-4015-b9ff-c5e5d7f72cbc)
+
+##### Trot
+Diagonal legs are locked in phase and the diagonal pair of legs are out of phase by half a period. This creates an almost jogging motion for the quadruped. Really nice for speed!
+</br>![ezgif-3-2344fa2f68](https://github.com/user-attachments/assets/b03eeeec-7a5d-4894-8521-3b7b8527fe43)
 
 ### Hardware Progress
 
