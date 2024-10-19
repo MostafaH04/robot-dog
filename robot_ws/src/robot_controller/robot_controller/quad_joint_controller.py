@@ -25,16 +25,19 @@ class Joint_Controller(Node):
     self.leg_kin = LegKin()
 
     # Initial configuration for each leg:
-    init_x, init_y, init_z = (0.0, 0.038, 0.14)
+    init_x, init_y, init_z = (0.03, 0.038, 0.12)
     init_config = [[init_x, -init_y, -init_z],[init_x, -init_y, -init_z],[init_x, init_y, -init_z],[init_x, init_y, -init_z]]
     self.cmd_config(init_config)
 
     self.walkingTimer = self.create_timer(0.001, self.walkCallback)
 
-    self.walking = Walk(self.cmd_config)
+    self.walker = Walk(self.cmd_config, init_config, 0.8)
+
   
   def walkCallback(self):
-    self.walking.step(0,0.1)
+    speed = 0.1
+    heading = 0
+    self.walker.step(heading, speed)
 
   def cmd_config(self, config: list):
     bad = False

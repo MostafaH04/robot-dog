@@ -11,9 +11,18 @@ import copy
 
 class Gait(ABC):
   TIME_STEP = 0.001
-  def __init__(self, send_cmd_fnc):
+  def __init__(self, init_config, period, stance_period, phase_offset):
+    # stance period and phase offset are percentage values (0 to 1)
+
     self.time_start = time.time()
-    self.send_cmd_fnc = send_cmd_fnc
+    self.config = init_config
+    self.init_config = copy.deepcopy(init_config)
+
+    self.period = period
+    self.stance_period = stance_period
+    self.swing_period = 1 - stance_period
+    self.phase_offset = phase_offset
+    
     self.started = False
 
   @abstractmethod
@@ -24,80 +33,65 @@ class Gait(ABC):
     self.started = False
 
 
-class Walk(Gait):
-  def __init__(self, send_cmd_fnc):
-    super().__init__(send_cmd_fnc)
-    self.order = [[3],[2],[0],[1]]
-    self.state = 0
-    init_x, init_y, init_z = (-0.03, 0.038, 0.12)
-    init_config = [[init_x, -init_y, -init_z],[init_x, -init_y, -init_z],[init_x, init_y, -init_z],[init_x, init_y, -init_z]]
-    self.curr_config = init_config
-
-    self.t = 0
-    pass
+class BasicGait(Gait):
+  def __init__(self, init_config, period, stance_period, phase_offset):
+    super().__init__(init_config, period, stance_period, phase_offset)
+    
+    self.swing = False
+    self.swing_time = self.period * self.swing_period
+    self.t = self.phase_offset * self.period
 
   def step(self, heading: float, speed: float):
-    speed *= 3
-    # 8cm/step * s / m (1/s) * m / 100 cm = 0.08/speed * s / step 
-    half_per = 0.06 / speed
-    # B = 2 pi * speed / 0.16
-    B = 2 * np.pi / (2 * half_per)
-    # x fwd for leg
-    # x back for others
-    # z up and down for leg
-    leg_dist = 0.06
-    idle_rate = (leg_dist/3)/half_per
+    if self.started is False:
+      self.started = True
 
-    x_leg = 0.06*np.cos(B/2*self.t)*B/2
-    z_leg = 0.01*np.sin(B*self.t) - 0.12
+    phase = (self.t - 0)/self.period
+    if phase >= 1:
+      phase = 0
+      self.t = 0
+      self.swing = False
+      self.config = copy.deepcopy(self.init_config)
 
-    legs = self.order[self.state]
-
-    for i in range(4):
-      if i in legs: continue
-      self.curr_config[i][0]-= idle_rate * self.TIME_STEP
+    if phase >= self.stance_period:
       
-    for leg in legs:
-      self.curr_config[leg][0] += x_leg * self.TIME_STEP
-      self.curr_config[leg][2] = z_leg
-    
-    self.send_cmd_fnc(self.curr_config)
+      # swing state
+      if self.swing is False:
+        self.swing = True
+        
+        self.speed_x = -(self.config[0] - self.init_config[0]) / self.swing_time
+        self.speed_y = -(self.config[1] - self.init_config[1]) / self.swing_time
+
+      self.config[0] += self.speed_x * self.TIME_STEP
+      self.config[1] += self.speed_y * self.TIME_STEP
+      self.config[2] = 0.02 * np.sin(np.pi/self.swing_period * (phase - self.stance_period)) - 0.12
+
+    else:
+      # stance state
+      leg_speed = -speed
+      
+      x_speed = leg_speed * np.cos(heading)
+      y_speed = leg_speed * np.sin(heading)
+
+      self.config[0] += x_speed * self.TIME_STEP
+      self.config[1] += y_speed * self.TIME_STEP
+
+      self.config[2] = self.init_config[2]
 
     self.t += self.TIME_STEP
-    time.sleep(self.TIME_STEP)
+
+    return self.config
+
+
+class Walk:
+  def __init__(self, cmd_config_fnc, init_config, period = 0.8):
+    self.init_config = init_config
+    self.cmd_config = cmd_config_fnc 
     
-    if self.t >= half_per:
-      self.t = 0
-      self.state = (self.state + 1) % 4
-    # if self.state == 0:
-    #   self.curr_config = copy.deepcopy(self.reset_conifg)
-    #   self.send_cmd_fnc(self.curr_config)
-    pass
+    self.leg_0 = BasicGait(init_config[0], period, 0.75, 0)
+    self.leg_1 = BasicGait(init_config[1], period, 0.75, 0.25)
+    self.leg_2 = BasicGait(init_config[2], period, 0.75, 0.5)
+    self.leg_3 = BasicGait(init_config[3], period, 0.75, 0.75)
 
-
-class Crawl(Gait):
-  def __init__(self, send_cmd_fnc):
-    super.__init__(send_cmd_fnc)    
-    pass
-
-  def step(self, heading: float, speed: float):
-    pass
-
-
-class Trot(Gait):
-  def __init__(self, send_cmd_fnc):
-    super.__init__(send_cmd_fnc)
-    pass
-
-  def step(self, heading: float, speed: float):
-    pass
-
-class Gallop(Gait):
-  def __init__(self, send_cmd_fnc):
-    super.__init__(send_cmd_fnc)
-    pass
-
-  def step(self, heading: float, speed: float):
-    pass
-
-
+  def step(self, heading, speed):
+    config = [self.leg_0.step(heading, speed), self.leg_1.step(heading, speed), self.leg_2.step(heading, speed), self.leg_3.step(heading, speed)]
+    self.cmd_config(config)
