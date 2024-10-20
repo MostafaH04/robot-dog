@@ -95,3 +95,18 @@ class Walk:
   def step(self, heading, speed):
     config = [self.leg_0.step(heading, speed), self.leg_1.step(heading, speed), self.leg_2.step(heading, speed), self.leg_3.step(heading, speed)]
     self.cmd_config(config)
+
+class Trot:
+  def __init__(self, cmd_config_fnc, init_config, period = 0.8):
+    self.init_config = init_config
+    self.cmd_config = cmd_config_fnc 
+    
+    self.leg_0 = BasicGait(init_config[0], period, 0.5, 0)
+    self.leg_1 = BasicGait(init_config[1], period, 0.5, 0.5)
+    self.leg_2 = BasicGait(init_config[2], period, 0.5, 0)
+    self.leg_3 = BasicGait(init_config[3], period, 0.5, 0.5)
+
+  def step(self, heading, speed):
+    config = [self.leg_0.step(heading, speed), self.leg_1.step(heading, speed), self.leg_2.step(heading, speed), self.leg_3.step(heading, speed)]
+    self.cmd_config(config)
+

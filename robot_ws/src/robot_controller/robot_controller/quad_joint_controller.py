@@ -4,7 +4,7 @@ from sensor_msgs.msg import JointState
 from robot_controller.leg_kin import LegKin
 import numpy as np
 import time
-from robot_controller.gaits import Walk
+from robot_controller.gaits import Walk, Trot
 
 class Joint_Controller(Node):
   def __init__(self):
@@ -20,7 +20,7 @@ class Joint_Controller(Node):
        10
     )
 
-    time.sleep(10)
+    time.sleep(6)
     
     self.leg_kin = LegKin()
 
@@ -31,11 +31,11 @@ class Joint_Controller(Node):
 
     self.walkingTimer = self.create_timer(0.001, self.walkCallback)
 
-    self.walker = Walk(self.cmd_config, init_config, 0.8)
+    self.walker = Trot(self.cmd_config, init_config, 0.5)
 
   
   def walkCallback(self):
-    speed = 0.1
+    speed = 0.8
     heading = 0
     self.walker.step(heading, speed)
 
