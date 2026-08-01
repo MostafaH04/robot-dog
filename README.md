@@ -1,6 +1,6 @@
 # Robot Dog
 
-Robot Dog is a ROS 2 learning project built around a custom quadruped. The repository currently contains a simplified robot description, a headless PyBullet proof-of-concept, and a basic inverse-kinematics command adapter. It is being revived as an environment for learning robot control, navigation, state estimation, and robot learning.
+Robot Dog is a ROS 2 learning project built around a custom quadruped. The repository currently contains a simplified robot description, a headless PyBullet teaching stack, a ROS-independent MuJoCo simulator core, and a basic inverse-kinematics command adapter. It is being revived as an environment for learning robot control, navigation, state estimation, and robot learning.
 
 This baseline targets **ROS 2 Jazzy on Ubuntu 24.04**. The previous project used ROS 2 Humble; Humble may still work, but it is not the reproducible target used by CI.
 
@@ -10,15 +10,15 @@ This baseline targets **ROS 2 Jazzy on Ubuntu 24.04**. The previous project used
 | --- | --- |
 | Development environment | Reproducible ROS 2 Jazzy devcontainer and pinned Python dependencies |
 | Robot description | Simplified open-chain Xacro/URDF with 12 actuated joints |
-| Simulation | Headless, fixed-step PyBullet node with idealized teaching sensors and separate ground truth |
+| Simulation | Headless PyBullet teaching node plus a deterministic, ROS-independent MuJoCo reset/step core |
 | Control | Per-leg IK plus a deterministic, gentle stance-height example controller |
 | Visualization | Robot state publisher, optional RViz, and a Foxglove bridge on port `8765` |
 | Tests | ROS package tests plus an end-to-end command/sensor headless smoke test |
-| MuJoCo | Not implemented yet; planned as the next simulator vertical slice |
+| MuJoCo | Minimal 12-joint primitive model, fixed-step reset/step, idealized teaching data, separate ground truth, and headless determinism smoke test |
 | State estimation, navigation, learning | No estimator or environment yet; a PyBullet teaching interface is available |
 | Hardware and firmware | Not present in this repository |
 
-The existing simulation is a development checkpoint, not a validated model of the physical robot. Its sensors are noise-free/mock PyBullet outputs, and it has no hardware sensor model, environment API, controller benchmarks, or dynamics validation yet.
+Both simulators are development checkpoints, not validated models of the physical robot. Their sensors are noise-free/mock outputs, and there is no hardware sensor model, state estimator, learning environment, controller benchmark, or dynamics validation yet.
 
 ## Quick start
 
@@ -31,6 +31,7 @@ The supported path is the included devcontainer. It pins the ROS base image and 
    ```bash
    make build
    make test
+   make mujoco-smoke
    make smoke
    ```
 
@@ -84,11 +85,42 @@ make sim SIM_ARGS="use_rviz:=true use_foxglove:=false"
 | `make setup` | Resolve ROS dependencies and install pinned Python dependencies |
 | `make build` | Build `robot_ws` using a symlink install |
 | `make test` | Run all package tests and print the complete result summary |
+| `make mujoco-smoke` | Run two identical headless MuJoCo trajectories and require exact equality, finite sensors, and foot contact |
 | `make smoke` | Verify simulation time, clean TF, commands, sensors, forces, and truth |
 | `make sim` | Launch PyBullet, the joint controller, robot state publisher, and Foxglove |
 | `make experiment` | Add the deterministic example controller and interface monitor |
 
-All commands accept a different installed ROS distribution through `ROS_DISTRO`, for example `ROS_DISTRO=humble make build`. Jazzy remains the tested target.
+ROS commands accept a different installed distribution through `ROS_DISTRO`, for example `ROS_DISTRO=humble make build`. Jazzy remains the tested target. `make mujoco-smoke` is deliberately ROS-independent.
+
+## Phase 2 MuJoCo core
+
+The MuJoCo path is a small simulator core, not a ROS node or learning algorithm. It loads one documented primitive-only MJCF model and exposes ordinary Python `reset()`, `step(command)`, and `observe()` methods. Each `step` advances exactly one fixed 2 ms physics tick. Each `reset` restores the same keyframe, holds the safe stance through a fixed number of settling steps, resets episode time to zero, and returns copied data.
+
+```python
+from robot_simulation.mujoco_core import MujocoSimulator
+
+simulator = MujocoSimulator()
+initial = simulator.reset()
+result = simulator.step({'Revolute_25': 0.47})
+
+mock_imu = result.sensors.imu
+evaluation_pose = result.ground_truth.position_world
+```
+
+Commands use the same 12 explicit simplified-model joint names as `/cmd_jnts`. A partial command updates named targets and omitted joints hold their previous targets. Unknown, duplicate, non-finite, and out-of-range targets are rejected instead of silently changing command meaning. `MujocoSimulator.safe_stance_command()` returns the full conservative target set.
+
+The returned interface deliberately separates data by intended use:
+
+| Field | Semantics |
+| --- | --- |
+| `result.sensors.imu` | Ideal orientation, body-frame angular velocity, and body-frame specific force; no noise, bias, saturation, or estimator claim |
+| `result.sensors.joint_states` | Ideal named position, velocity, and actuator effort in canonical command order |
+| `result.sensors.foot_contacts[foot]` | Per-foot contact flag, summed normal force, and simulated force/torque about the foot site in the foot frame |
+| `result.ground_truth` | Exact base pose and body-frame velocity, isolated in a separate object for evaluation |
+
+The [minimal model](robot_ws/src/robot_simulation/robot_simulation/models/README.md) uses a box torso, capsule legs, spherical feet, approximate masses, and no CAD assets. It omits the real closed-chain leg geometry and actuator/sensor imperfections. MuJoCo itself is pinned, and the model fixes its timestep, integrator, solver, iteration count, tolerance, friction cone, and reset state. The smoke test checks exact repeatability within the supported environment; it does not promise bitwise identity across different MuJoCo versions, CPU architectures, or compiler builds.
+
+ROS and Gymnasium adapters are intentionally deferred. An eventual adapter should translate this core's existing command/result objects at the boundary rather than add ROS timing or learning-framework state to the core.
 
 ## PyBullet teaching experiment
 
@@ -145,7 +177,7 @@ This exercise teaches frame transforms, IMU conventions, contact gating, and eva
 ├── robot_ws/src/
 │   ├── robot_controller # Leg kinematics and ROS command adapter
 │   ├── robot_desc       # Simplified Xacro/URDF and visualization launch
-│   └── robot_simulation # Headless PyBullet simulator and top-level launch
+│   └── robot_simulation # PyBullet ROS stack plus deterministic MuJoCo core/model
 ├── scripts/             # Reusable setup/build/test/run entry points
 ├── Makefile
 └── requirements.txt
@@ -160,7 +192,7 @@ An older, more detailed open-chain export of the mechanism exists in Git history
 ## Revival roadmap
 
 1. **Reproducible baseline** — repeatable environment, declared dependencies, CI, and a verified PyBullet launch. This repository state covers that phase.
-2. **MuJoCo vertical slice** — load one canonical model, step deterministically, apply joint commands, publish state, and render offscreen.
+2. **MuJoCo vertical slice** — the ROS-independent core now loads one canonical simplified model, resets/steps deterministically, applies named joint commands, and exposes idealized sensor data with separate ground truth. Rendering and adapters remain deferred.
 3. **Model fidelity** — recover the detailed mechanism, add loop-closure constraints, simplify collision geometry, and validate mass/inertia/joint conventions.
 4. **Robotics interfaces** — the idealized sensor teaching slice has started this phase; state estimators, navigation interfaces, and controller benchmarks remain.
 5. **Learning environment** — Gymnasium-style reset/step API, observations/actions/rewards, reproducible experiments, and ROS adapters at the boundary.

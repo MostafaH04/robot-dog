@@ -1,4 +1,4 @@
-name: ROS 2 baseline
+name: Reproducible simulators
 
 on:
   pull_request:
@@ -41,7 +41,10 @@ jobs:
       - name: Run tests
         run: make test
 
-      - name: Smoke-test headless simulation
+      - name: Smoke-test deterministic MuJoCo core
+        run: make mujoco-smoke
+
+      - name: Smoke-test headless PyBullet teaching stack
         run: make smoke
 
       - name: Upload ROS logs on failure
