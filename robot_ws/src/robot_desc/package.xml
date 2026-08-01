@@ -7,8 +7,6 @@
   <maintainer email="mahussein04@gmail.com">Mostafa Hussein</maintainer>
   <license>NOASSERTION</license>
 
-  <buildtool_depend>ament_python</buildtool_depend>
-
   <exec_depend>foxglove_bridge</exec_depend>
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
