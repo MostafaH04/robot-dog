@@ -1,0 +1,4 @@
+# Python runtime dependencies. ROS dependencies are installed through rosdep.
+numpy==1.26.4
+pybullet==3.2.7
+scipy==1.15.3

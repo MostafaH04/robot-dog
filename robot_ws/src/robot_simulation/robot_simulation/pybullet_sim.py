@@ -1,195 +1,429 @@
-import rclpy
-from rclpy.node import Node
-from sensor_msgs.msg import JointState 
-from geometry_msgs.msg import TransformStamped
-
-from tf2_ros import TransformBroadcaster
-
-import pybullet as p
-import pybullet_data
-import numpy as np
+"""Run the headless PyBullet quadruped and publish teaching interfaces."""
 
 from math import pi
+from pathlib import Path
+
+from ament_index_python.packages import get_package_share_directory
+from geometry_msgs.msg import TransformStamped, WrenchStamped
+from nav_msgs.msg import Odometry
+import numpy as np
+import pybullet as p
+import pybullet_data
+import rclpy
+from rclpy.node import Node
+from rclpy.time import Time
+from rosgraph_msgs.msg import Clock
 from scipy.spatial.transform import Rotation
-
-def quat_2_mat(q):
-  rot = Rotation.from_quat(q)
-  rot_mat = rot.as_matrix()
-  
-  return rot_mat
-
-def eular_2_quat(eular):
-  rot = Rotation.from_euler("xyz", eular)
-  quat = rot.as_quat()
-
-  return quat
-
-def eular_2_mat(eular):
-  rot = Rotation.from_euler("xyz", eular)
-  rot_mat = rot.as_matrix()
-
-  return rot_mat
-
-def quat_rot(q, vec):
-  rot = Rotation.from_quat(q)
-  return rot.apply(np.array(vec))
- 
-class Quad_Sim(Node):
-  def __init__(self):
-    super().__init__('quadruped_sim')
-      
-    # Create a publisher
-    self.pub = self.create_publisher(JointState, "/joint_states", 10)
-    self.time_step = 0.01
-    self.sim_init()
-    self.timer = self.create_timer(self.time_step, self.run_sim)
-    self.tf_broadcaster = TransformBroadcaster(self)
-    
-    self.angles = [0,0,0,0,0,0,0,0,0,0,0,0]
-
-    self.cmd_sub = self.create_subscription(
-       JointState,
-       "/cmd_jnts",
-       self.joint_callback,
-       10
-    )
-    self.cmd_sub # prevents unused variable warning
-      
-
-  def sim_init(self):
-    # Start sim (headless)
-    self.client = p.connect(p.DIRECT)
-
-    # Set Gravity
-    p.setGravity(0,0,-9.81, physicsClientId=self.client)
-
-    # Set timestep
-    p.setTimeStep(self.time_step, self.client)
-
-    # Add a plane
-    # TODO: Change this with environment in the future (make modular)
-    p.setAdditionalSearchPath(pybullet_data.getDataPath())
-    plane = p.loadURDF("plane.urdf")
-
-    # Load robot URDF
-    # TODO: use full leg (implement closed chain kinematics)
-    quad_urdf = "./install/robot_simulation/share/robot_simulation/urdf/robot_core.xacro"
-    startPos = [0,0,1]
-    startRot_eular = [0,0,pi]
-    startRot_quat = eular_2_quat(startRot_eular)
-    self.startRot_mat = eular_2_mat(startRot_eular)
-    quad_flags = p.URDF_USE_SELF_COLLISION | p.URDF_USE_INERTIA_FROM_FILE # enable self collisions and add calculated inertias from urdf
-    self.quad = p.loadURDF(quad_urdf, basePosition = startPos, baseOrientation = startRot_quat, flags = quad_flags)
-
-    # TODO: close kinematic chains in legs
-
-    # TODO: Debug hidden meshes
-
-    # TODO: create a topic for joint control commands
-    # Sliders for temporary control
-    self.num_joints = p.getNumJoints(self.quad)
-
-  def run_sim(self):
-    # Get updated position and orientation of the quad
-    position, orinetation = p.getBasePositionAndOrientation(self.quad)
-    
-    inertial_offset = [-0.008382264142625067,-1.4798434925308436e-05,0.030113658418836745]
-    pos_offset = quat_rot(np.array(orinetation), inertial_offset)
-    pos = np.array(position) - pos_offset
-
-    t = TransformStamped()
-
-    t.header.stamp = self.get_clock().now().to_msg()
-    t.header.frame_id = "world"
-    t.child_frame_id = "base_link"
-    t.transform.translation.x = pos[0]
-    t.transform.translation.y = pos[1]
-    t.transform.translation.z = pos[2]
-    t.transform.rotation.x = orinetation[0]
-    t.transform.rotation.y = orinetation[1]
-    t.transform.rotation.z = orinetation[2]
-    t.transform.rotation.w = orinetation[3]
-
-    self.tf_broadcaster.sendTransform(t)
-
-    # Initialize joint state message to publish
-    msg = JointState()
-
-    for i in range(self.num_joints):
-        # Update teh commanded joint angles from the sliders for temporary control
-        angle = self.angles[i]
-        p.setJointMotorControl2(self.quad, i, p.POSITION_CONTROL, targetPosition = angle)
-
-        # Update current joint's state to be sent as part 
-        # of the joint state msg being publishd
-        name = p.getJointInfo(self.quad, i, self.client)[1]
-        msg.name.append(name.decode("utf-8")) # decode name from bytes to utf-8
-        angle_pos,velocity,reactions,effort = p.getJointState(self.quad, i, self.client)
-        msg.position.append(angle_pos)
-        msg.velocity.append(velocity)
-        msg.effort.append(effort)
-
-    msg.header.stamp = self.get_clock().now().to_msg()
-    self.pub.publish(msg)
-
-    # Get Quad Rotation Matrix
-    rotMat = quat_2_mat(orinetation) @ self.startRot_mat
-    position = list(position)
-
-    # Set up axes for the camera to be the quad reference
-    # frame's z-axis
-    up_axes = np.matrix([[0],[0],[1]])
-    up_axes = rotMat @ up_axes
-
-    # Set the camera's position and its target's position
-    # TODO: add global constants for cam displacment
-    # TODO: base camera target to be based on camera rotation
-    cam_displacement = np.array([0.2,0,0.05])
-    target_displacement = np.array([0.1,0,0])
-    cam_position = position.copy()
-    cam_position += rotMat @ cam_displacement
-    target_position = cam_position.copy()
-    target_position += rotMat @ target_displacement 
+from sensor_msgs.msg import Imu, JointState
+from std_msgs.msg import Bool, Float64
+from tf2_ros import TransformBroadcaster
 
 
-    # Compute Camera view and projection matricies
-    cam_view_mat = p.computeViewMatrix (cam_position,target_position,up_axes)
-    # TODO: add global constants for fov and other info for cam proj mat
-    cam_proj_mat = p.computeProjectionMatrixFOV(53.50,1280/720,0.001,1)
-    # TODO: look into speeding up generating camera images
-    #image = p.getCameraImage(10,10,cam_view_mat,cam_proj_mat,renderer = p.ER_BULLET_HARDWARE_OPENGL,physicsClientId = self.client)
-    # TODO: publish camera images over an images topic
-    # image = np.reshape(image, (720,1280))
+GRAVITY_WORLD = np.asarray([0.0, 0.0, -9.81])
+TIME_STEP_NANOSECONDS = 10_000_000
+TIME_STEP_SECONDS = TIME_STEP_NANOSECONDS / 1_000_000_000
+INERTIAL_OFFSET = np.asarray([
+    -0.008382264142625067,
+    -1.4798434925308436e-05,
+    0.030113658418836745,
+])
+JOINT_DIRECTION_BY_NAME = {
+    'Revolute_1': 1.0,
+    'Revolute_3': -1.0,
+    'Revolute_4': 1.0,
+    'Revolute_5': -1.0,
+    'Revolute_20': -1.0,
+    'Revolute_23': 1.0,
+    'Revolute_25': 1.0,
+    'Revolute_31': 1.0,
+    'Revolute_35': -1.0,
+    'Revolute_40': -1.0,
+    'Revolute_45': 1.0,
+    'Revolute_48': 1.0,
+}
+FOOT_LINK_NAMES = {
+    'front_left': 'Component1_Mirror___5__1',
+    'front_right': 'Foot_v3_2',
+    'rear_left': 'Component1_Mirror___5__2',
+    'rear_right': 'Foot_v3_1',
+}
+GROUND_TRUTH_WORLD_FRAME = 'sim_ground_truth_world'
+GROUND_TRUTH_BASE_FRAME = 'sim_ground_truth_base_link'
 
-    # Step forward in the bullet physics simulation
-    p.stepSimulation()
 
-  def joint_callback(self, msg):
-    for i in range(len(msg.name)):
-      jointNum = int(msg.name[i])
-      if jointNum == 1 or jointNum == 3 or jointNum == 4 or jointNum == 8 or jointNum == 9:
-        self.angles[jointNum] = -msg.position[jointNum]
-      else:
-        self.angles[jointNum] = msg.position[jointNum]
-    
+def euler_to_quaternion(euler_angles):
+    """Convert XYZ Euler angles into an ``xyzw`` quaternion."""
+    return Rotation.from_euler('xyz', euler_angles).as_quat()
+
+
+def rotate_vector(quaternion, vector):
+    """Rotate a vector from base coordinates into world coordinates."""
+    return Rotation.from_quat(quaternion).apply(np.asarray(vector))
+
+
+def inverse_rotate_vector(quaternion, vector):
+    """Rotate a vector from world coordinates into base coordinates."""
+    return Rotation.from_quat(quaternion).inv().apply(np.asarray(vector))
+
+
+def simulation_timestamp(step_count):
+    """Return the exact ROS timestamp for a fixed-step simulation index."""
+    if step_count < 0:
+        raise ValueError('step_count must be non-negative')
+    return Time(nanoseconds=step_count * TIME_STEP_NANOSECONDS).to_msg()
+
+
+class QuadSim(Node):
+    """Expose PyBullet commands, idealized sensors, and separate ground truth."""
+
+    def __init__(self):
+        super().__init__('quadruped_sim')
+
+        self.time_step = TIME_STEP_SECONDS
+        self.step_count = 0
+        self.declare_parameter('publish_ground_truth_tf', False)
+        self.client = self._initialize_simulation()
+        (
+            self.joint_name_to_index,
+            self.joint_index_to_name,
+            self.link_name_to_index,
+        ) = self._index_model()
+        self.foot_link_indices = {
+            foot: self.link_name_to_index[link_name]
+            for foot, link_name in FOOT_LINK_NAMES.items()
+        }
+        self.angles = [0.0] * p.getNumJoints(self.quad, physicsClientId=self.client)
+
+        self.joint_state_publisher = self.create_publisher(JointState, '/joint_states', 10)
+        self.sim_joint_state_publisher = self.create_publisher(
+            JointState,
+            '/sim/sensors/joint_states',
+            10,
+        )
+        self.imu_publisher = self.create_publisher(Imu, '/sim/sensors/imu', 10)
+        self.ground_truth_publisher = self.create_publisher(
+            Odometry,
+            '/sim/ground_truth/odom',
+            10,
+        )
+        self.clock_publisher = self.create_publisher(Clock, '/clock', 1)
+        self.contact_flag_publishers = {}
+        self.contact_normal_force_publishers = {}
+        self.contact_wrench_publishers = {}
+        for foot in FOOT_LINK_NAMES:
+            sensor_prefix = f'/sim/sensors/foot_contacts/{foot}'
+            self.contact_flag_publishers[foot] = self.create_publisher(
+                Bool,
+                sensor_prefix,
+                10,
+            )
+            self.contact_normal_force_publishers[foot] = self.create_publisher(
+                Float64,
+                f'{sensor_prefix}/normal_force',
+                10,
+            )
+            self.contact_wrench_publishers[foot] = self.create_publisher(
+                WrenchStamped,
+                f'{sensor_prefix}/wrench',
+                10,
+            )
+
+        self.command_subscription = self.create_subscription(
+            JointState,
+            '/cmd_jnts',
+            self.joint_callback,
+            10,
+        )
+        self.ground_truth_tf_broadcaster = None
+        if self.get_parameter('publish_ground_truth_tf').value:
+            self.ground_truth_tf_broadcaster = TransformBroadcaster(self)
+        _position, _orientation, linear_velocity, _angular_velocity = self._base_state()
+        self.previous_base_velocity_world = linear_velocity
+        self.timer = self.create_timer(self.time_step, self.run_simulation)
+
+    def _initialize_simulation(self):
+        client = p.connect(p.DIRECT)
+        p.setGravity(*GRAVITY_WORLD, physicsClientId=client)
+        p.setTimeStep(self.time_step, physicsClientId=client)
+
+        p.setAdditionalSearchPath(pybullet_data.getDataPath(), physicsClientId=client)
+        self.plane = p.loadURDF('plane.urdf', physicsClientId=client)
+
+        package_share = Path(get_package_share_directory('robot_simulation'))
+        quad_urdf = package_share / 'urdf' / 'robot_core.xacro'
+        start_orientation = euler_to_quaternion([0, 0, pi])
+        flags = p.URDF_USE_SELF_COLLISION | p.URDF_USE_INERTIA_FROM_FILE
+        self.quad = p.loadURDF(
+            str(quad_urdf),
+            basePosition=[0, 0, 1],
+            baseOrientation=start_orientation,
+            flags=flags,
+            physicsClientId=client,
+        )
+
+        return client
+
+    def _index_model(self):
+        joint_names = {}
+        joint_indices = {}
+        link_names = {}
+        for joint_index in range(p.getNumJoints(self.quad, physicsClientId=self.client)):
+            joint_info = p.getJointInfo(
+                self.quad,
+                joint_index,
+                physicsClientId=self.client,
+            )
+            joint_name = joint_info[1].decode('utf-8')
+            joint_names[joint_name] = joint_index
+            joint_indices[joint_index] = joint_name
+            link_names[joint_info[12].decode('utf-8')] = joint_index
+
+        configured_joints = set(JOINT_DIRECTION_BY_NAME)
+        model_joints = set(joint_names)
+        if configured_joints != model_joints:
+            missing = sorted(model_joints - configured_joints)
+            unknown = sorted(configured_joints - model_joints)
+            raise RuntimeError(
+                f'joint direction map mismatch: missing={missing}, unknown={unknown}'
+            )
+        missing_links = set(FOOT_LINK_NAMES.values()) - set(link_names)
+        if missing_links:
+            raise RuntimeError(f'foot links missing from PyBullet model: {sorted(missing_links)}')
+        return joint_names, joint_indices, link_names
+
+    def _base_state(self):
+        position, orientation = p.getBasePositionAndOrientation(
+            self.quad,
+            physicsClientId=self.client,
+        )
+        linear_com_velocity, angular_velocity = p.getBaseVelocity(
+            self.quad,
+            physicsClientId=self.client,
+        )
+        orientation = np.asarray(orientation)
+        offset_world = rotate_vector(orientation, INERTIAL_OFFSET)
+        base_position = np.asarray(position) - offset_world
+        base_velocity = np.asarray(linear_com_velocity) - np.cross(
+            angular_velocity,
+            offset_world,
+        )
+        return (
+            base_position,
+            orientation,
+            base_velocity,
+            np.asarray(angular_velocity),
+        )
+
+    def run_simulation(self):
+        """Advance PyBullet by one fixed step and publish the resulting state."""
+        for joint_index, target_angle in enumerate(self.angles):
+            p.setJointMotorControl2(
+                self.quad,
+                joint_index,
+                p.POSITION_CONTROL,
+                targetPosition=target_angle,
+                physicsClientId=self.client,
+            )
+        p.stepSimulation(physicsClientId=self.client)
+
+        self.step_count += 1
+        stamp = simulation_timestamp(self.step_count)
+        self.clock_publisher.publish(Clock(clock=stamp))
+        base_position, orientation, linear_velocity, angular_velocity = self._base_state()
+        linear_acceleration = (
+            linear_velocity - self.previous_base_velocity_world
+        ) / self.time_step
+        self.previous_base_velocity_world = linear_velocity
+
+        if self.ground_truth_tf_broadcaster is not None:
+            self._publish_ground_truth_transform(stamp, base_position, orientation)
+        self._publish_joint_states(stamp)
+        self._publish_imu(
+            stamp,
+            orientation,
+            angular_velocity,
+            linear_acceleration,
+        )
+        self._publish_ground_truth(
+            stamp,
+            base_position,
+            orientation,
+            linear_velocity,
+            angular_velocity,
+        )
+        self._publish_contacts(stamp)
+
+    def _publish_ground_truth_transform(self, stamp, position, orientation):
+        transform = TransformStamped()
+        transform.header.stamp = stamp
+        transform.header.frame_id = GROUND_TRUTH_WORLD_FRAME
+        transform.child_frame_id = GROUND_TRUTH_BASE_FRAME
+        transform.transform.translation.x = position[0]
+        transform.transform.translation.y = position[1]
+        transform.transform.translation.z = position[2]
+        transform.transform.rotation.x = orientation[0]
+        transform.transform.rotation.y = orientation[1]
+        transform.transform.rotation.z = orientation[2]
+        transform.transform.rotation.w = orientation[3]
+        self.ground_truth_tf_broadcaster.sendTransform(transform)
+
+    def _publish_joint_states(self, stamp):
+        message = JointState()
+        message.header.stamp = stamp
+        for joint_index in range(len(self.angles)):
+            joint_info = p.getJointInfo(
+                self.quad,
+                joint_index,
+                physicsClientId=self.client,
+            )
+            angle, velocity, _reactions, effort = p.getJointState(
+                self.quad,
+                joint_index,
+                physicsClientId=self.client,
+            )
+            message.name.append(joint_info[1].decode('utf-8'))
+            message.position.append(angle)
+            message.velocity.append(velocity)
+            message.effort.append(effort)
+
+        self.joint_state_publisher.publish(message)
+        self.sim_joint_state_publisher.publish(message)
+
+    def _publish_imu(self, stamp, orientation, angular_velocity, linear_acceleration):
+        message = Imu()
+        message.header.stamp = stamp
+        message.header.frame_id = 'base_link'
+        message.orientation.x = orientation[0]
+        message.orientation.y = orientation[1]
+        message.orientation.z = orientation[2]
+        message.orientation.w = orientation[3]
+
+        angular_velocity_body = inverse_rotate_vector(orientation, angular_velocity)
+        message.angular_velocity.x = angular_velocity_body[0]
+        message.angular_velocity.y = angular_velocity_body[1]
+        message.angular_velocity.z = angular_velocity_body[2]
+
+        specific_force_world = linear_acceleration - GRAVITY_WORLD
+        specific_force_body = inverse_rotate_vector(orientation, specific_force_world)
+        message.linear_acceleration.x = specific_force_body[0]
+        message.linear_acceleration.y = specific_force_body[1]
+        message.linear_acceleration.z = specific_force_body[2]
+        self.imu_publisher.publish(message)
+
+    def _publish_ground_truth(
+        self,
+        stamp,
+        position,
+        orientation,
+        linear_velocity,
+        angular_velocity,
+    ):
+        message = Odometry()
+        message.header.stamp = stamp
+        message.header.frame_id = GROUND_TRUTH_WORLD_FRAME
+        message.child_frame_id = GROUND_TRUTH_BASE_FRAME
+        message.pose.pose.position.x = position[0]
+        message.pose.pose.position.y = position[1]
+        message.pose.pose.position.z = position[2]
+        message.pose.pose.orientation.x = orientation[0]
+        message.pose.pose.orientation.y = orientation[1]
+        message.pose.pose.orientation.z = orientation[2]
+        message.pose.pose.orientation.w = orientation[3]
+
+        linear_velocity_body = inverse_rotate_vector(orientation, linear_velocity)
+        angular_velocity_body = inverse_rotate_vector(orientation, angular_velocity)
+        message.twist.twist.linear.x = linear_velocity_body[0]
+        message.twist.twist.linear.y = linear_velocity_body[1]
+        message.twist.twist.linear.z = linear_velocity_body[2]
+        message.twist.twist.angular.x = angular_velocity_body[0]
+        message.twist.twist.angular.y = angular_velocity_body[1]
+        message.twist.twist.angular.z = angular_velocity_body[2]
+        self.ground_truth_publisher.publish(message)
+
+    def _publish_contacts(self, stamp):
+        for foot, link_index in self.foot_link_indices.items():
+            contact_points = p.getContactPoints(
+                bodyA=self.quad,
+                bodyB=self.plane,
+                linkIndexA=link_index,
+                physicsClientId=self.client,
+            )
+            normal_force = 0.0
+            force_world = np.zeros(3)
+            torque_world = np.zeros(3)
+            link_state = p.getLinkState(
+                self.quad,
+                link_index,
+                computeForwardKinematics=True,
+                physicsClientId=self.client,
+            )
+            link_origin_world = np.asarray(link_state[4])
+            link_orientation_world = np.asarray(link_state[5])
+            for contact in contact_points:
+                contact_force = (
+                    np.asarray(contact[7]) * contact[9]
+                    + np.asarray(contact[11]) * contact[10]
+                    + np.asarray(contact[13]) * contact[12]
+                )
+                normal_force += contact[9]
+                force_world += contact_force
+                lever_arm = np.asarray(contact[5]) - link_origin_world
+                torque_world += np.cross(lever_arm, contact_force)
+
+            force_link = inverse_rotate_vector(link_orientation_world, force_world)
+            torque_link = inverse_rotate_vector(link_orientation_world, torque_world)
+
+            self.contact_flag_publishers[foot].publish(
+                Bool(data=normal_force > 0.0)
+            )
+            self.contact_normal_force_publishers[foot].publish(
+                Float64(data=float(normal_force))
+            )
+            wrench = WrenchStamped()
+            wrench.header.stamp = stamp
+            wrench.header.frame_id = FOOT_LINK_NAMES[foot]
+            wrench.wrench.force.x = force_link[0]
+            wrench.wrench.force.y = force_link[1]
+            wrench.wrench.force.z = force_link[2]
+            wrench.wrench.torque.x = torque_link[0]
+            wrench.wrench.torque.y = torque_link[1]
+            wrench.wrench.torque.z = torque_link[2]
+            self.contact_wrench_publishers[foot].publish(wrench)
+
+    def joint_callback(self, message):
+        """Apply semantic joint-name commands, with numeric legacy fallback."""
+        for name, position in zip(message.name, message.position):
+            joint_index = self.joint_name_to_index.get(name)
+            if joint_index is None:
+                try:
+                    joint_index = int(name)
+                except ValueError:
+                    self.get_logger().warning(f'Ignoring unknown joint name {name}')
+                    continue
+
+            if not 0 <= joint_index < len(self.angles):
+                self.get_logger().warning(f'Ignoring out-of-range joint index {name}')
+                continue
+            joint_name = self.joint_index_to_name[joint_index]
+            self.angles[joint_index] = JOINT_DIRECTION_BY_NAME[joint_name] * position
+
+    def destroy_node(self):
+        """Disconnect the dedicated PyBullet client before destroying the node."""
+        if p.isConnected(self.client):
+            p.disconnect(physicsClientId=self.client)
+        return super().destroy_node()
+
+
 def main(args=None):
-  
-    # Initialize the rclpy library
+    """Start the ROS 2 PyBullet simulation node."""
     rclpy.init(args=args)
+    simulator = QuadSim()
+    try:
+        rclpy.spin(simulator)
+    finally:
+        simulator.destroy_node()
+        rclpy.shutdown()
 
-    # Create the node
-    quad_sim = Quad_Sim()
 
-    # Spin the node so the callback function is called.
-    rclpy.spin(quad_sim)
-
-    # Destroy the node explicitly
-    # (optional - otherwise it will be done automatically
-    # when the garbage collector destroys the node object)
-    quad_sim.destroy_node()
-
-    # Shutdown the ROS client library for Python
-    rclpy.shutdown()
-  
 if __name__ == '__main__':
-  main()
+    main()

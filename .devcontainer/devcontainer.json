@@ -1,3 +1,32 @@
 {
-    "build":{"dockerfile": "Dockerfile"}
+  "name": "Robot Dog — ROS 2 Jazzy",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "USERNAME": "ubuntu"
+    }
+  },
+  "remoteUser": "ubuntu",
+  "updateRemoteUserUID": true,
+  "workspaceFolder": "/workspaces/robot-dog",
+  "forwardPorts": [8765],
+  "portsAttributes": {
+    "8765": {
+      "label": "Foxglove Bridge",
+      "onAutoForward": "silent"
+    }
+  },
+  "containerEnv": {
+    "ROS_DISTRO": "jazzy"
+  },
+  "postCreateCommand": "make build",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-iot.vscode-ros",
+        "ms-python.python"
+      ]
+    }
+  }
 }
