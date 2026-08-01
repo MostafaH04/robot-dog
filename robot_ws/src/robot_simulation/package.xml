@@ -3,14 +3,16 @@
 <package format="3">
   <name>robot_simulation</name>
   <version>0.1.0</version>
-  <description>Headless PyBullet simulation and ROS 2 interfaces for the robot dog.</description>
+  <description>Deterministic PyBullet simulation and idealized ROS 2 teaching sensors.</description>
   <maintainer email="mahussein04@gmail.com">Mostafa Hussein</maintainer>
   <license>NOASSERTION</license>
 
   <depend>ament_index_python</depend>
   <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
   <depend>rclpy</depend>
   <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
   <depend>tf2_ros</depend>
 
   <exec_depend>launch</exec_depend>

@@ -10,15 +10,15 @@ This baseline targets **ROS 2 Jazzy on Ubuntu 24.04**. The previous project used
 | --- | --- |
 | Development environment | Reproducible ROS 2 Jazzy devcontainer and pinned Python dependencies |
 | Robot description | Simplified open-chain Xacro/URDF with 12 actuated joints |
-| Simulation | Headless PyBullet node publishing `/joint_states` and `world -> base_link` TF |
-| Control | Basic per-leg IK and conversion from the physical closed-chain geometry to simplified simulated joints |
+| Simulation | Headless, fixed-step PyBullet node with idealized teaching sensors and separate ground truth |
+| Control | Per-leg IK plus a deterministic, gentle stance-height example controller |
 | Visualization | Robot state publisher, optional RViz, and a Foxglove bridge on port `8765` |
-| Tests | ROS package lint plus an end-to-end headless launch smoke test |
+| Tests | ROS package tests plus an end-to-end command/sensor headless smoke test |
 | MuJoCo | Not implemented yet; planned as the next simulator vertical slice |
-| Sensors, estimation, navigation, learning | Not implemented |
+| State estimation, navigation, learning | No estimator or environment yet; a PyBullet teaching interface is available |
 | Hardware and firmware | Not present in this repository |
 
-The existing simulation is a development checkpoint, not a validated model of the physical robot. It has no simulated sensors, environment API, controller benchmarks, or dynamics validation yet.
+The existing simulation is a development checkpoint, not a validated model of the physical robot. Its sensors are noise-free/mock PyBullet outputs, and it has no hardware sensor model, environment API, controller benchmarks, or dynamics validation yet.
 
 ## Quick start
 
@@ -37,8 +37,10 @@ The supported path is the included devcontainer. It pins the ROS base image and 
 4. Start the simulator and Foxglove bridge:
 
    ```bash
-   make sim
+   make experiment
    ```
+
+`make experiment` runs the safe example stance command and the interface monitor. Use `make sim` when you want the simulator/controller stack without an autonomous example command; the simulator still publishes the teaching sensor topics.
 
 The devcontainer runs `make build` after creation. Stop a running launch with `Ctrl-C`.
 
@@ -51,7 +53,7 @@ make setup
 make build
 make test
 make smoke
-make sim
+make experiment
 ```
 
 `make setup` installs dependencies declared by the ROS packages and creates `.venv` with the pinned packages from `requirements.txt`. It does not install ROS itself.
@@ -60,7 +62,7 @@ make sim
 
 PyBullet runs headlessly. The normal remote-workstation workflow is to render in Foxglove on your local machine:
 
-1. Run `make sim` on the workstation.
+1. Run `make experiment` on the workstation.
 2. Forward TCP port `8765`. VS Code forwards it automatically from the devcontainer, or use SSH:
 
    ```bash
@@ -82,10 +84,50 @@ make sim SIM_ARGS="use_rviz:=true use_foxglove:=false"
 | `make setup` | Resolve ROS dependencies and install pinned Python dependencies |
 | `make build` | Build `robot_ws` using a symlink install |
 | `make test` | Run all package tests and print the complete result summary |
-| `make smoke` | Launch the stack headlessly and verify `/joint_states` and `/tf` |
+| `make smoke` | Verify commands, sensor topics, contact forces, and ground truth together |
 | `make sim` | Launch PyBullet, the joint controller, robot state publisher, and Foxglove |
+| `make experiment` | Add the deterministic example controller and interface monitor |
 
 All commands accept a different installed ROS distribution through `ROS_DISTRO`, for example `ROS_DISTRO=humble make build`. Jazzy remains the tested target.
+
+## PyBullet teaching experiment
+
+The experiment launch is deliberately small. It is an interface for learning how control and state-estimation data move through a robot stack; it is **not** a state estimator and does not claim hardware fidelity.
+
+```mermaid
+flowchart LR
+    example["Example stance controller"] -->|/control_inputs| adapter["Closed-chain command adapter"]
+    adapter -->|/cmd_jnts| sim["Fixed-step PyBullet simulator"]
+    sim --> sensors["/sim/sensors/* (mock/idealized)"]
+    sim --> truth["/sim/ground_truth/odom"]
+    sensors --> monitor["Example interface monitor"]
+    truth --> monitor
+    monitor -->|all command and sensor streams observed| ready["/sim/experiment/ready"]
+```
+
+The example controller repeats a gentle, symmetric 4 mm stance-height cycle. It generates the same sample sequence every cycle and stays within the current adapter's configured joint limits. PyBullet advances with a fixed 10 ms physics step; ROS timers are not a hard real-time or lockstep scheduler.
+
+### Topic semantics
+
+| Topic | Type | Meaning |
+| --- | --- | --- |
+| `/control_inputs` | `sensor_msgs/msg/JointState` | Physical closed-chain angles in radians. Numeric names `0..11` use leg order front-right, rear-right, rear-left, front-left, with three angles per leg. |
+| `/cmd_jnts` | `sensor_msgs/msg/JointState` | Adapter output addressed by explicit simplified-URDF joint names. |
+| `/sim/sensors/imu` | `sensor_msgs/msg/Imu` | Ideal orientation, body-frame angular velocity, and body-frame specific force at `base_link`; no noise, bias, saturation, or covariance model. |
+| `/sim/sensors/joint_states` | `sensor_msgs/msg/JointState` | Ideal PyBullet joint position, velocity, and applied motor torque. `/joint_states` mirrors it for ROS visualization compatibility. |
+| `/sim/sensors/foot_contacts/<foot>` | `std_msgs/msg/Bool` | Binary plane contact for `front_left`, `front_right`, `rear_left`, or `rear_right`. |
+| `/sim/sensors/foot_contacts/<foot>/normal_force` | `std_msgs/msg/Float64` | Sum of PyBullet normal contact forces for that foot, in newtons. |
+| `/sim/sensors/foot_contacts/<foot>/wrench` | `geometry_msgs/msg/WrenchStamped` | Ideal PyBullet normal-plus-friction force in the corresponding foot-link frame, with torque about that link's origin. |
+| `/sim/ground_truth/odom` | `nav_msgs/msg/Odometry` | Exact simulated `world -> base_link` pose and body-frame twist. Keep this out of estimator inputs; use it for evaluation. |
+| `/sim/experiment/ready` | `std_msgs/msg/Bool` | The monitor has received every stream, command names match measured joint names, and at least one foot reports nonzero normal force. |
+
+Contact and force values come directly from the simplified PyBullet collision model. They are mock simulation data, not a model of a load cell, force-sensitive resistor, or any real hardware sensor.
+
+### First learning exercise: contact-aided vertical velocity
+
+Create a new node that subscribes to the IMU, joint states, and four foot-contact/normal-force topics. Rotate IMU specific force into `world`, add gravity, and integrate vertical acceleration. When at least two feet have stable contact above a small force threshold, apply a zero-vertical-velocity update. Plot the estimate against `/sim/ground_truth/odom`, but never subscribe to ground truth inside the estimator itself. Then add configurable IMU bias/noise in your exercise node and observe how the contact update changes drift.
+
+This exercise teaches frame transforms, IMU conventions, contact gating, and evaluation separation. It is only a starting point for a contact-aided estimator; it does not account for slip, contact uncertainty, kinematic velocity constraints, or filter consistency.
 
 ## Repository layout
 
@@ -114,7 +156,7 @@ An older, more detailed open-chain export of the mechanism exists in Git history
 1. **Reproducible baseline** — repeatable environment, declared dependencies, CI, and a verified PyBullet launch. This repository state covers that phase.
 2. **MuJoCo vertical slice** — load one canonical model, step deterministically, apply joint commands, publish state, and render offscreen.
 3. **Model fidelity** — recover the detailed mechanism, add loop-closure constraints, simplify collision geometry, and validate mass/inertia/joint conventions.
-4. **Robotics interfaces** — sensors, state-estimation exercises, navigation interfaces, and controller benchmarks.
+4. **Robotics interfaces** — the idealized sensor teaching slice has started this phase; state estimators, navigation interfaces, and controller benchmarks remain.
 5. **Learning environment** — Gymnasium-style reset/step API, observations/actions/rewards, reproducible experiments, and ROS adapters at the boundary.
 
 ## Project history

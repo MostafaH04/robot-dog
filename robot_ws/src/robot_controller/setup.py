@@ -23,6 +23,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'example_stance_controller = '
+            'robot_controller.example_stance_controller:main',
             'quad_controller = robot_controller.quad_joint_controller:main',
         ],
     },

@@ -22,12 +22,14 @@ setup(
     zip_safe=True,
     maintainer='Mostafa Hussein',
     maintainer_email='mahussein04@gmail.com',
-    description='Headless PyBullet simulation and ROS 2 interfaces for the robot dog.',
+    description='Deterministic PyBullet simulation and idealized ROS 2 teaching sensors.',
     license='NOASSERTION',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
             'quad_sim = robot_simulation.pybullet_sim:main',
+            'state_interface_monitor = '
+            'robot_simulation.state_interface_monitor:main',
         ],
     },
 )

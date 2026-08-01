@@ -10,6 +10,9 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     use_foxglove = LaunchConfiguration('use_foxglove')
     use_rviz = LaunchConfiguration('use_rviz')
+    publish_initial_configuration = LaunchConfiguration(
+        'publish_initial_configuration'
+    )
 
     visualization_launch_file = PathJoinSubstitution(
         [FindPackageShare('robot_desc'), 'launch', 'view_robot.launch.py']
@@ -36,7 +39,10 @@ def generate_launch_description():
     )
 
     controller_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(controller_launch_file)
+        PythonLaunchDescriptionSource(controller_launch_file),
+        launch_arguments={
+            'publish_initial_configuration': publish_initial_configuration,
+        }.items(),
     )
 
     return LaunchDescription([
@@ -49,6 +55,11 @@ def generate_launch_description():
             'use_rviz',
             default_value='false',
             description='Start RViz (requires a graphical display).',
+        ),
+        DeclareLaunchArgument(
+            'publish_initial_configuration',
+            default_value='true',
+            description='Publish the controller adapter nominal stance at startup.',
         ),
         visualization_launch_file,
         sim_launch,

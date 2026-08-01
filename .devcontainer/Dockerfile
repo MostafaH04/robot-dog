@@ -22,8 +22,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       sudo \
       ros-jazzy-foxglove-bridge \
       ros-jazzy-joint-state-publisher \
+      ros-jazzy-nav-msgs \
       ros-jazzy-robot-state-publisher \
       ros-jazzy-rviz2 \
+      ros-jazzy-std-msgs \
       ros-jazzy-xacro \
     && rm -rf /var/lib/apt/lists/*
 
