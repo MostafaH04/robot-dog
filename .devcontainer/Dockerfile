@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       ros-jazzy-joint-state-publisher \
       ros-jazzy-nav-msgs \
       ros-jazzy-robot-state-publisher \
+      ros-jazzy-rosgraph-msgs \
       ros-jazzy-rviz2 \
       ros-jazzy-std-msgs \
       ros-jazzy-xacro \

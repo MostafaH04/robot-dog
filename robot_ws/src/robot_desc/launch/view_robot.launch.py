@@ -6,12 +6,14 @@ from launch.conditions import IfCondition
 from launch.launch_description_sources import AnyLaunchDescriptionSource
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
     use_foxglove = LaunchConfiguration('use_foxglove')
     use_rviz = LaunchConfiguration('use_rviz')
+    use_sim_time = LaunchConfiguration('use_sim_time')
 
     robot_description_content = Command(
         [
@@ -33,7 +35,10 @@ def generate_launch_description():
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
-        parameters=[robot_description],
+        parameters=[
+            robot_description,
+            {'use_sim_time': ParameterValue(use_sim_time, value_type=bool)},
+        ],
     )
 
     rviz_launch = Node(
@@ -45,6 +50,9 @@ def generate_launch_description():
             '-d',
             PathJoinSubstitution([FindPackageShare('robot_desc'), 'rviz', 'view_robot.rviz']),
         ],
+        parameters=[{
+            'use_sim_time': ParameterValue(use_sim_time, value_type=bool),
+        }],
         condition=IfCondition(use_rviz),
     )
 
@@ -58,6 +66,11 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='true',
+            description='Use the fixed-step clock published by the simulator.',
+        ),
         DeclareLaunchArgument(
             'use_foxglove',
             default_value='true',

@@ -7,12 +7,15 @@ from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
+    use_sim_time = LaunchConfiguration('use_sim_time')
     use_foxglove = LaunchConfiguration('use_foxglove')
     use_rviz = LaunchConfiguration('use_rviz')
+    publish_ground_truth_tf = LaunchConfiguration('publish_ground_truth_tf')
     master_launch_file = PathJoinSubstitution(
         [FindPackageShare('robot_simulation'), 'launch', 'master.launch.py']
     )
@@ -20,9 +23,11 @@ def generate_launch_description():
     stack = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(master_launch_file),
         launch_arguments={
+            'use_sim_time': use_sim_time,
             'use_foxglove': use_foxglove,
             'use_rviz': use_rviz,
             'publish_initial_configuration': 'false',
+            'publish_ground_truth_tf': publish_ground_truth_tf,
         }.items(),
     )
     example_controller = Node(
@@ -30,15 +35,26 @@ def generate_launch_description():
         executable='example_stance_controller',
         name='example_stance_controller',
         output='screen',
+        parameters=[{
+            'use_sim_time': ParameterValue(use_sim_time, value_type=bool),
+        }],
     )
     interface_monitor = Node(
         package='robot_simulation',
         executable='state_interface_monitor',
         name='state_interface_monitor',
         output='screen',
+        parameters=[{
+            'use_sim_time': ParameterValue(use_sim_time, value_type=bool),
+        }],
     )
 
     return LaunchDescription([
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='true',
+            description='Use the simulator fixed-step clock for experiment nodes.',
+        ),
         DeclareLaunchArgument(
             'use_foxglove',
             default_value='true',
@@ -48,6 +64,11 @@ def generate_launch_description():
             'use_rviz',
             default_value='false',
             description='Start RViz (requires a graphical display).',
+        ),
+        DeclareLaunchArgument(
+            'publish_ground_truth_tf',
+            default_value='false',
+            description='Publish optional truth TF in distinct sim_ground_truth frames.',
         ),
         stack,
         example_controller,

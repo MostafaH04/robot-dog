@@ -11,6 +11,8 @@ import pybullet as p
 import pybullet_data
 import rclpy
 from rclpy.node import Node
+from rclpy.time import Time
+from rosgraph_msgs.msg import Clock
 from scipy.spatial.transform import Rotation
 from sensor_msgs.msg import Imu, JointState
 from std_msgs.msg import Bool, Float64
@@ -18,18 +20,35 @@ from tf2_ros import TransformBroadcaster
 
 
 GRAVITY_WORLD = np.asarray([0.0, 0.0, -9.81])
+TIME_STEP_NANOSECONDS = 10_000_000
+TIME_STEP_SECONDS = TIME_STEP_NANOSECONDS / 1_000_000_000
 INERTIAL_OFFSET = np.asarray([
     -0.008382264142625067,
     -1.4798434925308436e-05,
     0.030113658418836745,
 ])
-REVERSED_JOINT_INDICES = {1, 3, 4, 8, 9}
+JOINT_DIRECTION_BY_NAME = {
+    'Revolute_1': 1.0,
+    'Revolute_3': -1.0,
+    'Revolute_4': 1.0,
+    'Revolute_5': -1.0,
+    'Revolute_20': -1.0,
+    'Revolute_23': 1.0,
+    'Revolute_25': 1.0,
+    'Revolute_31': 1.0,
+    'Revolute_35': -1.0,
+    'Revolute_40': -1.0,
+    'Revolute_45': 1.0,
+    'Revolute_48': 1.0,
+}
 FOOT_LINK_NAMES = {
     'front_left': 'Component1_Mirror___5__1',
     'front_right': 'Foot_v3_2',
     'rear_left': 'Component1_Mirror___5__2',
     'rear_right': 'Foot_v3_1',
 }
+GROUND_TRUTH_WORLD_FRAME = 'sim_ground_truth_world'
+GROUND_TRUTH_BASE_FRAME = 'sim_ground_truth_base_link'
 
 
 def euler_to_quaternion(euler_angles):
@@ -47,15 +66,28 @@ def inverse_rotate_vector(quaternion, vector):
     return Rotation.from_quat(quaternion).inv().apply(np.asarray(vector))
 
 
+def simulation_timestamp(step_count):
+    """Return the exact ROS timestamp for a fixed-step simulation index."""
+    if step_count < 0:
+        raise ValueError('step_count must be non-negative')
+    return Time(nanoseconds=step_count * TIME_STEP_NANOSECONDS).to_msg()
+
+
 class QuadSim(Node):
     """Expose PyBullet commands, idealized sensors, and separate ground truth."""
 
     def __init__(self):
         super().__init__('quadruped_sim')
 
-        self.time_step = 0.01
+        self.time_step = TIME_STEP_SECONDS
+        self.step_count = 0
+        self.declare_parameter('publish_ground_truth_tf', False)
         self.client = self._initialize_simulation()
-        self.joint_name_to_index, self.link_name_to_index = self._index_model()
+        (
+            self.joint_name_to_index,
+            self.joint_index_to_name,
+            self.link_name_to_index,
+        ) = self._index_model()
         self.foot_link_indices = {
             foot: self.link_name_to_index[link_name]
             for foot, link_name in FOOT_LINK_NAMES.items()
@@ -74,6 +106,7 @@ class QuadSim(Node):
             '/sim/ground_truth/odom',
             10,
         )
+        self.clock_publisher = self.create_publisher(Clock, '/clock', 1)
         self.contact_flag_publishers = {}
         self.contact_normal_force_publishers = {}
         self.contact_wrench_publishers = {}
@@ -101,7 +134,9 @@ class QuadSim(Node):
             self.joint_callback,
             10,
         )
-        self.tf_broadcaster = TransformBroadcaster(self)
+        self.ground_truth_tf_broadcaster = None
+        if self.get_parameter('publish_ground_truth_tf').value:
+            self.ground_truth_tf_broadcaster = TransformBroadcaster(self)
         _position, _orientation, linear_velocity, _angular_velocity = self._base_state()
         self.previous_base_velocity_world = linear_velocity
         self.timer = self.create_timer(self.time_step, self.run_simulation)
@@ -130,6 +165,7 @@ class QuadSim(Node):
 
     def _index_model(self):
         joint_names = {}
+        joint_indices = {}
         link_names = {}
         for joint_index in range(p.getNumJoints(self.quad, physicsClientId=self.client)):
             joint_info = p.getJointInfo(
@@ -137,13 +173,23 @@ class QuadSim(Node):
                 joint_index,
                 physicsClientId=self.client,
             )
-            joint_names[joint_info[1].decode('utf-8')] = joint_index
+            joint_name = joint_info[1].decode('utf-8')
+            joint_names[joint_name] = joint_index
+            joint_indices[joint_index] = joint_name
             link_names[joint_info[12].decode('utf-8')] = joint_index
 
+        configured_joints = set(JOINT_DIRECTION_BY_NAME)
+        model_joints = set(joint_names)
+        if configured_joints != model_joints:
+            missing = sorted(model_joints - configured_joints)
+            unknown = sorted(configured_joints - model_joints)
+            raise RuntimeError(
+                f'joint direction map mismatch: missing={missing}, unknown={unknown}'
+            )
         missing_links = set(FOOT_LINK_NAMES.values()) - set(link_names)
         if missing_links:
             raise RuntimeError(f'foot links missing from PyBullet model: {sorted(missing_links)}')
-        return joint_names, link_names
+        return joint_names, joint_indices, link_names
 
     def _base_state(self):
         position, orientation = p.getBasePositionAndOrientation(
@@ -180,14 +226,17 @@ class QuadSim(Node):
             )
         p.stepSimulation(physicsClientId=self.client)
 
-        stamp = self.get_clock().now().to_msg()
+        self.step_count += 1
+        stamp = simulation_timestamp(self.step_count)
+        self.clock_publisher.publish(Clock(clock=stamp))
         base_position, orientation, linear_velocity, angular_velocity = self._base_state()
         linear_acceleration = (
             linear_velocity - self.previous_base_velocity_world
         ) / self.time_step
         self.previous_base_velocity_world = linear_velocity
 
-        self._publish_transform(stamp, base_position, orientation)
+        if self.ground_truth_tf_broadcaster is not None:
+            self._publish_ground_truth_transform(stamp, base_position, orientation)
         self._publish_joint_states(stamp)
         self._publish_imu(
             stamp,
@@ -204,11 +253,11 @@ class QuadSim(Node):
         )
         self._publish_contacts(stamp)
 
-    def _publish_transform(self, stamp, position, orientation):
+    def _publish_ground_truth_transform(self, stamp, position, orientation):
         transform = TransformStamped()
         transform.header.stamp = stamp
-        transform.header.frame_id = 'world'
-        transform.child_frame_id = 'base_link'
+        transform.header.frame_id = GROUND_TRUTH_WORLD_FRAME
+        transform.child_frame_id = GROUND_TRUTH_BASE_FRAME
         transform.transform.translation.x = position[0]
         transform.transform.translation.y = position[1]
         transform.transform.translation.z = position[2]
@@ -216,7 +265,7 @@ class QuadSim(Node):
         transform.transform.rotation.y = orientation[1]
         transform.transform.rotation.z = orientation[2]
         transform.transform.rotation.w = orientation[3]
-        self.tf_broadcaster.sendTransform(transform)
+        self.ground_truth_tf_broadcaster.sendTransform(transform)
 
     def _publish_joint_states(self, stamp):
         message = JointState()
@@ -271,8 +320,8 @@ class QuadSim(Node):
     ):
         message = Odometry()
         message.header.stamp = stamp
-        message.header.frame_id = 'world'
-        message.child_frame_id = 'base_link'
+        message.header.frame_id = GROUND_TRUTH_WORLD_FRAME
+        message.child_frame_id = GROUND_TRUTH_BASE_FRAME
         message.pose.pose.position.x = position[0]
         message.pose.pose.position.y = position[1]
         message.pose.pose.position.z = position[2]
@@ -355,9 +404,8 @@ class QuadSim(Node):
             if not 0 <= joint_index < len(self.angles):
                 self.get_logger().warning(f'Ignoring out-of-range joint index {name}')
                 continue
-            self.angles[joint_index] = (
-                -position if joint_index in REVERSED_JOINT_INDICES else position
-            )
+            joint_name = self.joint_index_to_name[joint_index]
+            self.angles[joint_index] = JOINT_DIRECTION_BY_NAME[joint_name] * position
 
     def destroy_node(self):
         """Disconnect the dedicated PyBullet client before destroying the node."""

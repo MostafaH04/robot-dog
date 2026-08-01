@@ -84,7 +84,7 @@ make sim SIM_ARGS="use_rviz:=true use_foxglove:=false"
 | `make setup` | Resolve ROS dependencies and install pinned Python dependencies |
 | `make build` | Build `robot_ws` using a symlink install |
 | `make test` | Run all package tests and print the complete result summary |
-| `make smoke` | Verify commands, sensor topics, contact forces, and ground truth together |
+| `make smoke` | Verify simulation time, clean TF, commands, sensors, forces, and truth |
 | `make sim` | Launch PyBullet, the joint controller, robot state publisher, and Foxglove |
 | `make experiment` | Add the deterministic example controller and interface monitor |
 
@@ -98,6 +98,9 @@ The experiment launch is deliberately small. It is an interface for learning how
 flowchart LR
     example["Example stance controller"] -->|/control_inputs| adapter["Closed-chain command adapter"]
     adapter -->|/cmd_jnts| sim["Fixed-step PyBullet simulator"]
+    sim --> clock["/clock (exact 10 ms steps)"]
+    clock --> example
+    clock --> adapter
     sim --> sensors["/sim/sensors/* (mock/idealized)"]
     sim --> truth["/sim/ground_truth/odom"]
     sensors --> monitor["Example interface monitor"]
@@ -105,12 +108,13 @@ flowchart LR
     monitor -->|all command and sensor streams observed| ready["/sim/experiment/ready"]
 ```
 
-The example controller repeats a gentle, symmetric 4 mm stance-height cycle. It generates the same sample sequence every cycle and stays within the current adapter's configured joint limits. PyBullet advances with a fixed 10 ms physics step; ROS timers are not a hard real-time or lockstep scheduler.
+The example controller repeats a gentle, symmetric 4 mm stance-height cycle. It generates the same sample sequence every cycle and stays within the current adapter's configured joint limits. PyBullet advances with a fixed 10 ms physics step and publishes `/clock`; sensor and command headers use exact integer multiples of that step. Workstation scheduling can change the real-time factor, but not the published simulation timeline. This remains a teaching simulator, not a hard real-time system.
 
 ### Topic semantics
 
 | Topic | Type | Meaning |
 | --- | --- | --- |
+| `/clock` | `rosgraph_msgs/msg/Clock` | Step-derived simulation time, advanced exactly 10 ms after each PyBullet step. Experiment/controller/visualization nodes use `use_sim_time=true`; the simulator's wall timer stays independent so it can advance the clock. |
 | `/control_inputs` | `sensor_msgs/msg/JointState` | Physical closed-chain angles in radians. Numeric names `0..11` use leg order front-right, rear-right, rear-left, front-left, with three angles per leg. |
 | `/cmd_jnts` | `sensor_msgs/msg/JointState` | Adapter output addressed by explicit simplified-URDF joint names. |
 | `/sim/sensors/imu` | `sensor_msgs/msg/Imu` | Ideal orientation, body-frame angular velocity, and body-frame specific force at `base_link`; no noise, bias, saturation, or covariance model. |
@@ -118,14 +122,16 @@ The example controller repeats a gentle, symmetric 4 mm stance-height cycle. It 
 | `/sim/sensors/foot_contacts/<foot>` | `std_msgs/msg/Bool` | Binary plane contact for `front_left`, `front_right`, `rear_left`, or `rear_right`. |
 | `/sim/sensors/foot_contacts/<foot>/normal_force` | `std_msgs/msg/Float64` | Sum of PyBullet normal contact forces for that foot, in newtons. |
 | `/sim/sensors/foot_contacts/<foot>/wrench` | `geometry_msgs/msg/WrenchStamped` | Ideal PyBullet normal-plus-friction force in the corresponding foot-link frame, with torque about that link's origin. |
-| `/sim/ground_truth/odom` | `nav_msgs/msg/Odometry` | Exact simulated `world -> base_link` pose and body-frame twist. Keep this out of estimator inputs; use it for evaluation. |
-| `/sim/experiment/ready` | `std_msgs/msg/Bool` | The monitor has received every stream, command names match measured joint names, and at least one foot reports nonzero normal force. |
+| `/sim/ground_truth/odom` | `nav_msgs/msg/Odometry` | Exact `sim_ground_truth_world -> sim_ground_truth_base_link` pose and body-frame twist. These deliberately distinct frames keep truth out of the operational estimator tree. |
+| `/sim/experiment/ready` | `std_msgs/msg/Bool` | The monitor has received every stream, headers track the advancing step clock, command names match measured joints, and at least one foot reports nonzero normal force. |
 
 Contact and force values come directly from the simplified PyBullet collision model. They are mock simulation data, not a model of a load cell, force-sensitive resistor, or any real hardware sensor.
 
+The simulator does **not** publish exact truth as `world -> base_link` TF. The normal robot TF tree remains rooted at `base_link` for a future estimator to connect to `odom` or `map`. For visualization/debugging only, `make experiment SIM_ARGS="publish_ground_truth_tf:=true"` publishes the same truth pose in the isolated `sim_ground_truth_world -> sim_ground_truth_base_link` tree; it never claims the operational `base_link` frame.
+
 ### First learning exercise: contact-aided vertical velocity
 
-Create a new node that subscribes to the IMU, joint states, and four foot-contact/normal-force topics. Rotate IMU specific force into `world`, add gravity, and integrate vertical acceleration. When at least two feet have stable contact above a small force threshold, apply a zero-vertical-velocity update. Plot the estimate against `/sim/ground_truth/odom`, but never subscribe to ground truth inside the estimator itself. Then add configurable IMU bias/noise in your exercise node and observe how the contact update changes drift.
+Create a new node that subscribes to the IMU, joint states, and four foot-contact/normal-force topics. Rotate IMU specific force into your estimator's inertial frame, add gravity, and integrate vertical acceleration. When at least two feet have stable contact above a small force threshold, apply a zero-vertical-velocity update. Plot the estimate against `/sim/ground_truth/odom`, but never subscribe to ground truth inside the estimator itself. Then add configurable IMU bias/noise in your exercise node and observe how the contact update changes drift.
 
 This exercise teaches frame transforms, IMU conventions, contact gating, and evaluation separation. It is only a starting point for a contact-aided estimator; it does not account for slip, contact uncertainty, kinematic velocity constraints, or filter consistency.
 

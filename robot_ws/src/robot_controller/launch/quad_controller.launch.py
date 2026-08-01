@@ -8,6 +8,7 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 
 def generate_launch_description():
+    use_sim_time = LaunchConfiguration('use_sim_time')
     publish_initial_configuration = LaunchConfiguration(
         'publish_initial_configuration'
     )
@@ -17,6 +18,7 @@ def generate_launch_description():
         name='quad_controller',
         output='screen',
         parameters=[{
+            'use_sim_time': ParameterValue(use_sim_time, value_type=bool),
             'publish_initial_configuration': ParameterValue(
                 publish_initial_configuration,
                 value_type=bool,
@@ -25,6 +27,11 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='true',
+            description='Use the fixed-step clock published by the simulator.',
+        ),
         DeclareLaunchArgument(
             'publish_initial_configuration',
             default_value='true',

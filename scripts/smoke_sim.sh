@@ -52,7 +52,8 @@ for _ in $(seq 1 20); do
 
   TOPICS="$(ros2 topic list 2>/dev/null || true)"
   NODES="$(ros2 node list 2>/dev/null || true)"
-  if grep -qx '/control_inputs' <<<"${TOPICS}" \
+  if grep -qx '/clock' <<<"${TOPICS}" \
+      && grep -qx '/control_inputs' <<<"${TOPICS}" \
       && grep -qx '/cmd_jnts' <<<"${TOPICS}" \
       && grep -qx '/joint_states' <<<"${TOPICS}" \
       && grep -qx '/tf' <<<"${TOPICS}" \
@@ -76,9 +77,39 @@ for _ in $(seq 1 20); do
       timeout 3 ros2 topic echo \
         --once /sim/experiment/ready std_msgs/msg/Bool 2>/dev/null || true
     )"
+    CONTROLLER_SIM_TIME="$(
+      ros2 param get /example_stance_controller use_sim_time 2>/dev/null || true
+    )"
+    MONITOR_SIM_TIME="$(
+      ros2 param get /state_interface_monitor use_sim_time 2>/dev/null || true
+    )"
+    SIMULATOR_SIM_TIME="$(
+      ros2 param get /quad_sim use_sim_time 2>/dev/null || true
+    )"
+    GROUND_TRUTH_TF="$(
+      ros2 param get /quad_sim publish_ground_truth_tf 2>/dev/null || true
+    )"
+    GROUND_TRUTH_SAMPLE="$(
+      timeout 3 ros2 topic echo \
+        --once /sim/ground_truth/odom nav_msgs/msg/Odometry 2>/dev/null || true
+    )"
+    TF_SAMPLE="$(
+      timeout 3 ros2 topic echo \
+        --once /tf tf2_msgs/msg/TFMessage 2>/dev/null || true
+    )"
     if grep -q 'data: true' <<<"${READY_STATUS}" \
+        && grep -q 'True' <<<"${CONTROLLER_SIM_TIME}" \
+        && grep -q 'True' <<<"${MONITOR_SIM_TIME}" \
+        && grep -q 'False' <<<"${SIMULATOR_SIM_TIME}" \
+        && grep -q 'False' <<<"${GROUND_TRUTH_TF}" \
+        && grep -q 'frame_id: sim_ground_truth_world' <<<"${GROUND_TRUTH_SAMPLE}" \
+        && grep -q 'child_frame_id: sim_ground_truth_base_link' \
+          <<<"${GROUND_TRUTH_SAMPLE}" \
+        && grep -q 'transforms:' <<<"${TF_SAMPLE}" \
+        && ! grep -q 'child_frame_id: base_link' <<<"${TF_SAMPLE}" \
+        && ! grep -q 'sim_ground_truth_' <<<"${TF_SAMPLE}" \
         && kill -0 "${LAUNCH_PID}" 2>/dev/null; then
-      echo "Simulation smoke test passed: commands, idealized sensors, contact forces, and ground truth are coherent."
+      echo "Simulation smoke test passed: step clock, clean TF, commands, sensors, contact forces, and isolated ground truth are coherent."
       exit 0
     fi
   fi
