@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
+
 def generate_launch_description():
+    use_foxglove = LaunchConfiguration('use_foxglove')
+    use_rviz = LaunchConfiguration('use_rviz')
+
     visualization_launch_file = PathJoinSubstitution(
         [FindPackageShare('robot_desc'), 'launch', 'view_robot.launch.py']
     )
@@ -20,7 +24,11 @@ def generate_launch_description():
     )
 
     visualization_launch_file = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(visualization_launch_file)
+        PythonLaunchDescriptionSource(visualization_launch_file),
+        launch_arguments={
+            'use_foxglove': use_foxglove,
+            'use_rviz': use_rviz,
+        }.items(),
     )
 
     sim_launch = IncludeLaunchDescription(
@@ -32,7 +40,17 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        DeclareLaunchArgument(
+            'use_foxglove',
+            default_value='true',
+            description='Start the Foxglove WebSocket bridge on port 8765.',
+        ),
+        DeclareLaunchArgument(
+            'use_rviz',
+            default_value='false',
+            description='Start RViz (requires a graphical display).',
+        ),
         visualization_launch_file,
         sim_launch,
-        controller_launch
+        controller_launch,
     ])

@@ -2,10 +2,25 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>robot_simulation</name>
-  <version>0.0.0</version>
-  <description>Quadruped Simulation in Pybullet package</description>
-  <maintainer email="mahussein04@gmail.com">mahus</maintainer>
-  <license>TODO: License declaration</license>
+  <version>0.1.0</version>
+  <description>Headless PyBullet simulation and ROS 2 interfaces for the robot dog.</description>
+  <maintainer email="mahussein04@gmail.com">Mostafa Hussein</maintainer>
+  <license>NOASSERTION</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <depend>ament_index_python</depend>
+  <depend>geometry_msgs</depend>
+  <depend>rclpy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf2_ros</depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-scipy</exec_depend>
+  <exec_depend>robot_controller</exec_depend>
+  <exec_depend>robot_desc</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

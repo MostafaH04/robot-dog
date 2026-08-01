@@ -1,95 +1,104 @@
-import rclpy 
-from rclpy.node import Node
-from sensor_msgs.msg import JointState
-from robot_controller.leg_kin import LegKin
+"""Translate Cartesian leg targets into simulated joint commands."""
+
 import numpy as np
-import time
+import rclpy
+from rclpy.node import Node
+from robot_controller.leg_kin import LegKin
+from sensor_msgs.msg import JointState
 
-class Joint_Controller(Node):
-  def __init__(self):
-    super().__init__('quadruped_joint_controller')
 
-    # Create publisher
-    self.pub = self.create_publisher(JointState, "/cmd_jnts", 10)\
-    
-    self.cmd_sub = self.create_subscription(
-       JointState,
-       "/control_inputs",
-       self.cmd_callback,
-       10
-    )
+class JointController(Node):
+    """Adapt physical leg commands to the simplified simulation joints."""
 
-    time.sleep(10)
-    
-    self.leg_kin = LegKin()
+    def __init__(self):
+        super().__init__('quadruped_joint_controller')
 
-    # Initial configuration for each leg:
-    init_x, init_y, init_z = (0.0, 0.038, 0.14)
-    init_config = [[init_x, -init_y, -init_z],[init_x, -init_y, -init_z],[init_x, init_y, -init_z],[init_x, init_y, -init_z]]
-    self.cmd_config(init_config)
+        self.leg_kinematics = LegKin()
+        self.command_publisher = self.create_publisher(JointState, '/cmd_jnts', 10)
+        self.control_subscription = self.create_subscription(
+            JointState,
+            '/control_inputs',
+            self.command_callback,
+            10,
+        )
+        self.initialization_timer = self.create_timer(1.0, self._publish_initial_configuration)
 
-  def cmd_config(self, config: list):
-    bad = False
-    msg = JointState()
-    for i in range(len(config)):
-      right = True
-      if i > 1:
-        right = False
-      
-      try:
-        t0, t1, t2 = self.leg_kin.leg_ik(config[i][0],config[i][1],config[i][2], right)
-        t0,t1,t2 = self.leg_kin.leg_control_conv(t0, t1, t2)
-        joints = [t0,t1,t2]
-      except:
-        bad = True
+    def _publish_initial_configuration(self):
+        self.initialization_timer.cancel()
+        initial_x, initial_y, initial_z = (0.0, 0.038, 0.14)
+        initial_configuration = [
+            [initial_x, -initial_y, -initial_z],
+            [initial_x, -initial_y, -initial_z],
+            [initial_x, initial_y, -initial_z],
+            [initial_x, initial_y, -initial_z],
+        ]
+        self.command_configuration(initial_configuration)
 
-      for j in range(3):
-        if np.isnan(joints[j]):
-          bad = True
-        msg.name.append(str(i*3 + j))
-        msg.position.append(joints[j])
+    def command_configuration(self, configuration):
+        """Publish a four-leg Cartesian target when all IK results are valid."""
+        message = JointState()
+        for leg_index, leg_target in enumerate(configuration):
+            right_leg = leg_index <= 1
+            angles = self.leg_kinematics.leg_ik(*leg_target, right=right_leg)
+            joints = self.leg_kinematics.leg_control_conversion(*angles)
+            if not np.all(np.isfinite(joints)):
+                self.get_logger().warning('Ignoring unreachable leg target %s', leg_target)
+                return
 
-    if not bad:
-      self.pub.publish(msg)
+            for joint_offset, joint_position in enumerate(joints):
+                message.name.append(str(leg_index * 3 + joint_offset))
+                message.position.append(joint_position)
 
-  def cmd_callback(self, msg: JointState):
-    angles = [0,0,0,0,0,0,0,0,0,0,0,0]
-    for i in range(len(msg.name)):
-      jointNum = int(msg.name[i])
-      angles[jointNum] = msg.position[jointNum]
+        self.command_publisher.publish(message)
 
-    msg = JointState()
-    for leg in range(4):
-      t0, t1, t2 = angles[leg * 3: leg*3 + 3]
+    def cmd_config(self, configuration):
+        """Preserve the original command method name for downstream callers."""
+        self.command_configuration(configuration)
 
-      if abs(t0) > np.pi/2 or t1 > np.pi/2 or t1 < -np.pi/6 or t2 > 7 * np.pi / 18 or t2 < -7 * np.pi / 18:
-        return
+    def command_callback(self, input_message):
+        """Validate and convert indexed physical joint commands."""
+        angles = [0.0] * 12
+        for name, position in zip(input_message.name, input_message.position):
+            joint_index = int(name)
+            if not 0 <= joint_index < len(angles):
+                self.get_logger().warning('Ignoring out-of-range joint index %s', name)
+                return
+            angles[joint_index] = position
 
-      try:
-        t0,t1,t2 = self.leg_kin.leg_control_conv(t0, t1, t2)
-      except:
-        return
-      
-      joints = [t0,t1,t2]
+        output_message = JointState()
+        for leg_index in range(4):
+            theta_0, theta_1, theta_2 = angles[leg_index * 3:leg_index * 3 + 3]
+            outside_limits = (
+                abs(theta_0) > np.pi / 2
+                or not -np.pi / 6 <= theta_1 <= np.pi / 2
+                or not -7 * np.pi / 18 <= theta_2 <= 7 * np.pi / 18
+            )
+            if outside_limits:
+                self.get_logger().warning('Ignoring command outside configured joint limits')
+                return
 
-      for i in range(3):
-        msg.name.append(str(leg*3 + i))
-        msg.position.append(joints[i])
+            joints = self.leg_kinematics.leg_control_conversion(theta_0, theta_1, theta_2)
+            if not np.all(np.isfinite(joints)):
+                self.get_logger().warning('Ignoring command with invalid kinematic result')
+                return
 
-    self.pub.publish(msg)
+            for joint_offset, joint_position in enumerate(joints):
+                output_message.name.append(str(leg_index * 3 + joint_offset))
+                output_message.position.append(joint_position)
 
-def main(args = None):
-  rclpy.init(args=args)
+        self.command_publisher.publish(output_message)
 
-  joint_control = Joint_Controller()
 
-  rclpy.spin(joint_control)
-
-  joint_control.destroy_node()
-  rclpy.shutdown()
+def main(args=None):
+    """Start the ROS 2 joint controller node."""
+    rclpy.init(args=args)
+    controller = JointController()
+    try:
+        rclpy.spin(controller)
+    finally:
+        controller.destroy_node()
+        rclpy.shutdown()
 
 
 if __name__ == '__main__':
-  main()
-
-  
+    main()
