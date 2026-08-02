@@ -35,9 +35,9 @@
 
     <body name="base" pos="0 0 0.225">
       <freejoint name="base_free"/>
-      <inertial pos="-0.008382264 -0.000014798 0.030113658"
+      <inertial pos="-0.008382264 0.000014798 0.030113658"
                 mass="10.123728045"
-                fullinertia="0.03254 0.280159 0.3037 -0.000031 0.001839 -0.000001"/>
+                fullinertia="0.03254 0.280159 0.3037 0.000031 0.001839 0.000001"/>
       <geom name="base_geom" type="box"
             pos="-0.019599 0 0.02905"
             size="0.262696 0.09575 0.02905" material="body"/>

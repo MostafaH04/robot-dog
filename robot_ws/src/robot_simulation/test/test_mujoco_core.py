@@ -1,6 +1,7 @@
 """Exercise the ROS-independent deterministic MuJoCo core."""
 
 from dataclasses import fields
+import xml.etree.ElementTree as ET
 
 import mujoco
 
@@ -166,9 +167,39 @@ def test_enhanced_model_uses_exported_mass_and_geometry_invariants():
     assert float(enhanced.model.body('base').mass[0]) == pytest.approx(
         10.123728045116188,
     )
+    source_position = np.array(
+        (-0.008382264, -0.000014798, 0.030113658),
+    )
+    source_inertia = np.array((
+        (0.03254, -0.000031, 0.001839),
+        (-0.000031, 0.280159, -0.000001),
+        (0.001839, -0.000001, 0.3037),
+    ))
+    reflect_y = np.diag((1.0, -1.0, 1.0))
+    expected_position = reflect_y @ source_position
+    expected_inertia = reflect_y @ source_inertia @ reflect_y
+
+    xml_root = ET.parse(MODEL_PATHS['enhanced']).getroot()
+    base_inertial = xml_root.find(
+        "./worldbody/body[@name='base']/inertial",
+    )
+    assert base_inertial is not None
+    xml_position = np.fromstring(base_inertial.attrib['pos'], sep=' ')
+    full_inertia = np.fromstring(
+        base_inertial.attrib['fullinertia'],
+        sep=' ',
+    )
+    xml_inertia = np.array((
+        (full_inertia[0], full_inertia[3], full_inertia[4]),
+        (full_inertia[3], full_inertia[1], full_inertia[5]),
+        (full_inertia[4], full_inertia[5], full_inertia[2]),
+    ))
+
+    assert np.allclose(xml_position, expected_position, rtol=0.0, atol=1e-9)
+    assert np.allclose(xml_inertia, expected_inertia, rtol=0.0, atol=1e-12)
     assert np.allclose(
         enhanced.model.body('base').ipos,
-        (-0.008382264, -0.000014798, 0.030113658),
+        expected_position,
         rtol=0.0,
         atol=1e-9,
     )
