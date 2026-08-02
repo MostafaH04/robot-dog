@@ -1,9 +1,12 @@
 """Exercise the ROS-independent deterministic MuJoCo core."""
 
 from dataclasses import fields
+import xml.etree.ElementTree as ET
 
 import mujoco
+
 import numpy as np
+
 import pytest
 
 from robot_simulation.mujoco_core import (
@@ -11,15 +14,21 @@ from robot_simulation.mujoco_core import (
     GroundTruth,
     JOINT_NAMES,
     JointCommand,
+    MODEL_PATHS,
+    MODEL_VARIANTS,
     MujocoSimulator,
     SensorData,
     trajectory_fingerprint,
 )
 
 
-def test_reset_and_fixed_trajectory_are_exactly_repeatable():
+@pytest.mark.parametrize('model_variant', MODEL_VARIANTS)
+def test_reset_and_fixed_trajectory_are_exactly_repeatable(model_variant):
     """Reset and replay should produce exactly equal public data."""
-    simulator = MujocoSimulator(settle_steps=80)
+    simulator = MujocoSimulator(
+        settle_steps=80,
+        model_variant=model_variant,
+    )
     command = {'Revolute_25': 0.47, 'Revolute_31': 0.47}
 
     first = [simulator.reset()]
@@ -34,9 +43,14 @@ def test_reset_and_fixed_trajectory_are_exactly_repeatable():
     assert first[-1].time == pytest.approx(20 * simulator.timestep)
 
 
-def test_safe_stance_exposes_expected_teaching_interface():
+@pytest.mark.parametrize('model_variant', MODEL_VARIANTS)
+def test_safe_stance_exposes_expected_teaching_interface(model_variant):
     """The core should expose mock sensors without embedded truth."""
-    result = MujocoSimulator(settle_steps=120).reset()
+    simulator = MujocoSimulator(
+        settle_steps=120,
+        model_variant=model_variant,
+    )
+    result = simulator.reset()
 
     assert result.sensors.joint_states.names == JOINT_NAMES
     assert tuple(result.sensors.foot_contacts) == FOOT_NAMES
@@ -45,6 +59,8 @@ def test_safe_stance_exposes_expected_teaching_interface():
         for contact in result.sensors.foot_contacts.values()
     )
     assert np.all(np.isfinite(result.sensors.imu.specific_force_body))
+    assert result.time == 0.0
+    assert simulator.step().time == pytest.approx(simulator.timestep)
     assert 'ground_truth' not in {field.name for field in fields(SensorData)}
     assert {field.name for field in fields(GroundTruth)} == {
         'position_world',
@@ -111,3 +127,188 @@ def test_rotated_base_angular_velocity_matches_gyro_body_frame():
         rtol=0.0,
         atol=1e-12,
     )
+
+
+def test_model_variants_are_explicit_and_primitive_remains_default():
+    """Selection should be explicit without breaking custom model loading."""
+    default = MujocoSimulator(settle_steps=0)
+    enhanced = MujocoSimulator(
+        settle_steps=0,
+        model_variant='enhanced',
+    )
+    custom = MujocoSimulator(
+        model_path=MODEL_PATHS['primitive'],
+        settle_steps=0,
+    )
+
+    assert MODEL_VARIANTS == ('primitive', 'enhanced')
+    assert default.model_variant == 'primitive'
+    assert default.model_path == MODEL_PATHS['primitive']
+    assert enhanced.model_variant == 'enhanced'
+    assert custom.model_variant == 'custom'
+    with pytest.raises(ValueError, match='unknown model variant'):
+        MujocoSimulator(model_variant='digital_twin')
+    with pytest.raises(ValueError, match='mutually exclusive'):
+        MujocoSimulator(
+            model_path=MODEL_PATHS['primitive'],
+            model_variant='enhanced',
+        )
+
+
+def test_enhanced_model_uses_exported_mass_and_geometry_invariants():
+    """Repository-backed fidelity changes should remain machine-checkable."""
+    primitive = MujocoSimulator(settle_steps=0)
+    enhanced = MujocoSimulator(
+        settle_steps=0,
+        model_variant='enhanced',
+    )
+
+    assert float(primitive.model.body('base').mass[0]) == pytest.approx(6.0)
+    assert float(enhanced.model.body('base').mass[0]) == pytest.approx(
+        10.123728045116188,
+    )
+    source_position = np.array(
+        (-0.008382264, -0.000014798, 0.030113658),
+    )
+    source_inertia = np.array((
+        (0.03254, -0.000031, 0.001839),
+        (-0.000031, 0.280159, -0.000001),
+        (0.001839, -0.000001, 0.3037),
+    ))
+    reflect_y = np.diag((1.0, -1.0, 1.0))
+    expected_position = reflect_y @ source_position
+    expected_inertia = reflect_y @ source_inertia @ reflect_y
+
+    xml_root = ET.parse(MODEL_PATHS['enhanced']).getroot()
+    base_inertial = xml_root.find(
+        "./worldbody/body[@name='base']/inertial",
+    )
+    assert base_inertial is not None
+    xml_position = np.fromstring(base_inertial.attrib['pos'], sep=' ')
+    full_inertia = np.fromstring(
+        base_inertial.attrib['fullinertia'],
+        sep=' ',
+    )
+    xml_inertia = np.array((
+        (full_inertia[0], full_inertia[3], full_inertia[4]),
+        (full_inertia[3], full_inertia[1], full_inertia[5]),
+        (full_inertia[4], full_inertia[5], full_inertia[2]),
+    ))
+
+    assert np.allclose(xml_position, expected_position, rtol=0.0, atol=1e-9)
+    assert np.allclose(xml_inertia, expected_inertia, rtol=0.0, atol=1e-12)
+    assert np.allclose(
+        enhanced.model.body('base').ipos,
+        expected_position,
+        rtol=0.0,
+        atol=1e-9,
+    )
+    assert np.allclose(
+        enhanced.model.body('front_right_hip').pos,
+        (0.1184, -0.076, 0.0196),
+        rtol=0.0,
+        atol=1e-12,
+    )
+    assert enhanced.model.geom('front_right_foot_geom').type[0] == (
+        mujoco.mjtGeom.mjGEOM_CAPSULE
+    )
+    assert primitive.model.geom('front_right_foot_geom').type[0] == (
+        mujoco.mjtGeom.mjGEOM_SPHERE
+    )
+    assert sum(enhanced.model.body_mass) > sum(primitive.model.body_mass)
+
+
+def test_enhanced_model_loads_repository_defined_four_bar_constraints():
+    """Each enhanced leg should close the checked-in planar linkage."""
+    primitive = MujocoSimulator(settle_steps=0)
+    simulator = MujocoSimulator(
+        settle_steps=120,
+        model_variant='enhanced',
+    )
+    leg_names = ('front_right', 'rear_right', 'rear_left', 'front_left')
+
+    assert primitive.model.neq == 0
+    assert simulator.model.neq == len(leg_names)
+    for leg_name in leg_names:
+        equality = simulator.model.equality(
+            f'{leg_name}_four_bar_closure',
+        )
+        assert equality.type[0] == mujoco.mjtEq.mjEQ_CONNECT
+        assert equality.active0[0] == 1
+        assert np.linalg.norm(
+            simulator.model.body(
+                f'{leg_name}_closure_distal',
+            ).pos,
+        ) == pytest.approx(0.0245, abs=1e-12)
+        assert np.linalg.norm(
+            simulator.model.site(
+                f'{leg_name}_closure_endpoint',
+            ).pos,
+        ) == pytest.approx(0.11058, abs=1e-12)
+        primary_closure_vector = simulator.model.site(
+            f'{leg_name}_closure_site',
+        ).pos[[0, 2]]
+        assert np.linalg.norm(primary_closure_vector) == pytest.approx(
+            0.047434,
+            abs=1e-6,
+        )
+        closure_error = (
+            simulator.data.site(
+                f'{leg_name}_closure_endpoint',
+            ).xpos
+            - simulator.data.site(f'{leg_name}_closure_site').xpos
+        )
+        assert np.linalg.norm(closure_error) < 5e-4
+
+
+def test_enhanced_four_bar_constraint_is_effective_during_joint_motion():
+    """Disabling one connect equality should let its endpoints separate."""
+    constrained = MujocoSimulator(
+        settle_steps=120,
+        model_variant='enhanced',
+    )
+    unconstrained = MujocoSimulator(
+        settle_steps=120,
+        model_variant='enhanced',
+    )
+    equality_id = unconstrained.model.equality(
+        'front_right_four_bar_closure',
+    ).id
+    unconstrained.data.eq_active[equality_id] = 0
+    command = {'Revolute_25': 0.1, 'Revolute_40': -1.5}
+
+    for _ in range(200):
+        constrained.step(command)
+        unconstrained.step(command)
+
+    def closure_gap(simulator):
+        endpoint = simulator.data.site(
+            'front_right_closure_endpoint',
+        ).xpos
+        target = simulator.data.site('front_right_closure_site').xpos
+        return np.linalg.norm(endpoint - target)
+
+    assert closure_gap(constrained) < 5e-4
+    assert closure_gap(unconstrained) > 0.02
+
+
+@pytest.mark.parametrize('model_variant', MODEL_VARIANTS)
+def test_variants_preserve_joint_actuator_and_contact_names(model_variant):
+    """A model swap must not change any public addressing semantics."""
+    simulator = MujocoSimulator(
+        settle_steps=80,
+        model_variant=model_variant,
+    )
+
+    for name in JOINT_NAMES:
+        actuator = simulator.model.actuator(f'act_{name}')
+        assert actuator.id >= 0
+        assert np.array_equal(
+            actuator.ctrlrange,
+            simulator.model.joint(name).range,
+        )
+    assert tuple(simulator.observe().sensors.foot_contacts) == FOOT_NAMES
+    assert max(
+        contact.normal_force
+        for contact in simulator.observe().sensors.foot_contacts.values()
+    ) > 0.0

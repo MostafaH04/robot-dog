@@ -6,13 +6,14 @@ import numpy as np
 
 from robot_simulation.mujoco_core import (
     JOINT_NAMES_BY_LEG,
+    MODEL_VARIANTS,
     MujocoSimulator,
     trajectory_fingerprint,
 )
 
 
-def _run_trajectory():
-    simulator = MujocoSimulator()
+def _run_trajectory(model_variant):
+    simulator = MujocoSimulator(model_variant=model_variant)
     results = [simulator.reset()]
     for step in range(120):
         offset = 0.02 * sin(2.0 * np.pi * step / 120.0)
@@ -25,28 +26,34 @@ def _run_trajectory():
 
 
 def main():
-    """Require exact repeatability and physically valid teaching signals."""
-    first = _run_trajectory()
-    second = _run_trajectory()
-    first_fingerprint = trajectory_fingerprint(first)
-    second_fingerprint = trajectory_fingerprint(second)
+    """Require repeatable, physically valid signals from every model."""
+    for model_variant in MODEL_VARIANTS:
+        first = _run_trajectory(model_variant)
+        second = _run_trajectory(model_variant)
+        first_fingerprint = trajectory_fingerprint(first)
+        second_fingerprint = trajectory_fingerprint(second)
 
-    if not np.array_equal(first_fingerprint, second_fingerprint):
-        raise RuntimeError('MuJoCo trajectories were not exactly repeatable')
-    if not np.all(np.isfinite(first_fingerprint)):
-        raise RuntimeError('MuJoCo trajectory contains non-finite values')
-    contact_samples = [
-        contact.normal_force
-        for result in first
-        for contact in result.sensors.foot_contacts.values()
-    ]
-    if max(contact_samples) <= 0.0:
-        raise RuntimeError(
-            'MuJoCo smoke trajectory never produced foot contact'
-        )
+        if not np.array_equal(first_fingerprint, second_fingerprint):
+            raise RuntimeError(
+                f'{model_variant} trajectories were not exactly repeatable'
+            )
+        if not np.all(np.isfinite(first_fingerprint)):
+            raise RuntimeError(
+                f'{model_variant} trajectory contains non-finite values'
+            )
+        contact_samples = [
+            contact.normal_force
+            for result in first
+            for contact in result.sensors.foot_contacts.values()
+        ]
+        if max(contact_samples) <= 0.0:
+            raise RuntimeError(
+                f'{model_variant} trajectory never produced foot contact'
+            )
     print(
-        'MuJoCo smoke test passed: fixed-step reset/step is repeatable, '
-        'mock sensors are finite, and foot forces are nonzero.'
+        'MuJoCo smoke test passed for primitive and enhanced models: '
+        'fixed-step reset/step is repeatable, mock sensors are finite, '
+        'and foot forces are nonzero.'
     )
 
 
