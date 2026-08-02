@@ -6,6 +6,7 @@ from types import MappingProxyType
 from typing import Mapping, Sequence
 
 import mujoco
+
 import numpy as np
 
 
@@ -18,9 +19,16 @@ JOINT_NAMES_BY_LEG = (
 JOINT_NAMES = tuple(name for leg in JOINT_NAMES_BY_LEG for name in leg)
 FOOT_NAMES = ('front_left', 'front_right', 'rear_left', 'rear_right')
 SAFE_STANCE_POSITIONS = (0.0, 0.45, -0.90) * 4
-DEFAULT_MODEL_PATH = (
-    Path(__file__).with_name('models') / 'minimal_quadruped.xml'
-)
+MODEL_PATHS = MappingProxyType({
+    'primitive': (
+        Path(__file__).with_name('models') / 'minimal_quadruped.xml'
+    ),
+    'enhanced': (
+        Path(__file__).with_name('models') / 'enhanced_quadruped.xml'
+    ),
+})
+MODEL_VARIANTS = tuple(MODEL_PATHS)
+DEFAULT_MODEL_PATH = MODEL_PATHS['primitive']
 
 
 def _readonly(values):
@@ -117,15 +125,32 @@ class StepResult:
 class MujocoSimulator:
     """Own one deterministic MuJoCo model/data pair with fixed-step control."""
 
-    def __init__(self, model_path=None, settle_steps=250):
+    def __init__(
+        self,
+        model_path=None,
+        settle_steps=250,
+        model_variant='primitive',
+    ):
         """Load and validate one model, then enter its safe stance."""
         if settle_steps < 0:
             raise ValueError('settle_steps must be non-negative')
-        path = (
-            Path(model_path)
-            if model_path is not None
-            else DEFAULT_MODEL_PATH
+        if model_variant not in MODEL_VARIANTS:
+            raise ValueError(
+                f'unknown model variant {model_variant!r}; '
+                f'expected one of {MODEL_VARIANTS}'
+            )
+        if model_path is not None and model_variant != 'primitive':
+            raise ValueError(
+                'model_path and a non-default model_variant are mutually '
+                'exclusive'
+            )
+        path = Path(model_path) if model_path is not None else MODEL_PATHS[
+            model_variant
+        ]
+        self.model_variant = (
+            'custom' if model_path is not None else model_variant
         )
+        self.model_path = path
         self.model = mujoco.MjModel.from_xml_path(str(path))
         self.data = mujoco.MjData(self.model)
         self.settle_steps = settle_steps

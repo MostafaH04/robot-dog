@@ -3,7 +3,9 @@
 from dataclasses import fields
 
 import mujoco
+
 import numpy as np
+
 import pytest
 
 from robot_simulation.mujoco_core import (
@@ -11,15 +13,21 @@ from robot_simulation.mujoco_core import (
     GroundTruth,
     JOINT_NAMES,
     JointCommand,
+    MODEL_PATHS,
+    MODEL_VARIANTS,
     MujocoSimulator,
     SensorData,
     trajectory_fingerprint,
 )
 
 
-def test_reset_and_fixed_trajectory_are_exactly_repeatable():
+@pytest.mark.parametrize('model_variant', MODEL_VARIANTS)
+def test_reset_and_fixed_trajectory_are_exactly_repeatable(model_variant):
     """Reset and replay should produce exactly equal public data."""
-    simulator = MujocoSimulator(settle_steps=80)
+    simulator = MujocoSimulator(
+        settle_steps=80,
+        model_variant=model_variant,
+    )
     command = {'Revolute_25': 0.47, 'Revolute_31': 0.47}
 
     first = [simulator.reset()]
@@ -34,9 +42,14 @@ def test_reset_and_fixed_trajectory_are_exactly_repeatable():
     assert first[-1].time == pytest.approx(20 * simulator.timestep)
 
 
-def test_safe_stance_exposes_expected_teaching_interface():
+@pytest.mark.parametrize('model_variant', MODEL_VARIANTS)
+def test_safe_stance_exposes_expected_teaching_interface(model_variant):
     """The core should expose mock sensors without embedded truth."""
-    result = MujocoSimulator(settle_steps=120).reset()
+    simulator = MujocoSimulator(
+        settle_steps=120,
+        model_variant=model_variant,
+    )
+    result = simulator.reset()
 
     assert result.sensors.joint_states.names == JOINT_NAMES
     assert tuple(result.sensors.foot_contacts) == FOOT_NAMES
@@ -45,6 +58,8 @@ def test_safe_stance_exposes_expected_teaching_interface():
         for contact in result.sensors.foot_contacts.values()
     )
     assert np.all(np.isfinite(result.sensors.imu.specific_force_body))
+    assert result.time == 0.0
+    assert simulator.step().time == pytest.approx(simulator.timestep)
     assert 'ground_truth' not in {field.name for field in fields(SensorData)}
     assert {field.name for field in fields(GroundTruth)} == {
         'position_world',
@@ -111,3 +126,84 @@ def test_rotated_base_angular_velocity_matches_gyro_body_frame():
         rtol=0.0,
         atol=1e-12,
     )
+
+
+def test_model_variants_are_explicit_and_primitive_remains_default():
+    """Selection should be explicit without breaking custom model loading."""
+    default = MujocoSimulator(settle_steps=0)
+    enhanced = MujocoSimulator(
+        settle_steps=0,
+        model_variant='enhanced',
+    )
+    custom = MujocoSimulator(
+        model_path=MODEL_PATHS['primitive'],
+        settle_steps=0,
+    )
+
+    assert MODEL_VARIANTS == ('primitive', 'enhanced')
+    assert default.model_variant == 'primitive'
+    assert default.model_path == MODEL_PATHS['primitive']
+    assert enhanced.model_variant == 'enhanced'
+    assert custom.model_variant == 'custom'
+    with pytest.raises(ValueError, match='unknown model variant'):
+        MujocoSimulator(model_variant='digital_twin')
+    with pytest.raises(ValueError, match='mutually exclusive'):
+        MujocoSimulator(
+            model_path=MODEL_PATHS['primitive'],
+            model_variant='enhanced',
+        )
+
+
+def test_enhanced_model_uses_exported_mass_and_geometry_invariants():
+    """Repository-backed fidelity changes should remain machine-checkable."""
+    primitive = MujocoSimulator(settle_steps=0)
+    enhanced = MujocoSimulator(
+        settle_steps=0,
+        model_variant='enhanced',
+    )
+
+    assert float(primitive.model.body('base').mass[0]) == pytest.approx(6.0)
+    assert float(enhanced.model.body('base').mass[0]) == pytest.approx(
+        10.123728045116188,
+    )
+    assert np.allclose(
+        enhanced.model.body('base').ipos,
+        (-0.008382264, -0.000014798, 0.030113658),
+        rtol=0.0,
+        atol=1e-9,
+    )
+    assert np.allclose(
+        enhanced.model.body('front_right_hip').pos,
+        (0.1184, -0.076, 0.0196),
+        rtol=0.0,
+        atol=1e-12,
+    )
+    assert enhanced.model.geom('front_right_foot_geom').type[0] == (
+        mujoco.mjtGeom.mjGEOM_CAPSULE
+    )
+    assert primitive.model.geom('front_right_foot_geom').type[0] == (
+        mujoco.mjtGeom.mjGEOM_SPHERE
+    )
+    assert sum(enhanced.model.body_mass) > sum(primitive.model.body_mass)
+
+
+@pytest.mark.parametrize('model_variant', MODEL_VARIANTS)
+def test_variants_preserve_joint_actuator_and_contact_names(model_variant):
+    """A model swap must not change any public addressing semantics."""
+    simulator = MujocoSimulator(
+        settle_steps=80,
+        model_variant=model_variant,
+    )
+
+    for name in JOINT_NAMES:
+        actuator = simulator.model.actuator(f'act_{name}')
+        assert actuator.id >= 0
+        assert np.array_equal(
+            actuator.ctrlrange,
+            simulator.model.joint(name).range,
+        )
+    assert tuple(simulator.observe().sensors.foot_contacts) == FOOT_NAMES
+    assert max(
+        contact.normal_force
+        for contact in simulator.observe().sensors.foot_contacts.values()
+    ) > 0.0

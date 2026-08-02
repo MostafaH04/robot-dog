@@ -1,0 +1,208 @@
+<mujoco model="robot_dog_enhanced">
+  <!--
+    Phase 3 evidence-bounded teaching model, not a validated digital twin.
+    Exported mass/inertia and joint-anchor values come from
+    robot_simulation/urdf/robot_core.xacro. Primitive envelopes derive from
+    the checked-in STL bounds; see models/README.md for transformations and
+    every retained approximation. Coordinates remain x-forward, y-left,
+    z-up, and public joint/contact names match the Phase 2 core.
+  -->
+  <compiler angle="radian" autolimits="true" inertiafromgeom="false"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast"
+          solver="Newton" iterations="20" tolerance="1e-10"
+          cone="elliptic"/>
+
+  <default>
+    <joint damping="0.8" armature="0.01"/>
+    <geom condim="3" friction="0.9 0.02 0.001" solref="0.012 1"
+          solimp="0.9 0.95 0.001" rgba="0.45 0.55 0.65 1"/>
+    <position kp="55" kv="4" ctrllimited="true" forcelimited="true"
+              forcerange="-35 35"/>
+  </default>
+
+  <asset>
+    <material name="ground" rgba="0.24 0.27 0.30 1"/>
+    <material name="body" rgba="0.18 0.40 0.68 1"/>
+    <material name="right_leg" rgba="0.78 0.45 0.16 1"/>
+    <material name="left_leg" rgba="0.20 0.62 0.42 1"/>
+    <material name="foot" rgba="0.12 0.12 0.12 1"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 2" dir="0 0 -1" diffuse="0.8 0.8 0.8"/>
+    <geom name="ground" type="plane" size="2 2 0.1" material="ground"
+          density="0" friction="0.9 0.02 0.001"/>
+
+    <body name="base" pos="0 0 0.225">
+      <freejoint name="base_free"/>
+      <inertial pos="-0.008382264 -0.000014798 0.030113658"
+                mass="10.123728045"
+                fullinertia="0.03254 0.280159 0.3037 -0.000031 0.001839 -0.000001"/>
+      <geom name="base_geom" type="box"
+            pos="-0.019599 0 0.02905"
+            size="0.262696 0.09575 0.02905" material="body"/>
+      <site name="imu" pos="0 0 0" size="0.008" rgba="1 0 0 1"/>
+
+      <body name="front_right_hip" pos="0.1184 -0.076 0.0196">
+        <joint name="Revolute_1" type="hinge" axis="1 0 0"
+               range="-0.6 0.6"/>
+        <inertial pos="0.033226213 -0.004607471 0.011279981"
+                  mass="0.791396211"
+                  fullinertia="0.000288 0.000453 0.000409 -0.000014 -0.000006 0.000006"/>
+        <geom name="front_right_hip_geom" type="box"
+              pos="0.03235 -0.00461 0.01154"
+              size="0.03575 0.03124 0.02654" material="right_leg"/>
+        <body name="front_right_thigh" pos="0.025397 -0.039329 -0.002342">
+          <joint name="Revolute_25" type="hinge" axis="0 1 0"
+                 range="-1.2 1.2"/>
+          <inertial pos="0.005235458 0.002814845 -0.056117039"
+                    mass="0.126779894"
+                    fullinertia="0.000135 0.000137 0.000006 0 0.000010 0.000001"/>
+          <geom name="front_right_thigh_geom" type="capsule"
+                fromto="0 0 0 0.010471 0.005630 -0.112234"
+                size="0.007" material="right_leg"/>
+          <body name="front_right_foot" pos="0.002333 0.00898 -0.105888">
+            <joint name="Revolute_40" type="hinge" axis="0 1 0"
+                   range="-2.0 0.3"/>
+            <inertial pos="0.003127876 -0.004997933 -0.061228444"
+                      mass="0.313144512"
+                      fullinertia="0.000443 0.000438 0.000025 0 0.000001 0"/>
+            <geom name="front_right_foot_geom" type="capsule"
+                  fromto="0 0 0 0.006256 -0.009996 -0.122457"
+                  size="0.011" material="foot"/>
+            <site name="front_right_foot_site" pos="0.006256 -0.009996 -0.122457"
+                  size="0.012" rgba="0 0 0 0"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="rear_right_hip" pos="-0.1184 -0.076 0.0196">
+        <joint name="Revolute_3" type="hinge" axis="1 0 0"
+               range="-0.6 0.6"/>
+        <inertial pos="-0.034533607 -0.004633032 0.011213744"
+                  mass="0.791396211"
+                  fullinertia="0.000288 0.000458 0.000413 -0.000012 0.000008 0.000006"/>
+        <geom name="rear_right_hip_geom" type="box"
+              pos="-0.03235 -0.00461 0.01154"
+              size="0.03575 0.03124 0.02649" material="right_leg"/>
+        <body name="rear_right_thigh" pos="-0.046637 -0.039355 -0.002438">
+          <joint name="Revolute_20" type="hinge" axis="0 1 0"
+                 range="-1.2 1.2"/>
+          <inertial pos="0.005235109 0.002814997 -0.056117279"
+                    mass="0.126779894"
+                    fullinertia="0.000135 0.000137 0.000006 0 0.000010 0.000001"/>
+          <geom name="rear_right_thigh_geom" type="capsule"
+                fromto="0 0 0 0.010470 0.005630 -0.112235"
+                size="0.007" material="right_leg"/>
+          <body name="rear_right_foot" pos="0.002333 0 -0.105888">
+            <joint name="Revolute_23" type="hinge" axis="0 1 0"
+                   range="-2.0 0.3"/>
+            <inertial pos="0.003127527 0.005052219 -0.061228684"
+                      mass="0.313144512"
+                      fullinertia="0.000443 0.000438 0.000025 0 0.000001 0"/>
+            <geom name="rear_right_foot_geom" type="capsule"
+                  fromto="0 0 0 0.006255 0.010104 -0.122457"
+                  size="0.011" material="foot"/>
+            <site name="rear_right_foot_site" pos="0.006255 0.010104 -0.122457"
+                  size="0.012" rgba="0 0 0 0"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="rear_left_hip" pos="-0.1184 0.076 0.0196">
+        <joint name="Revolute_4" type="hinge" axis="1 0 0"
+               range="-0.6 0.6"/>
+        <inertial pos="-0.034533607 0.004633033 0.011213744"
+                  mass="0.791396223"
+                  fullinertia="0.000288 0.000458 0.000413 0.000012 0.000008 -0.000006"/>
+        <geom name="rear_left_hip_geom" type="box"
+              pos="-0.03235 0.00461 0.01154"
+              size="0.03575 0.03124 0.02649" material="left_leg"/>
+        <body name="rear_left_thigh" pos="-0.046637 0.039355 -0.002438">
+          <joint name="Revolute_35" type="hinge" axis="0 1 0"
+                 range="-1.2 1.2"/>
+          <inertial pos="0.005235109 -0.002814997 -0.056117279"
+                    mass="0.126779894"
+                    fullinertia="0.000135 0.000137 0.000006 0 0.000010 -0.000001"/>
+          <geom name="rear_left_thigh_geom" type="capsule"
+                fromto="0 0 0 0.010470 -0.005630 -0.112235"
+                size="0.007" material="left_leg"/>
+          <body name="rear_left_foot" pos="0.002333 0 -0.105888">
+            <joint name="Revolute_45" type="hinge" axis="0 1 0"
+                   range="-2.0 0.3"/>
+            <inertial pos="0.003127527 -0.005052219 -0.061228684"
+                      mass="0.313144512"
+                      fullinertia="0.000443 0.000438 0.000025 0 0.000001 0"/>
+            <geom name="rear_left_foot_geom" type="capsule"
+                  fromto="0 0 0 0.006255 -0.010104 -0.122457"
+                  size="0.011" material="foot"/>
+            <site name="rear_left_foot_site" pos="0.006255 -0.010104 -0.122457"
+                  size="0.012" rgba="0 0 0 0"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="front_left_hip" pos="0.1184 0.076 0.0196">
+        <joint name="Revolute_5" type="hinge" axis="1 0 0"
+               range="-0.6 0.6"/>
+        <inertial pos="0.033226213 0.004607471 0.011279981"
+                  mass="0.791396223"
+                  fullinertia="0.000288 0.000453 0.000409 0.000014 -0.000006 -0.000006"/>
+        <geom name="front_left_hip_geom" type="box"
+              pos="0.03235 0.00461 0.01154"
+              size="0.03575 0.03124 0.02654" material="left_leg"/>
+        <body name="front_left_thigh" pos="0.025397 0.039329 -0.002342">
+          <joint name="Revolute_31" type="hinge" axis="0 1 0"
+                 range="-1.2 1.2"/>
+          <inertial pos="0.005597894 -0.002814845 -0.056423680"
+                    mass="0.126779894"
+                    fullinertia="0.000135 0.000137 0.000006 0 0.000010 -0.000001"/>
+          <geom name="front_left_thigh_geom" type="capsule"
+                fromto="0 0 0 0.011196 -0.005630 -0.112847"
+                size="0.007" material="left_leg"/>
+          <body name="front_left_foot" pos="0.002695 0 -0.106195">
+            <joint name="Revolute_48" type="hinge" axis="0 1 0"
+                   range="-2.0 0.3"/>
+            <inertial pos="0.003128312 -0.005052067 -0.061228085"
+                      mass="0.313144512"
+                      fullinertia="0.000443 0.000438 0.000025 0 0.000001 0"/>
+            <geom name="front_left_foot_geom" type="capsule"
+                  fromto="0 0 0 0.006257 -0.010104 -0.122456"
+                  size="0.011" material="foot"/>
+            <site name="front_left_foot_site" pos="0.006257 -0.010104 -0.122456"
+                  size="0.012" rgba="0 0 0 0"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position name="act_Revolute_1" joint="Revolute_1" ctrlrange="-0.6 0.6"/>
+    <position name="act_Revolute_25" joint="Revolute_25" ctrlrange="-1.2 1.2"/>
+    <position name="act_Revolute_40" joint="Revolute_40" ctrlrange="-2.0 0.3"/>
+    <position name="act_Revolute_3" joint="Revolute_3" ctrlrange="-0.6 0.6"/>
+    <position name="act_Revolute_20" joint="Revolute_20" ctrlrange="-1.2 1.2"/>
+    <position name="act_Revolute_23" joint="Revolute_23" ctrlrange="-2.0 0.3"/>
+    <position name="act_Revolute_4" joint="Revolute_4" ctrlrange="-0.6 0.6"/>
+    <position name="act_Revolute_35" joint="Revolute_35" ctrlrange="-1.2 1.2"/>
+    <position name="act_Revolute_45" joint="Revolute_45" ctrlrange="-2.0 0.3"/>
+    <position name="act_Revolute_5" joint="Revolute_5" ctrlrange="-0.6 0.6"/>
+    <position name="act_Revolute_31" joint="Revolute_31" ctrlrange="-1.2 1.2"/>
+    <position name="act_Revolute_48" joint="Revolute_48" ctrlrange="-2.0 0.3"/>
+  </actuator>
+
+  <sensor>
+    <gyro name="imu_gyro" site="imu"/>
+    <accelerometer name="imu_specific_force" site="imu"/>
+  </sensor>
+
+  <keyframe>
+    <key name="safe_stance"
+         qpos="0 0 0.225 1 0 0 0
+               0 0.45 -0.90  0 0.45 -0.90
+               0 0.45 -0.90  0 0.45 -0.90"
+         ctrl="0 0.45 -0.90  0 0.45 -0.90
+               0 0.45 -0.90  0 0.45 -0.90"/>
+  </keyframe>
+</mujoco>

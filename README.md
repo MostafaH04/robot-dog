@@ -14,7 +14,7 @@ This baseline targets **ROS 2 Jazzy on Ubuntu 24.04**. The previous project used
 | Control | Per-leg IK plus a deterministic, gentle stance-height example controller |
 | Visualization | Robot state publisher, optional RViz, and a Foxglove bridge on port `8765` |
 | Tests | ROS package tests plus an end-to-end command/sensor headless smoke test |
-| MuJoCo | Minimal 12-joint primitive model, fixed-step reset/step, idealized teaching data, separate ground truth, and headless determinism smoke test |
+| MuJoCo | Stable primitive baseline plus an optional evidence-bounded enhanced model, fixed-step reset/step, compatible idealized teaching data, separate ground truth, and headless determinism coverage for both |
 | State estimation, navigation, learning | No estimator or environment yet; a PyBullet teaching interface is available |
 | Hardware and firmware | Not present in this repository |
 
@@ -85,16 +85,16 @@ make sim SIM_ARGS="use_rviz:=true use_foxglove:=false"
 | `make setup` | Resolve ROS dependencies and install pinned Python dependencies |
 | `make build` | Build `robot_ws` using a symlink install |
 | `make test` | Run all package tests and print the complete result summary |
-| `make mujoco-smoke` | Run two identical headless MuJoCo trajectories and require exact equality, finite sensors, and foot contact |
+| `make mujoco-smoke` | Run identical headless trajectories on both MuJoCo variants and require exact equality, finite sensors, and foot contact |
 | `make smoke` | Verify simulation time, clean TF, commands, sensors, forces, and truth |
 | `make sim` | Launch PyBullet, the joint controller, robot state publisher, and Foxglove |
 | `make experiment` | Add the deterministic example controller and interface monitor |
 
 ROS commands accept a different installed distribution through `ROS_DISTRO`, for example `ROS_DISTRO=humble make build`. Jazzy remains the tested target. `make mujoco-smoke` is deliberately ROS-independent.
 
-## Phase 2 MuJoCo core
+## Phase 2 MuJoCo core and Phase 3 model layer
 
-The MuJoCo path is a small simulator core, not a ROS node or learning algorithm. It loads one documented primitive-only MJCF model and exposes ordinary Python `reset()`, `step(command)`, and `observe()` methods. Each `step` advances exactly one fixed 2 ms physics tick. Each `reset` restores the same keyframe, holds the safe stance through a fixed number of settling steps, resets episode time to zero, and returns copied data.
+The MuJoCo path is a small simulator core, not a ROS node or learning algorithm. It exposes ordinary Python `reset()`, `step(command)`, and `observe()` methods. Each `step` advances exactly one fixed 2 ms physics tick. Each `reset` restores the same keyframe, holds the safe stance through a fixed number of settling steps, resets episode time to zero, and returns copied data.
 
 ```python
 from robot_simulation.mujoco_core import MujocoSimulator
@@ -102,6 +102,9 @@ from robot_simulation.mujoco_core import MujocoSimulator
 simulator = MujocoSimulator()
 initial = simulator.reset()
 result = simulator.step({'Revolute_25': 0.47})
+
+# Optional Phase 3 model; public commands and results are unchanged.
+enhanced = MujocoSimulator(model_variant='enhanced')
 
 mock_imu = result.sensors.imu
 evaluation_pose = result.ground_truth.position_world
@@ -118,7 +121,9 @@ The returned interface deliberately separates data by intended use:
 | `result.sensors.foot_contacts[foot]` | Per-foot contact flag, summed normal force, and simulated force/torque about the foot site in the foot frame |
 | `result.ground_truth` | Exact base pose and body-frame velocity, isolated in a separate object for evaluation |
 
-The [minimal model](robot_ws/src/robot_simulation/robot_simulation/models/README.md) uses a box torso, capsule legs, spherical feet, approximate masses, and no CAD assets. It omits the real closed-chain leg geometry and actuator/sensor imperfections. MuJoCo itself is pinned, and the model fixes its timestep, integrator, solver, iteration count, tolerance, friction cone, and reset state. The smoke test checks exact repeatability within the supported environment; it does not promise bitwise identity across different MuJoCo versions, CPU architectures, or compiler builds.
+The [model provenance and approximation guide](robot_ws/src/robot_simulation/robot_simulation/models/README.md) describes both variants. `primitive` remains the default known-stable fixture. `enhanced` uses masses, inertia tensors, centers of mass, and joint anchors traced to the checked-in Xacro/URDF export, plus bounded primitive envelopes derived from the checked-in STL bounds. It deliberately retains conservative teaching limits and actuator/contact tuning where the repository lacks credible hardware facts. Neither variant reconstructs the physical closed chain or validates dynamics against hardware.
+
+MuJoCo itself is pinned, and both models fix timestep, integrator, solver, iteration count, tolerance, friction cone, and reset state. Focused tests and `make mujoco-smoke` exercise both variants with numerical invariants rather than visual inspection. Exact replay is required within the supported environment; bitwise identity across different MuJoCo versions, CPU architectures, or compiler builds is not promised.
 
 ROS and Gymnasium adapters are intentionally deferred. An eventual adapter should translate this core's existing command/result objects at the boundary rather than add ROS timing or learning-framework state to the core.
 
@@ -193,7 +198,7 @@ An older, more detailed open-chain export of the mechanism exists in Git history
 
 1. **Reproducible baseline** — repeatable environment, declared dependencies, CI, and a verified PyBullet launch. This repository state covers that phase.
 2. **MuJoCo vertical slice** — the ROS-independent core now loads one canonical simplified model, resets/steps deterministically, applies named joint commands, and exposes idealized sensor data with separate ground truth. Rendering and adapters remain deferred.
-3. **Model fidelity** — recover the detailed mechanism, add loop-closure constraints, simplify collision geometry, and validate mass/inertia/joint conventions.
+3. **Model fidelity** — an optional enhanced open-chain model now introduces repository-exported mass/inertia and geometry structure with explicit provenance and approximations. Detailed mechanism recovery, loop closure, system identification, and hardware validation remain future work.
 4. **Robotics interfaces** — the idealized sensor teaching slice has started this phase; state estimators, navigation interfaces, and controller benchmarks remain.
 5. **Learning environment** — Gymnasium-style reset/step API, observations/actions/rewards, reproducible experiments, and ROS adapters at the boundary.
 
