@@ -4,8 +4,11 @@
     Exported mass/inertia and joint-anchor values come from
     robot_simulation/urdf/robot_core.xacro. Primitive envelopes derive from
     the checked-in STL bounds; see models/README.md for transformations and
-    every retained approximation. Coordinates remain x-forward, y-left,
-    z-up, and public joint/contact names match the Phase 2 core.
+    every retained approximation. The passive branches and connect equalities
+    implement the ideal planar topology in robot_controller/leg_kin.py; the
+    historical CAD export does not contain valid closing transforms.
+    Coordinates remain x-forward, y-left, z-up, and public joint/contact names
+    match the Phase 2 core.
   -->
   <compiler angle="radian" autolimits="true" inertiafromgeom="false"/>
   <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast"
@@ -70,8 +73,37 @@
             <geom name="front_right_foot_geom" type="capsule"
                   fromto="0 0 0 0.006256 -0.009996 -0.122457"
                   size="0.011" material="foot"/>
+            <site name="front_right_closure_site"
+                  pos="-0.000253 -0.00898 -0.047433" size="0.004"
+                  rgba="0.72 0.24 0.56 1"/>
             <site name="front_right_foot_site" pos="0.006256 -0.009996 -0.122457"
                   size="0.012" rgba="0 0 0 0"/>
+          </body>
+        </body>
+        <body name="front_right_closure_proximal"
+              pos="0.025397 -0.039329 -0.002342">
+          <joint name="closure_front_right_proximal" type="hinge"
+                 axis="0 1 0" range="-3.14159 3.14159"
+                 damping="0.2" armature="0.001"/>
+          <inertial pos="0 0 -0.01225" mass="0.016567435"
+                    diaginertia="0.000000913 0.000000913 0.000000168"/>
+          <geom name="front_right_closure_proximal_geom" type="capsule"
+                fromto="0 0 0 0 0 -0.0245" size="0.0045"
+                contype="0" conaffinity="0"
+                rgba="0.85 0.15 0.65 1"/>
+          <body name="front_right_closure_distal" pos="0 0 -0.0245">
+            <joint name="closure_front_right_distal" type="hinge"
+                   axis="0 1 0" range="-3.14159 3.14159"
+                   damping="0.2" armature="0.001"/>
+            <inertial pos="0 0 -0.05529" mass="0.163188701"
+                      diaginertia="0.000168287 0.000168287 0.000003998"/>
+            <geom name="front_right_closure_distal_geom" type="capsule"
+                  fromto="0 0 0 0 0 -0.11058" size="0.007"
+                  contype="0" conaffinity="0"
+                  rgba="0.85 0.15 0.65 1"/>
+            <site name="front_right_closure_endpoint"
+                  pos="0 0 -0.11058" size="0.004"
+                  rgba="0.72 0.24 0.56 1"/>
           </body>
         </body>
       </body>
@@ -103,8 +135,37 @@
             <geom name="rear_right_foot_geom" type="capsule"
                   fromto="0 0 0 0.006255 0.010104 -0.122457"
                   size="0.011" material="foot"/>
+            <site name="rear_right_closure_site"
+                  pos="-0.000253 0 -0.047434" size="0.004"
+                  rgba="0.72 0.24 0.56 1"/>
             <site name="rear_right_foot_site" pos="0.006255 0.010104 -0.122457"
                   size="0.012" rgba="0 0 0 0"/>
+          </body>
+        </body>
+        <body name="rear_right_closure_proximal"
+              pos="-0.046637 -0.039355 -0.002438">
+          <joint name="closure_rear_right_proximal" type="hinge"
+                 axis="0 1 0" range="-3.14159 3.14159"
+                 damping="0.2" armature="0.001"/>
+          <inertial pos="0 0 -0.01225" mass="0.016567435"
+                    diaginertia="0.000000913 0.000000913 0.000000168"/>
+          <geom name="rear_right_closure_proximal_geom" type="capsule"
+                fromto="0 0 0 0 0 -0.0245" size="0.0045"
+                contype="0" conaffinity="0"
+                rgba="0.85 0.15 0.65 1"/>
+          <body name="rear_right_closure_distal" pos="0 0 -0.0245">
+            <joint name="closure_rear_right_distal" type="hinge"
+                   axis="0 1 0" range="-3.14159 3.14159"
+                   damping="0.2" armature="0.001"/>
+            <inertial pos="0 0 -0.05529" mass="0.163188701"
+                      diaginertia="0.000168287 0.000168287 0.000003998"/>
+            <geom name="rear_right_closure_distal_geom" type="capsule"
+                  fromto="0 0 0 0 0 -0.11058" size="0.007"
+                  contype="0" conaffinity="0"
+                  rgba="0.85 0.15 0.65 1"/>
+            <site name="rear_right_closure_endpoint"
+                  pos="0 0 -0.11058" size="0.004"
+                  rgba="0.72 0.24 0.56 1"/>
           </body>
         </body>
       </body>
@@ -136,8 +197,37 @@
             <geom name="rear_left_foot_geom" type="capsule"
                   fromto="0 0 0 0.006255 -0.010104 -0.122457"
                   size="0.011" material="foot"/>
+            <site name="rear_left_closure_site"
+                  pos="-0.000253 0 -0.047434" size="0.004"
+                  rgba="0.72 0.24 0.56 1"/>
             <site name="rear_left_foot_site" pos="0.006255 -0.010104 -0.122457"
                   size="0.012" rgba="0 0 0 0"/>
+          </body>
+        </body>
+        <body name="rear_left_closure_proximal"
+              pos="-0.046637 0.039355 -0.002438">
+          <joint name="closure_rear_left_proximal" type="hinge"
+                 axis="0 1 0" range="-3.14159 3.14159"
+                 damping="0.2" armature="0.001"/>
+          <inertial pos="0 0 -0.01225" mass="0.016567435"
+                    diaginertia="0.000000913 0.000000913 0.000000168"/>
+          <geom name="rear_left_closure_proximal_geom" type="capsule"
+                fromto="0 0 0 0 0 -0.0245" size="0.0045"
+                contype="0" conaffinity="0"
+                rgba="0.85 0.15 0.65 1"/>
+          <body name="rear_left_closure_distal" pos="0 0 -0.0245">
+            <joint name="closure_rear_left_distal" type="hinge"
+                   axis="0 1 0" range="-3.14159 3.14159"
+                   damping="0.2" armature="0.001"/>
+            <inertial pos="0 0 -0.05529" mass="0.163188701"
+                      diaginertia="0.000168287 0.000168287 0.000003998"/>
+            <geom name="rear_left_closure_distal_geom" type="capsule"
+                  fromto="0 0 0 0 0 -0.11058" size="0.007"
+                  contype="0" conaffinity="0"
+                  rgba="0.85 0.15 0.65 1"/>
+            <site name="rear_left_closure_endpoint"
+                  pos="0 0 -0.11058" size="0.004"
+                  rgba="0.72 0.24 0.56 1"/>
           </body>
         </body>
       </body>
@@ -169,13 +259,61 @@
             <geom name="front_left_foot_geom" type="capsule"
                   fromto="0 0 0 0.006257 -0.010104 -0.122456"
                   size="0.011" material="foot"/>
+            <site name="front_left_closure_site"
+                  pos="-0.000252 0 -0.047433" size="0.004"
+                  rgba="0.72 0.24 0.56 1"/>
             <site name="front_left_foot_site" pos="0.006257 -0.010104 -0.122456"
                   size="0.012" rgba="0 0 0 0"/>
+          </body>
+        </body>
+        <body name="front_left_closure_proximal"
+              pos="0.025397 0.039329 -0.002342">
+          <joint name="closure_front_left_proximal" type="hinge"
+                 axis="0 1 0" range="-3.14159 3.14159"
+                 damping="0.2" armature="0.001"/>
+          <inertial pos="0 0 -0.01225" mass="0.016567435"
+                    diaginertia="0.000000913 0.000000913 0.000000168"/>
+          <geom name="front_left_closure_proximal_geom" type="capsule"
+                fromto="0 0 0 0 0 -0.0245" size="0.0045"
+                contype="0" conaffinity="0"
+                rgba="0.85 0.15 0.65 1"/>
+          <body name="front_left_closure_distal" pos="0 0 -0.0245">
+            <joint name="closure_front_left_distal" type="hinge"
+                   axis="0 1 0" range="-3.14159 3.14159"
+                   damping="0.2" armature="0.001"/>
+            <inertial pos="0 0 -0.05529" mass="0.163188701"
+                      diaginertia="0.000168287 0.000168287 0.000003998"/>
+            <geom name="front_left_closure_distal_geom" type="capsule"
+                  fromto="0 0 0 0 0 -0.11058" size="0.007"
+                  contype="0" conaffinity="0"
+                  rgba="0.85 0.15 0.65 1"/>
+            <site name="front_left_closure_endpoint"
+                  pos="0 0 -0.11058" size="0.004"
+                  rgba="0.72 0.24 0.56 1"/>
           </body>
         </body>
       </body>
     </body>
   </worldbody>
+
+  <equality>
+    <connect name="front_right_four_bar_closure"
+             site1="front_right_closure_endpoint"
+             site2="front_right_closure_site"
+             solref="0.004 1" solimp="0.95 0.99 0.001"/>
+    <connect name="rear_right_four_bar_closure"
+             site1="rear_right_closure_endpoint"
+             site2="rear_right_closure_site"
+             solref="0.004 1" solimp="0.95 0.99 0.001"/>
+    <connect name="rear_left_four_bar_closure"
+             site1="rear_left_closure_endpoint"
+             site2="rear_left_closure_site"
+             solref="0.004 1" solimp="0.95 0.99 0.001"/>
+    <connect name="front_left_four_bar_closure"
+             site1="front_left_closure_endpoint"
+             site2="front_left_closure_site"
+             solref="0.004 1" solimp="0.95 0.99 0.001"/>
+  </equality>
 
   <actuator>
     <position name="act_Revolute_1" joint="Revolute_1" ctrlrange="-0.6 0.6"/>
@@ -200,8 +338,9 @@
   <keyframe>
     <key name="safe_stance"
          qpos="0 0 0.225 1 0 0 0
-               0 0.45 -0.90  0 0.45 -0.90
-               0 0.45 -0.90  0 0.45 -0.90"
+               0 0.45 -0.90 0.168 0  0 0.45 -0.90
+               0.168 0  0 0.45 -0.90 0.168 0
+               0 0.45 -0.90 0.168 0"
          ctrl="0 0.45 -0.90  0 0.45 -0.90
                0 0.45 -0.90  0 0.45 -0.90"/>
   </keyframe>

@@ -195,7 +195,8 @@ def _write_index(output_directory, manifest):
         'height:270px}code{color:#9ee493}</style>'
         '<h1>Phase 3 deterministic model review</h1>'
         '<p>Feet turn green when the public contact interface reports '
-        'contact. '
+        'contact. The enhanced model renders its passive closure paths in '
+        'magenta. '
         'This visual artifact is supplemental; <code>manifest.json</code> '
         'records the deterministic public-data fingerprints.</p><main>'
         + ''.join(cards)

@@ -218,6 +218,80 @@ def test_enhanced_model_uses_exported_mass_and_geometry_invariants():
     assert sum(enhanced.model.body_mass) > sum(primitive.model.body_mass)
 
 
+def test_enhanced_model_loads_repository_defined_four_bar_constraints():
+    """Each enhanced leg should close the checked-in planar linkage."""
+    primitive = MujocoSimulator(settle_steps=0)
+    simulator = MujocoSimulator(
+        settle_steps=120,
+        model_variant='enhanced',
+    )
+    leg_names = ('front_right', 'rear_right', 'rear_left', 'front_left')
+
+    assert primitive.model.neq == 0
+    assert simulator.model.neq == len(leg_names)
+    for leg_name in leg_names:
+        equality = simulator.model.equality(
+            f'{leg_name}_four_bar_closure',
+        )
+        assert equality.type[0] == mujoco.mjtEq.mjEQ_CONNECT
+        assert equality.active0[0] == 1
+        assert np.linalg.norm(
+            simulator.model.body(
+                f'{leg_name}_closure_distal',
+            ).pos,
+        ) == pytest.approx(0.0245, abs=1e-12)
+        assert np.linalg.norm(
+            simulator.model.site(
+                f'{leg_name}_closure_endpoint',
+            ).pos,
+        ) == pytest.approx(0.11058, abs=1e-12)
+        primary_closure_vector = simulator.model.site(
+            f'{leg_name}_closure_site',
+        ).pos[[0, 2]]
+        assert np.linalg.norm(primary_closure_vector) == pytest.approx(
+            0.047434,
+            abs=1e-6,
+        )
+        closure_error = (
+            simulator.data.site(
+                f'{leg_name}_closure_endpoint',
+            ).xpos
+            - simulator.data.site(f'{leg_name}_closure_site').xpos
+        )
+        assert np.linalg.norm(closure_error) < 5e-4
+
+
+def test_enhanced_four_bar_constraint_is_effective_during_joint_motion():
+    """Disabling one connect equality should let its endpoints separate."""
+    constrained = MujocoSimulator(
+        settle_steps=120,
+        model_variant='enhanced',
+    )
+    unconstrained = MujocoSimulator(
+        settle_steps=120,
+        model_variant='enhanced',
+    )
+    equality_id = unconstrained.model.equality(
+        'front_right_four_bar_closure',
+    ).id
+    unconstrained.data.eq_active[equality_id] = 0
+    command = {'Revolute_25': 0.1, 'Revolute_40': -1.5}
+
+    for _ in range(200):
+        constrained.step(command)
+        unconstrained.step(command)
+
+    def closure_gap(simulator):
+        endpoint = simulator.data.site(
+            'front_right_closure_endpoint',
+        ).xpos
+        target = simulator.data.site('front_right_closure_site').xpos
+        return np.linalg.norm(endpoint - target)
+
+    assert closure_gap(constrained) < 5e-4
+    assert closure_gap(unconstrained) > 0.02
+
+
 @pytest.mark.parametrize('model_variant', MODEL_VARIANTS)
 def test_variants_preserve_joint_actuator_and_contact_names(model_variant):
     """A model swap must not change any public addressing semantics."""
