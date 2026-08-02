@@ -201,7 +201,7 @@ class MujocoSimulator:
         ).reshape(3, 3)
         base_velocity = np.asarray(self.data.qvel[:6])
         linear_velocity_body = rotation_world_from_body.T @ base_velocity[:3]
-        angular_velocity_body = rotation_world_from_body.T @ base_velocity[3:]
+        angular_velocity_body = base_velocity[3:]
 
         joint_positions = []
         joint_velocities = []
@@ -263,6 +263,8 @@ class MujocoSimulator:
         unknown = set(target_by_name) - set(JOINT_NAMES)
         if unknown:
             raise ValueError(f'unknown joint command names: {sorted(unknown)}')
+
+        validated_targets = []
         for name, value in target_by_name.items():
             actuator_id = self._actuator_ids[name]
             low, high = self.model.actuator_ctrlrange[actuator_id]
@@ -270,7 +272,10 @@ class MujocoSimulator:
                 raise ValueError(
                     f'joint target {name}={value} outside [{low}, {high}]'
                 )
-            self._targets[JOINT_NAMES.index(name)] = value
+            validated_targets.append((JOINT_NAMES.index(name), value))
+
+        for target_index, value in validated_targets:
+            self._targets[target_index] = value
 
     def _write_controls(self):
         for target, name in zip(self._targets, JOINT_NAMES):

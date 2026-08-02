@@ -2,6 +2,7 @@
 
 from dataclasses import fields
 
+import mujoco
 import numpy as np
 import pytest
 
@@ -68,3 +69,45 @@ def test_named_commands_hold_omitted_targets_and_reject_bad_input():
         simulator.step({'Revolute_1': 10.0})
     with pytest.raises(ValueError, match='unique'):
         JointCommand(('Revolute_1', 'Revolute_1'), (0.0, 0.1))
+
+
+def test_rejected_multi_joint_command_does_not_change_next_step():
+    """A late validation failure must not leave an earlier target applied."""
+    simulator = MujocoSimulator(settle_steps=0)
+    reference = MujocoSimulator(settle_steps=0)
+    original_targets = simulator.joint_targets
+
+    with pytest.raises(ValueError, match='outside'):
+        simulator.step({
+            'Revolute_25': 0.50,
+            'Revolute_31': 10.0,
+        })
+
+    assert simulator.joint_targets == original_targets
+    assert np.array_equal(
+        trajectory_fingerprint([simulator.step()]),
+        trajectory_fingerprint([reference.step()]),
+    )
+
+
+def test_rotated_base_angular_velocity_matches_gyro_body_frame():
+    """Free-joint angular qvel is already local, like the gyro reading."""
+    simulator = MujocoSimulator(settle_steps=0)
+    half_angle = np.pi / 4.0
+    simulator.data.qpos[3:7] = (
+        np.cos(half_angle),
+        0.0,
+        0.0,
+        np.sin(half_angle),
+    )
+    simulator.data.qvel[3:6] = (0.3, -0.4, 0.5)
+    mujoco.mj_forward(simulator.model, simulator.data)
+
+    result = simulator.observe()
+
+    assert np.allclose(
+        result.ground_truth.angular_velocity_body,
+        result.sensors.imu.angular_velocity_body,
+        rtol=0.0,
+        atol=1e-12,
+    )
