@@ -5,7 +5,7 @@ export ROS_DISTRO
 
 .DEFAULT_GOAL := help
 
-.PHONY: help setup build test sim experiment smoke mujoco-smoke
+.PHONY: help setup build test sim experiment smoke mujoco-smoke mujoco-record
 
 help:
 	@echo "Robot Dog developer commands"
@@ -16,6 +16,7 @@ help:
 	@echo "  make experiment  Run the example controller and sensor teaching slice"
 	@echo "  make smoke   Verify commands and simulated sensor topics end to end"
 	@echo "  make mujoco-smoke  Verify the deterministic headless MuJoCo core"
+	@echo "  make mujoco-record  Generate supplemental MuJoCo review animations"
 	@echo
 	@echo "Override ROS_DISTRO when needed, for example: ROS_DISTRO=humble make build"
 
@@ -39,3 +40,6 @@ smoke:
 
 mujoco-smoke:
 	./scripts/smoke_mujoco.sh
+
+mujoco-record:
+	./scripts/record_mujoco.sh

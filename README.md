@@ -86,6 +86,7 @@ make sim SIM_ARGS="use_rviz:=true use_foxglove:=false"
 | `make build` | Build `robot_ws` using a symlink install |
 | `make test` | Run all package tests and print the complete result summary |
 | `make mujoco-smoke` | Run identical headless trajectories on both MuJoCo variants and require exact equality, finite sensors, and foot contact |
+| `make mujoco-record` | Generate short headless APNG review animations for both MuJoCo variants in `robot_ws/log/mujoco-review` |
 | `make smoke` | Verify simulation time, clean TF, commands, sensors, forces, and truth |
 | `make sim` | Launch PyBullet, the joint controller, robot state publisher, and Foxglove |
 | `make experiment` | Add the deterministic example controller and interface monitor |
@@ -124,6 +125,8 @@ The returned interface deliberately separates data by intended use:
 The [model provenance and approximation guide](robot_ws/src/robot_simulation/robot_simulation/models/README.md) describes both variants. `primitive` remains the default known-stable fixture. `enhanced` uses masses, inertia tensors, centers of mass, and joint anchors traced to the checked-in Xacro/URDF export, plus bounded primitive envelopes derived from the checked-in STL bounds. It deliberately retains conservative teaching limits and actuator/contact tuning where the repository lacks credible hardware facts. Neither variant reconstructs the physical closed chain or validates dynamics against hardware.
 
 MuJoCo itself is pinned, and both models fix timestep, integrator, solver, iteration count, tolerance, friction cone, and reset state. Focused tests and `make mujoco-smoke` exercise both variants with numerical invariants rather than visual inspection. Exact replay is required within the supported environment; bitwise identity across different MuJoCo versions, CPU architectures, or compiler builds is not promised.
+
+`make mujoco-record` produces a bounded four-second APNG and final-contact poster for each variant plus an HTML index and JSON manifest. The camera, sample cadence, safe-stance command, and physics stepping are fixed; feet turn green when the existing public contact interface reports contact. CI uploads this directory as `mujoco-phase3-review-<commit>` for 14 days. Rasterization can vary across graphics drivers, so the artifact is supplemental review evidence and never replaces deterministic numeric tests.
 
 ROS and Gymnasium adapters are intentionally deferred. An eventual adapter should translate this core's existing command/result objects at the boundary rather than add ROS timing or learning-framework state to the core.
 
